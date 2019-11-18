@@ -1000,25 +1000,6 @@ Sd <- function(x) {sd(x, na.rm=T) %>% formatC(digits=2, format="f")}
 Min <- function(x) {min(x, na.rm=T) %>% formatC(digits=2, format="f")}
 Max <- function(x) {max(x, na.rm=T) %>% formatC(digits=2, format="f")}
 
-# remove all cases with NAs on TVcat1 variable, save as analysis1
-analysis1 <- analysis[!is.na(analysis$TV1cat),]
-analysis.factors1 <- analysis.factors[!is.na(analysis.factors$TV1cat),]
-
-# remove all cases with NAs on TVcat3 variable, save as analysis3
-analysis3 <- analysis[!is.na(analysis$TV3cat),]
-analysis.factors3 <- analysis.factors[!is.na(analysis.factors$TV3cat),]
-
-# calculate the difference in medians between the high and low-TV groups
-#   these will be used much later to scale the size of a "one unit" change in 
-#   TV consumption for the linear regression models
-
-TV1unit <- median(analysis1$TV1[analysis1$TV1cat==1])-
-  median(analysis1$TV1[analysis1$TV1cat==0])
-
-TV3unit <- median(analysis3$TV3[analysis3$TV3cat==1])-
-  median(analysis3$TV3[analysis3$TV3cat==0])
-
-
 # compute descriptives overall (marginal)
 #   continuous variables
 
@@ -1048,17 +1029,10 @@ dtable <-analysis %>%
 
 names(dtable) <- c("Variable", "Valid n", "Mean", "Std Dev", "Min", "Max")
 
-#dtable <- rbind(c("", "", "", "", "", ""), dtable)
-
 stargazer(dtable, summary=F, rownames=F, header=F,
           notes=" ", column.sep.width="20pt",
           type="text",
           out=here("Manuscript", "Tables", "table_descr_continuous.html"))
-
-# how many cases are left after listwise deletion?
-dplyr::select(analysis, age, temperament, TV1, TV3, cogStim13, emoSupp13, 
-       momEdu, partnerEdu, kidsInHouse, gestationalAge, momAge, income, Rosen87, CESD92) %>% 
-  complete.cases() %>% table()
 
 #   categorical variables
 
@@ -1076,148 +1050,7 @@ for (i in seq(nrow(ctable), 2, by=-1)) {
 
 stargazer(ctable, summary=F, rownames=F, header=F,
           notes=" ", column.sep.width="20pt",
-          out=paste(path, "/doc_v2/tables/table_descr_factor.html", sep=""))
-
-tabular((cohort+race+female+poorHealth+lowBirthWt+fatherAbsent+alcohol+smoking+preterm+SMSA+rural)~
-          (n=1+Percent("col")), data=analysis.factors)
-
-###################################################################
-
-# compute descriptives by group
-#  make factor variable for the descriptives
-analysis1$TV1group <- factor(analysis1$TV1cat, labels=c("Low", "High"))
-analysis.factors1$TV1group <- factor(analysis1$TV1cat, labels=c("Low", "High"))
-
-analysis3$TV3group <- factor(analysis3$TV3cat, labels=c("Low", "High"))
-analysis.factors3$TV3group <- factor(analysis3$TV3cat, labels=c("Low", "High"))
-
-# continuous variables by group for age 1
-dtable2.1 <-   
-  melt(setDT(
-    dplyr::select(analysis1, "Age (yrs) when attention was measured" = age,
-           "Temperament" = temperament,
-           "TV hours per day age 1.5" = TV1,
-           "BMI"= BMI,
-           "Cognitive stimulation of home age 1-3" = cogStim13,
-           "Emotional support of home age 1-3" = emoSupp13,
-           "Mother's years of schooling" = momEdu,
-           "Partner's years of schooling" = partnerEdu,
-           "Number of children in household" = kidsInHouse,
-           "Mother's age at birth" = momAge,
-           "Gestational age at birth" = gestationalAge,
-           "Annual family income (thousands)" = income,
-           "Rosenberg self-esteem score (1987)" = Rosen87,
-           "CES-D Depression score (1992)" = CESD92,
-           "Attention (raw)" = attention,
-           "Attention within-sex SS" = att_sex_ss,
-           "TVgroup" = TV1group)),
-    id=c("TVgroup"))[, .(mean = Mean(value),
-                         sd = Sd(value),
-                         n = Validn(value),
-                         min = Min(value),
-                         max = Max(value)),
-                     .(TVgroup, variable)] %>%
-  # reorder the variables
-  dplyr::select(variable, TVgroup, n, mean, sd, min, max) 
-# give names
-names(dtable2.1) <- c("Variable", "TVgroup", "Valid n", "Mean", "Std Dev", "Min", "Max")
-
-# replace the Variable field with blanks for every other row
-dtable2.1$Variable[seq(2, nrow(dtable2.1), by=2)] <- ""
-
-stargazer(dtable2.1, summary=F, rownames=F, header=F, type="text",
-          notes=" ", column.sep.width="20pt",
-          out=paste(path, "/doc_v2/tables/table_descr_continuous_bygroup_age1.html", sep=""))
-
-# continuous variables by group for age ~3
-dtable2.3 <-   
-  melt(setDT(
-    dplyr::select(analysis3, "Age (yrs) when attention was measured" = age,
-           "Temperament" = temperament,
-           "TV hours per day age 3" = TV3,
-           "BMI"= BMI,
-           "Cognitive stimulation of home age 1-3" = cogStim13,
-           "Emotional support of home age 1-3" = emoSupp13,
-           "Mother's years of schooling" = momEdu,
-           "Partner's years of schooling" = partnerEdu,
-           "Number of children in household" = kidsInHouse,
-           "Mother's age at birth" = momAge,
-           "Gestational age at birth" = gestationalAge,
-           "Annual family income (thousands)" = income,
-           "Rosenberg self-esteem score (1987)" = Rosen87,
-           "CES-D Depression score (1992)" = CESD92,
-           "Attention (raw)" = attention,
-           "Attention within-sex SS" = att_sex_ss,
-           "TVgroup" = TV3group)),
-    id=c("TVgroup"))[, .(mean = Mean(value),
-                         sd = Sd(value),
-                         n = Validn(value),
-                         min = Min(value),
-                         max = Max(value)),
-                     .(TVgroup, variable)] %>%
-  # reorder the variables
-  dplyr::select(variable, TVgroup, n, mean, sd, min, max) 
-# give names
-names(dtable2.3) <- c("Variable", "TVgroup", "Valid n", "Mean", "Std Dev", "Min", "Max")
-# replace the Variable field with blanks for every other row
-dtable2.3$Variable[seq(2, nrow(dtable2.3), by=2)] <- ""
-
-stargazer(dtable2.3, summary=F, rownames=F, header=F, type="text",
-          notes=" ", column.sep.width="20pt",
-          out=paste(path, "/doc_v2/tables/table_descr_continuous_bygroup_age3.html", sep=""))
-
-#   categorical variables
-#     age 1
-  
-ctable2.1 <- 
-  analysis.factors1 %>%
-  gather(variable, value, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
-         alcohol, smoking, preterm, gestationalAge, SMSA, rural) %>%
-  group_by(TV1group, variable, value) %>%
-  summarise (n = n()) %>%
-  mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
-
-ctable2.1 <- merge(
-  filter(ctable2.1, TV1group=="Low"),
-  filter(ctable2.1, TV1group=="High"),
-    by=c("variable", "value"))
-  
-names(ctable2.1) <- c("Variable", "Value", "TVGroup",  "N", "Percent", "TVGroup", "N", "Percent")
-
-for (i in seq(nrow(ctable2.1), 2, by=-1)) {
-  if (ctable2.1$Variable[i] == ctable2.1$Variable[i-1]) {ctable2.1$Variable[i] <- ""}
-}
-
-# replace the Variable field with blanks for every other row
-dtable2.1$Variable[seq(2, nrow(dtable2.1), by=2)] <- ""  
-
-stargazer(ctable2.1, summary=F, rownames=F, header=F, type="text",
-          notes=" ", out=paste(path, "/doc_v2/tables/table_descr_factor_bygroup_age1.html", sep=""))
-
-#   categorical variables
-#     age ~3
-
-ctable2.3 <- 
-  analysis.factors3 %>%
-  gather(variable, value, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
-         alcohol, smoking, preterm, SMSA, rural) %>%
-  group_by(TV3group, variable, value) %>%
-  summarise (n = n()) %>%
-  mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
-
-ctable2.3 <- merge(
-  filter(ctable2.3, TV3group=="Low"),
-  filter(ctable2.3, TV3group=="High"),
-  by=c("variable", "value"))
-
-names(ctable2.3) <- c("Variable", "Value", "TVGroup",  "N", "Percent", "TVGroup", "N", "Percent")
-
-for (i in seq(nrow(ctable2.3), 2, by=-1)) {
-  if (ctable2.3$Variable[i] == ctable2.3$Variable[i-1]) {ctable2.3$Variable[i] <- ""}
-}
-
-stargazer(ctable2.3, summary=F, rownames=F, header=F, type="text",
-          notes=" ", out=paste(path, "/doc_v2/tables/table_descr_factor_bygroup_age3.html", sep=""))
+          out=here("Manuscript", "Tables", "table_descr_factor.html"))
 
 #################################################
 #                                               #
@@ -1232,7 +1065,7 @@ stargazer(ctable2.3, summary=F, rownames=F, header=F, type="text",
     #################################################
 
 
-psa <- function(data, path, iterations, estimand, TVage, covariates, 
+psa <- function(data, iterations, estimand, TVage, covariates, 
                 method, TVpercentiles, strata=5, title=TRUE, order=1) {
   
   if(method=="stratification" & estimand=="ATT") {
@@ -1264,28 +1097,19 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
   TVquantiles <- quantile(df$TV, TVpercentiles, na.rm=T)
   if (length(TVquantiles) == 1) {TVquantiles <- rep(TVquantiles, 2)}
   
-  
   df$TVcat <- ifelse(df$TV<=TVquantiles[1], 0, 
                      ifelse(df$TV>=TVquantiles[2], 1, NA))
   
   # remove all cases with NAs on the attention and TV variables
   df <- filter(df, !is.na(attention) & !is.na(TVcat))
   
-  # check if path subdirectories /figures and /tables exist.
-  # if not, create them
+  # check if path subdirectory for results exists
+  # if not, create it
   
-  if (!dir.exists(paste0(path, "/", output_string))) {
-    dir.create(paste0(path, "/", output_string), showWarnings=F)
+  if (!dir.exists(here("Results", output_string))) {
+    dir.create(here("Results", output_string), showWarnings=F)
   } 
-  
-  # if (!dir.exists(paste0(path, "/", output_string, "/figures"))) {
-  #   dir.create(paste0(path, "/", output_string, "/figures"), showWarnings=F)
-  # } 
-  # 
-  # if (!dir.exists(paste0(path, "/", output_string, "/tables"))) {
-  #   dir.create(paste0(path, "/", output_string, "/tables"), showWarnings=F)
-  # } 
-  
+ 
   if (covariates=="Original") {
     covs <- "cohort+age+cogStim13+emoSupp13+
               momEdu+kidsInHouse+momAge+income+Rosen87+CESD92+
@@ -1347,14 +1171,16 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     # make the table and write it to a file
     if (title==T) {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_continuous_", output_string, ".html")),
                 title=paste0("Descriptive statistics for continuous variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, 
-                                      "/descriptives_continuous_", output_string, ".html"))
-      
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_continuous_", output_string, ".html")))
     }
     
     #   make descriptives table for categorical variables
@@ -1425,14 +1251,16 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     # make the table and write it to a file
     if (title==T) {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_categorical_", output_string, ".html")),
                 title=paste0("Descriptive statistics for categorical variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, 
-                                      "/descriptives_categorical_", output_string, ".html"))
-      
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_categorical_", output_string, ".html")))
     }
     
   } else if (covariates=="Expanded") {
@@ -1499,13 +1327,15 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     # make the table and write it to a file
     if (title==T) {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_continuous_", output_string, ".html")),
                 title=paste0("Descriptive statistics for continuous variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, 
-                                      "/descriptives_continuous_", output_string, ".html"))
+                notes=" ", 
+                paste0("descriptives_continuous_", output_string, ".html"))
       
     }
     
@@ -1583,21 +1413,23 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     # make the table and write it to a file
     if (title==T) {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_categorical_", output_string, ".html")),
                 title=paste0("Descriptive statistics for categorical variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, 
-                                      "/descriptives_categorical_", output_string, ".html"))
-      
+                notes=" ", 
+                out=here("Results", output_string, 
+                         paste0("descriptives_categorical_", output_string, ".html")))
     }
   }
   
   # set the random number seed
   set.seed(1)
   
-  # fitting the propensity score model with boosted classification trees
+  # fit the propensity score model with boosted classification trees
   
   ps.analysis <- ps(as.formula(c("TVcat ~ ", covs)),
                     data = df,
@@ -1634,7 +1466,8 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     theme(plot.title=element_text(size=10, hjust=.5, 
                                   family="Times New Roman"))}
   
-  ggsave(filename=paste0(path, "/", output_string, "/pscore_var_contribution_", output_string, ".png"), 
+  ggsave(filename=here("Results", output_string, 
+                       paste0("pscore_var_contribution_", output_string, ".png")),
          plot=p, width=5.5, height=4, scale=1.1, dpi=400)
   
   #plot relationship between each variable and the probability of TV=high
@@ -1656,7 +1489,8 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                                     family="Times New Roman"))
   } 
   
-  ggsave(filename=paste0(path, "/", output_string, "/pscore_var_relationships_", output_string, ".png"), 
+  ggsave(filename=here("Results", output_string, 
+                       paste0("pscore_var_relationships_", output_string, ".png")), 
          plot=plots, width=10, height=7, scale=1.5, dpi=400)
   
   # append the propensity scores to the data frame
@@ -1739,7 +1573,8 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                                     family="Times New Roman"))}
     
     # export it
-    ggsave(filename=paste0(path, "/", output_string, "/balanceplot_", output_string, ".png"), 
+    ggsave(filename=here("Results", output_string, 
+             paste0("/balanceplot_", output_string, ".png")), 
            plot=p, width=5, height=4, scale=1.2, dpi=400)
     dev.off()
     
@@ -1770,7 +1605,6 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     df$compositeWts <- df$weights * (df$sampleWt/100)
     design.ps.wts <- svydesign(ids = ~1, weights = ~compositeWts, data = df) 
     
-    
     IPTWresult_raw <- svyglm(attention ~ TVcat, design = design.ps)
     IPTWresult_std <- svyglm(att_sex_ss ~ TVcat, design = design.ps)
     
@@ -1799,7 +1633,6 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                 IPTWresult_std,  IPTWresult_std_wts,
                 IPTWresult_std_dr, IPTWresult_std_dr_wts,
                 ci=TRUE, type="text", star.cutoffs=c(.05, .01, .001),
-                #covariate.labels=cov.labels,
                 column.labels=c("Raw attention", "Within-sex standardized attention"),
                 column.separate=c(4, 4),
                 dep.var.labels.include=F,
@@ -1809,7 +1642,7 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                         "Raw attention: lower is more impaired.", 
                         "Standardized attention: higher is more impaired."),
                 notes.align="l", align=F,
-                out=paste0(path, "/", output_string, "/results_", output_string, ".html"),
+                out=here("Results", output_string, paste0("results_", output_string, ".html")),
                 title=paste0("IPTW Propensity Score Analayis Results Summary<br>", 
                              title_string))
     } else {
@@ -1818,7 +1651,6 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                 IPTWresult_std,  IPTWresult_std_wts,
                 IPTWresult_std_dr, IPTWresult_std_dr_wts,
                 ci=TRUE, type="text", star.cutoffs=c(.05, .01, .001),
-                #covariate.labels=cov.labels,
                 column.labels=c("Raw attention", "Within-sex standardized attention"),
                 column.separate=c(4, 4),
                 dep.var.labels.include=F,
@@ -1828,7 +1660,7 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                         "Raw attention: lower is more impaired.", 
                         "Standardized attention: higher is more impaired."),
                 notes.align="l", align=F,
-                out=paste0(path, "/", output_string, "/results_", output_string, ".html"))
+                out=here("Results", output_string, paste0("results_", output_string, ".html")))
     }
     # collect results for plotting
     IPTW <- rbind(
@@ -1957,7 +1789,7 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                                       family="Times New Roman"))
     }
     
-    ggsave(filename = paste0(path, "/", output_string, "/balanceplot_", output_string, "_k=", strata,".png"), 
+    ggsave(filename=here("Results", output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
            plot=p, 
            width=16, height=12, 
            dpi=400, scale=1.4)   
@@ -1984,7 +1816,8 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     
     p_raw <- recordPlot()
     
-    ggsave(filename = paste0(path, "/", output_string, "/result_raw_", output_string, "_k=", strata, ".png"), 
+    ggsave(filename=here("Results", output_string, 
+                         paste0("result_raw_", output_string, "_k=", strata, ".png")),
            plot=cowplot::plot_grid(p_raw),
            width=5, height=4, 
            dpi=400, scale=1.5)  
@@ -2002,7 +1835,8 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
     
     p_std <- recordPlot()
     
-    ggsave(filename = paste0(path, "/", output_string, "/result_std_", output_string, "_k=", strata, ".png"), 
+    ggsave(filename=here("Results", output_string, 
+                         paste0("result_std_", output_string, "_k=", strata, ".png")),
            plot=plot_grid(p_std),
            width=5, height=4, 
            dpi=400, scale=1.5)  
@@ -2032,7 +1866,7 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                 notes.align="l", align=F,
                 title = paste0("Stratification propensity score model results<br>Outcome: Raw attention, ",  
                                title_string, ", Strata: ", strata),
-                out=paste0(path, "/", output_string, "/result_raw_", output_string, "_k=", strata, ".html")
+                out=here("Results", output_string, paste0("result_raw_", output_string, "_k=", strata, ".html"))
       )
     
     strat.std$summary.strata %>%
@@ -2058,7 +1892,7 @@ psa <- function(data, path, iterations, estimand, TVage, covariates,
                 notes.align="l", align=F,
                 title = paste0("Stratification ropensity score model results<br>Outcome: Within-sex standardized attention, ", 
                                title_string, ", Strata: ", strata),
-                out=paste0(path, "/", output_string, "/result_std_", output_string, "_k=", strata, ".html")
+                out=here("Results", output_string, paste0("result_std_", output_string, "_k=", strata, ".html"))
       )
     # collect results for plotting
     
