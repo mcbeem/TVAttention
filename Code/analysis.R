@@ -1515,7 +1515,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     theme(plot.title=element_text(size=10, hjust=0.5, 
                                   family="Times New Roman"))}
   
-  ggsave(filename=paste0(path, "/", output_string, "/pscore_density_", output_string, ".png"), 
+  ggsave(filename=here("Results", output_string, paste0("pscore_density_", output_string, ".png")),
          plot=p, width=5, height=4, scale=1.2, dpi=400)
   
   if (method=="IPTW") {
@@ -1526,13 +1526,13 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     
     if (title==T) {
       stargazer(tbl.balance, type="text", summary=FALSE, 
-                out=paste0(path, "/", output_string, "/balance_", output_string, ".html"),
+                out=here("Results", output_string, paste0("balance_", output_string, ".html")),
                 digits=2,
                 title=paste0("Covariate balance before and after applying IPTW weights <br>", 
                              title_string))
     } else {
       stargazer(tbl.balance, type="text", summary=FALSE, 
-                out=paste0(path, "/", output_string, "/balance_", output_string, ".html"),
+                out=here("Results", output_string, paste0("balance_", output_string, ".html")),
                 digits=2)
     }
     
@@ -1601,7 +1601,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     # calculate the treatment effect with IPTW weights - no sample weights
     design.ps <- svydesign(ids = ~1, weights = ~weights, data = df) 
     
-    # calculate the treatment effect with IPTW weights - with sample weights
+    # calculate the treatment effect with IPTW weights and sample weights
     df$compositeWts <- df$weights * (df$sampleWt/100)
     design.ps.wts <- svydesign(ids = ~1, weights = ~compositeWts, data = df) 
     
@@ -1611,14 +1611,14 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     IPTWresult_raw_wts <- svyglm(attention ~ TVcat, design = design.ps.wts)
     IPTWresult_std_wts <- svyglm(att_sex_ss ~ TVcat, design = design.ps.wts)
     
-    # doubly-robust estimation
+    # doubly-robust estimation with and without sample weights
     IPTWresult_raw_dr <- svyglm(as.formula(c("attention~TVcat+", 
                                              most.unbalanced.covs)), 
                                 design = design.ps)
     
     IPTWresult_std_dr <- svyglm(as.formula(c("att_sex_ss~TVcat+", 
                                              most.unbalanced.covs)), 
-                                design = design.ps.wts)
+                                design = design.ps)
     
     IPTWresult_raw_dr_wts <- svyglm(as.formula(c("attention~TVcat+", 
                                                  most.unbalanced.covs)), 
@@ -1927,6 +1927,20 @@ psa <- function(data, iterations, estimand, TVage, covariates,
   
   return(results)
 }
+
+#PPP
+
+psa(data=analysis, iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
+                method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+
+psa(data=analysis, iterations=1000, estimand="ATE", TVage=3, covariates="Expanded", 
+    method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+
+psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Original", 
+    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+
+psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
+    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 
 
   ##################################################
