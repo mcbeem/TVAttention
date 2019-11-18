@@ -86,13 +86,14 @@ options(scipen=10)
 #   "new_data", which is raw and
 #   "categories" where every variable has been converted to a factor (with applied labels)
 
-#source(paste(NLSY.cya.path, "/NLSY_cya_propensity.r", sep=""))
-source(here("Code", "NLSY_CYA_raw.r"))
+
+source(here("Code", "NLSY_CYA_rawdata_import.r"))
 NLSY.cya.raw <- new_data
 NLSY.cya.factors <- categories
+# remove objects
+rm(new_data, categories)
 
-#source(paste(NLSY.path, "/NLSY_propensity.r", sep=""))
-source(here("Code", "NLSY_raw.r"))
+source(here("Code", "NLSY_rawdata_import.r"))
 NLSY.raw <- new_data
 NLSY.factors <- categories
 
@@ -919,9 +920,8 @@ d1 <- ggplot_build(p1)$data[[1]]
 p1 <- p1 + geom_area(data = d1, aes(x=x, y=y), fill="gray", alpha=.4)
 p1
 
-ggsave(filename=paste(path, "/doc_v2/figures/fig_TV1_density.png", sep=""), 
-      plot=p1, width=6, height=4, scale=1.2, dpi=400)
-
+ggsave(filename=here("Manuscript", "Figures", "fig_TV1_density.png"), 
+       plot=p1, width=6, height=4, scale=1.2, dpi=400)
 
 # Figure: Histogram of TV consumption at age ~3
 
@@ -938,7 +938,7 @@ d3 <- ggplot_build(p3)$data[[1]]
 p3 <- p3 + geom_area(data = d3, aes(x=x, y=y), fill="gray", alpha=.4)
 p3
 
-ggsave(filename=paste(path, "/doc_v2/figures/fig_TV3_density.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "fig_TV3_density.png"), 
        plot=p3, width=6, height=4, scale=1.2, dpi=400)
 
 # set percentile cutoffs for low/high TV use
@@ -974,12 +974,13 @@ analysis.nofactors$race <- as.numeric(analysis$race)
 analysis.nofactors$alcohol <- as.numeric(analysis$alcohol) - 1
 analysis.nofactors$smoking <- as.numeric(analysis$smoking) - 1
 analysis.nofactors$SMSA <- as.numeric(analysis$SMSA)
-analysis.nofactors$rural <- as.numeric(analysis$Srural)
+analysis.nofactors$rural <- as.numeric(analysis$rural) - 1
 analysis.nofactors$TV1cat <- as.numeric(analysis$TV1cat)
 analysis.nofactors$TV3cat <- as.numeric(analysis$TV3cat)
 
 # save the analysis dataset
-write.csv(analysis.nofactors, file=paste(path, "/NLSY_analysis_dataset.csv", sep=""), row.names=F)
+write.csv(analysis.nofactors, file=here("Data", "NLSY_analysis_dataset.csv"), 
+          row.names=F)
 
 ##### descriptive statistics ######
 
@@ -1052,7 +1053,7 @@ names(dtable) <- c("Variable", "Valid n", "Mean", "Std Dev", "Min", "Max")
 stargazer(dtable, summary=F, rownames=F, header=F,
           notes=" ", column.sep.width="20pt",
           type="text",
-          out=paste(path, "/doc_v2/tables/table_descr_continuous.html", sep=""))
+          out=here("Manuscript", "Tables", "table_descr_continuous.html"))
 
 # how many cases are left after listwise deletion?
 dplyr::select(analysis, age, temperament, TV1, TV3, cogStim13, emoSupp13, 
