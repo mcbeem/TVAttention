@@ -4142,7 +4142,7 @@ result_reg <- list()
 for (i in 1:nrow(conditions_reg)) {
   print(i)
   result_reg[[i]] <- regression(data=analysis, 
-                                path=path, 
+                                subdirectory="Results", 
                                 maxit=50,
                                 m=10,
                                 seed=1,
@@ -4156,12 +4156,12 @@ for (i in 1:nrow(conditions_logistic)) {
   print(i)
   result_logistic[[i]] <- logistic(data=analysis, 
                                    subdirectory="Results",  
-                                maxit=5,
-                                m=2,
-                                seed=2,
-                                missing=conditions_logistic$missing[i],
-                                covariates=conditions_logistic$covariates[i], 
-                                att_cutpoints=seq(110, 130, 1))
+                                   maxit=5,
+                                   m=2,
+                                   seed=2,
+                                   missing=conditions_logistic$missing[i],
+                                   covariates=conditions_logistic$covariates[i], 
+                                   att_cutpoints=seq(110, 130, 1))
 }
 
 result1 <- do.call(rbind, lapply(result_strat, as.data.frame, stringsAsFactors=F))
@@ -4434,7 +4434,7 @@ empirical.AUC(all.results$p, as.numeric(rownames(all.results)) / nrow(all.result
 ggExtra::ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, adjust=.5, 
                     binwidth=.025, yparams=list(size=.5))
 
-ggsave(filename=paste(path, "/Figures/p_value_summary.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
        plot=p_value_summary, width=10, height=7, scale=1.0, dpi=200)
 
 
@@ -4495,7 +4495,7 @@ model_desc_plot <-  ggplot(data=#model_descriptions,
 summary_fig <- plot_grid(p_value_summary, model_desc_plot , ncol=1, align="v", axis="lr", 
                          rel_heights=c(.8,1.2))
 
-ggsave(filename=paste(path, "/Figures/p_value_summary_with_description.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "p_value_summary_with_description.png"),
        plot=summary_fig, width=24, height=8, scale=.95, dpi=500)
 
 
@@ -4550,7 +4550,7 @@ summary_std <- ggplot(data=filter(results, Outcome=="Within-sex SS"),
            color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))+
   scale_y_reverse(breaks=seq(-16, 16, by=2))
 
-#ggsave(filename=paste(path, "/doc_v2/figures/summary_standardized_attention.png", sep=""), 
+#ggsave(filename=here("Manuscript", "Figures", "summary_standardized_attention.png"),
 #       plot=summary_std, width=7, height=6, scale=1.0, dpi=200)
 
 
@@ -4601,12 +4601,12 @@ summary_raw <- ggplot(data=filter(results, Outcome=="Raw"),
            color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))
 
 
-#ggsave(filename=paste(path, "/doc_v2/figures/summary_raw_attention.png", sep=""), 
+#ggsave(filename=here("Manuscript", "Figures", "summary_raw_attention.png"),
 #       plot=summary_raw, width=7, height=6, scale=1.0, dpi=200)
 
 
 summary_wide <- plot_grid(summary_std, summary_raw, nrow=1)
-ggsave(filename=paste(path, "/doc_v2/figures/summary_attention_wide.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "summary_attention_wide.png"),
        plot=summary_wide, width=12, height=6, scale=1.0, dpi=200)
 
 
@@ -4657,7 +4657,7 @@ summary_logistic_expanded <- ggplot(data=results13,
            xend=131.5,
            color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))
 
-ggsave(filename=paste(path, "/doc_v2/figures/summary_logistic_expanded.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "summary_logistic_expanded.png"),
        plot=summary_logistic_expanded, width=7, height=6, scale=1.0, dpi=200)
 
 
@@ -4727,7 +4727,7 @@ scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
 att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj)#, 
                                  #scatter.1.std.adj, scatter.3.std.adj)
 
-ggsave(filename=paste(path, "/figures/scatterplots_std.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
        plot=att_TV_scatterplots_std, width=7, height=3, scale=1.0, dpi=200)
 
 
@@ -4781,7 +4781,7 @@ scatter.3.raw.adj <- ggplot(data=imputed.analysis.impute1, aes(x=TV3, y=resid.ra
 att_TV_scatterplots_raw <- plot_grid(scatter.1.raw.unadj, scatter.3.raw.unadj, 
                                      scatter.1.raw.adj, scatter.3.raw.adj)
 
-ggsave(filename=paste(path, "/doc_v2/figures/scatterplots_raw.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "scatterplots_raw.png"),
        plot=att_TV_scatterplots_raw, width=7, height=6, scale=1.0, dpi=200)
 
 # make plot of logistic point estimates and CIs
@@ -4820,7 +4820,7 @@ summary_orig_logistic <- ggplot(data=results14,
   coord_flip()+
   scale_x_continuous(breaks=seq(110, 130, by=1))
 
-ggsave(filename=paste(path, "/doc_v2/figures/summary_logistic.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "summary_logistic.png"),
        plot=summary_orig_logistic, width=7, height=6, scale=1.0, dpi=200)
 
 ###############################################################
@@ -4921,7 +4921,7 @@ logistic_postmortem_categorized <- ggplot(data=logistic_postmortem_1,
   scale_size_continuous(guide = FALSE)+
   coord_cartesian(ylim=c(0, .5))
 
-ggsave(filename=paste(path, "/doc_v2/figures/logistic_postmortem_categorized.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_categorized.png"),
        plot=logistic_postmortem_categorized, width=8, height=6, scale=1.0, dpi=200)
 
 
@@ -5044,7 +5044,7 @@ logistic_postmortem_residualized <-
        x="TV consumption at age ~3 (hours per day)", 
        y="Attention category (0 = \"normal\", 1=\"problematic\")")
 
-ggsave(filename=paste(path, "/doc_v2/figures/logistic_postmortem_residualized.png", sep=""), 
+ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_residualized.png"),
        plot=logistic_postmortem_residualized, width=8, height=6, scale=1.0, dpi=200)
 
 
@@ -5287,7 +5287,8 @@ efa_1factor <- fa(r=temp, nfactors=1, fm="minres")
 efa_1factor$Structure[1:11,] %>% data.frame() %>% 
   stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
             type="text",
-            out=paste(path, "/doc_v2/tables/temp_att_EFA_1factor.html", sep=""))
+            out=here("Manuscript", "Tables", "temp_att_EFA_1factor.html"))
+
 
 # fit two-factor model
 efa_2factor <- fa(r=temp, nfactors=2, fm="minres")
@@ -5295,24 +5296,24 @@ efa_2factor <- fa(r=temp, nfactors=2, fm="minres")
 efa_2factor$Structure[1:11,] %>% data.frame() %>% 
   stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
             type="text",
-            out=paste(path, "/doc_v2/tables/temp_att_EFA_2factor.html", sep=""))
+            out=here("Manuscript", "Tables", "temp_att_EFA_3factor.html"))
 
 efa_2factor$Phi %>% data.frame() %>% 
   stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
             type="text",
-            out=paste(path, "/doc_v2/tables/temp_att_EFA_3factor_Phi.html", sep=""))
+            out=here("Manuscript", "Tables", "temp_att_EFA_3factor_Phi.html"))
 
 # fit three-factor model
 efa_3factor <- fa(r=temp, nfactors=3, fm="minres")
 efa_3factor$Structure[1:11,] %>% data.frame() %>% 
   stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
             type="text",
-            out=paste(path, "/doc_v2/tables/temp_att_EFA_3factor.html", sep=""))
+            out=here("Manuscript", "Tables", "temp_att_EFA_3factor.html"))
 
 efa_3factor$Phi %>% data.frame() %>% 
   stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
             type="text",
-            out=paste(path, "/doc_v2/tables/temp_att_EFA_3factor_Phi.html", sep=""))
+            out=here("Manuscript", "Tables", "temp_att_EFA_3factor_Phi.html"))
 
 
 
