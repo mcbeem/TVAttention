@@ -921,7 +921,7 @@ p1 <- p1 + geom_area(data = d1, aes(x=x, y=y), fill="gray", alpha=.4)
 p1
 
 ggsave(filename=here("Manuscript", "Figures", "fig_TV1_density.png"), 
-       plot=p1, width=6, height=4, scale=1.2, dpi=400)
+       plot=p1, width=6, height=4, scale=1.2, dpi=200)
 
 # Figure: Histogram of TV consumption at age ~3
 
@@ -939,7 +939,7 @@ p3 <- p3 + geom_area(data = d3, aes(x=x, y=y), fill="gray", alpha=.4)
 p3
 
 ggsave(filename=here("Manuscript", "Figures", "fig_TV3_density.png"), 
-       plot=p3, width=6, height=4, scale=1.2, dpi=400)
+       plot=p3, width=6, height=4, scale=1.2, dpi=200)
 
 # set percentile cutoffs for low/high TV use
 percentiles <- c(.2, .8)
@@ -1468,7 +1468,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
   
   ggsave(filename=here("Results", output_string, 
                        paste0("pscore_var_contribution_", output_string, ".png")),
-         plot=p, width=5.5, height=4, scale=1.1, dpi=400)
+         plot=p, width=5.5, height=4, scale=1.1, dpi=200)
   
   #plot relationship between each variable and the probability of TV=high
   p <- list()
@@ -1491,7 +1491,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
   
   ggsave(filename=here("Results", output_string, 
                        paste0("pscore_var_relationships_", output_string, ".png")), 
-         plot=plots, width=10, height=7, scale=1.5, dpi=400)
+         plot=plots, width=10, height=7, scale=1.5, dpi=200)
   
   # append the propensity scores to the data frame
   #  naughty! this relies on partial matching. The list component's
@@ -1516,7 +1516,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                                   family="Times New Roman"))}
   
   ggsave(filename=here("Results", output_string, paste0("pscore_density_", output_string, ".png")),
-         plot=p, width=5, height=4, scale=1.2, dpi=400)
+         plot=p, width=5, height=4, scale=1.2, dpi=200)
   
   if (method=="IPTW") {
     
@@ -1575,7 +1575,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     # export it
     ggsave(filename=here("Results", output_string, 
              paste0("/balanceplot_", output_string, ".png")), 
-           plot=p, width=5, height=4, scale=1.2, dpi=400)
+           plot=p, width=5, height=4, scale=1.2, dpi=200)
     dev.off()
     
     # find most unbalanced variables
@@ -1792,7 +1792,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     ggsave(filename=here("Results", output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
            plot=p, 
            width=16, height=12, 
-           dpi=400, scale=1.4)   
+           dpi=200, scale=1.4)   
     
     dev.off()
     options(warn = oldw)
@@ -1820,7 +1820,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                          paste0("result_raw_", output_string, "_k=", strata, ".png")),
            plot=cowplot::plot_grid(p_raw),
            width=5, height=4, 
-           dpi=400, scale=1.5)  
+           dpi=200, scale=1.5)  
     
     dev.off()
     
@@ -1839,7 +1839,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                          paste0("result_std_", output_string, "_k=", strata, ".png")),
            plot=plot_grid(p_std),
            width=5, height=4, 
-           dpi=400, scale=1.5)  
+           dpi=200, scale=1.5)  
     
     dev.off()
     
@@ -4278,7 +4278,7 @@ c <- plot_ps(data=all.results, Analysis=="Regression")+ggtitle("Hypothesis test 
   labs(y="p value")
 d <- plot_grid(a, b, nrow=2)
 ggsave(filename=paste(path, "/Figures/regression_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=7, height=6, scale=1.2, dpi=400)
+       plot=plot_grid(d,c, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
 
 
@@ -4292,7 +4292,7 @@ b <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="IPTW", Outcome=="Raw"
 c <- plot_ps(data=all.results, Method=="IPTW")+ggtitle("Hypothesis test for TV effect")+labs(y="p value")
 d <- plot_grid(a, b, nrow=2)
 ggsave(filename=paste(path, "/Figures/IPTW_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=11, height=5.5, scale=1.2, dpi=400)
+       plot=plot_grid(d,c, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
 
 
 
@@ -4307,7 +4307,7 @@ c <- plot_ps(data=all.results, Method=="stratification")+ggtitle("Hypothesis tes
              labs(y="p value")
 d <- plot_grid(a, b, nrow=2)
 ggsave(filename=paste(path, "/Figures/stratification_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=7, height=6, scale=1.2, dpi=400)
+       plot=plot_grid(d,c, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
 
 # logistic
@@ -4321,7 +4321,7 @@ c <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test fo
       labs(y="p value")
 d <- plot_grid(a, b, nrow=2)
 ggsave(filename=paste(path, "/Figures/logistic_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=8, height=5.5, scale=1.2, dpi=400)
+       plot=plot_grid(d,c, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
 
 
 
@@ -4425,7 +4425,7 @@ ggExtra::ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, si
                     binwidth=.025, yparams=list(size=.5))
 
 ggsave(filename=paste(path, "/Figures/p_value_summary.png", sep=""), 
-       plot=p_value_summary, width=10, height=7, scale=1.0, dpi=400)
+       plot=p_value_summary, width=10, height=7, scale=1.0, dpi=200)
 
 
 model_descriptions <- all.results %>% select(-Estimate, -StdErr, -p, -logistic) %>%
@@ -4541,7 +4541,7 @@ summary_std <- ggplot(data=filter(results, Outcome=="Within-sex SS"),
   scale_y_reverse(breaks=seq(-16, 16, by=2))
 
 #ggsave(filename=paste(path, "/doc_v2/figures/summary_standardized_attention.png", sep=""), 
-#       plot=summary_std, width=7, height=6, scale=1.0, dpi=400)
+#       plot=summary_std, width=7, height=6, scale=1.0, dpi=200)
 
 
 ##### Model summary plot for all propensity score and regression models 
@@ -4592,12 +4592,12 @@ summary_raw <- ggplot(data=filter(results, Outcome=="Raw"),
 
 
 #ggsave(filename=paste(path, "/doc_v2/figures/summary_raw_attention.png", sep=""), 
-#       plot=summary_raw, width=7, height=6, scale=1.0, dpi=400)
+#       plot=summary_raw, width=7, height=6, scale=1.0, dpi=200)
 
 
 summary_wide <- plot_grid(summary_std, summary_raw, nrow=1)
 ggsave(filename=paste(path, "/doc_v2/figures/summary_attention_wide.png", sep=""), 
-       plot=summary_wide, width=12, height=6, scale=1.0, dpi=400)
+       plot=summary_wide, width=12, height=6, scale=1.0, dpi=200)
 
 
 ##### Model summary plot for the logistic regression models 
@@ -4648,7 +4648,7 @@ summary_logistic_expanded <- ggplot(data=results13,
            color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))
 
 ggsave(filename=paste(path, "/doc_v2/figures/summary_logistic_expanded.png", sep=""), 
-       plot=summary_logistic_expanded, width=7, height=6, scale=1.0, dpi=400)
+       plot=summary_logistic_expanded, width=7, height=6, scale=1.0, dpi=200)
 
 
 
@@ -4718,7 +4718,7 @@ att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj)#,
                                  #scatter.1.std.adj, scatter.3.std.adj)
 
 ggsave(filename=paste(path, "/figures/scatterplots_std.png", sep=""), 
-       plot=att_TV_scatterplots_std, width=7, height=3, scale=1.0, dpi=400)
+       plot=att_TV_scatterplots_std, width=7, height=3, scale=1.0, dpi=200)
 
 
 ##### Unadjusted and adjusted scatterplots of the TV-attention relationship at age 1.5 and 3
@@ -4772,7 +4772,7 @@ att_TV_scatterplots_raw <- plot_grid(scatter.1.raw.unadj, scatter.3.raw.unadj,
                                      scatter.1.raw.adj, scatter.3.raw.adj)
 
 ggsave(filename=paste(path, "/doc_v2/figures/scatterplots_raw.png", sep=""), 
-       plot=att_TV_scatterplots_raw, width=7, height=6, scale=1.0, dpi=400)
+       plot=att_TV_scatterplots_raw, width=7, height=6, scale=1.0, dpi=200)
 
 # make plot of logistic point estimates and CIs
 
@@ -4811,7 +4811,7 @@ summary_orig_logistic <- ggplot(data=results14,
   scale_x_continuous(breaks=seq(110, 130, by=1))
 
 ggsave(filename=paste(path, "/doc_v2/figures/summary_logistic.png", sep=""), 
-       plot=summary_orig_logistic, width=7, height=6, scale=1.0, dpi=400)
+       plot=summary_orig_logistic, width=7, height=6, scale=1.0, dpi=200)
 
 ###############################################################
 # investigate logistic regression results                     #
@@ -4912,7 +4912,7 @@ logistic_postmortem_categorized <- ggplot(data=logistic_postmortem_1,
   coord_cartesian(ylim=c(0, .5))
 
 ggsave(filename=paste(path, "/doc_v2/figures/logistic_postmortem_categorized.png", sep=""), 
-       plot=logistic_postmortem_categorized, width=8, height=6, scale=1.0, dpi=400)
+       plot=logistic_postmortem_categorized, width=8, height=6, scale=1.0, dpi=200)
 
 
 ###### Logistic post-mortem plot #2  ###########
@@ -5035,7 +5035,7 @@ logistic_postmortem_residualized <-
        y="Attention category (0 = \"normal\", 1=\"problematic\")")
 
 ggsave(filename=paste(path, "/doc_v2/figures/logistic_postmortem_residualized.png", sep=""), 
-       plot=logistic_postmortem_residualized, width=8, height=6, scale=1.0, dpi=400)
+       plot=logistic_postmortem_residualized, width=8, height=6, scale=1.0, dpi=200)
 
 
 
