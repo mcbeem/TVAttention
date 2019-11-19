@@ -1065,7 +1065,7 @@ stargazer(ctable, summary=F, rownames=F, header=F,
     #################################################
 
 
-psa <- function(data, iterations, estimand, TVage, covariates, 
+psa <- function(data, subdirectory, iterations, estimand, TVage, covariates, 
                 method, TVpercentiles, strata=5, title=TRUE, order=1) {
   
   if(method=="stratification" & estimand=="ATT") {
@@ -1106,10 +1106,10 @@ psa <- function(data, iterations, estimand, TVage, covariates,
   # check if path subdirectory for results exists
   # if not, create it
   
-  if (!dir.exists(here("Results", output_string))) {
-    dir.create(here("Results", output_string), showWarnings=F)
+  if (!dir.exists(here(subdirectory, output_string))) {
+    dir.create(here(subdirectory, output_string), showWarnings=F)
   } 
- 
+  
   if (covariates=="Original") {
     covs <- "cohort+age+cogStim13+emoSupp13+
               momEdu+kidsInHouse+momAge+income+Rosen87+CESD92+
@@ -1172,14 +1172,14 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     if (title==T) {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_continuous_", output_string, ".html")),
                 title=paste0("Descriptive statistics for continuous variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_continuous_", output_string, ".html")))
     }
     
@@ -1252,14 +1252,14 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     if (title==T) {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_categorical_", output_string, ".html")),
                 title=paste0("Descriptive statistics for categorical variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_categorical_", output_string, ".html")))
     }
     
@@ -1328,7 +1328,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     if (title==T) {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_continuous_", output_string, ".html")),
                 title=paste0("Descriptive statistics for continuous variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
@@ -1414,14 +1414,14 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     if (title==T) {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_categorical_", output_string, ".html")),
                 title=paste0("Descriptive statistics for categorical variables by group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
-                out=here("Results", output_string, 
+                out=here(subdirectory, output_string, 
                          paste0("descriptives_categorical_", output_string, ".html")))
     }
   }
@@ -1466,7 +1466,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     theme(plot.title=element_text(size=10, hjust=.5, 
                                   family="Times New Roman"))}
   
-  ggsave(filename=here("Results", output_string, 
+  ggsave(filename=here(subdirectory, output_string, 
                        paste0("pscore_var_contribution_", output_string, ".png")),
          plot=p, width=5.5, height=4, scale=1.1, dpi=200)
   
@@ -1489,7 +1489,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                                     family="Times New Roman"))
   } 
   
-  ggsave(filename=here("Results", output_string, 
+  ggsave(filename=here(subdirectory, output_string, 
                        paste0("pscore_var_relationships_", output_string, ".png")), 
          plot=plots, width=10, height=7, scale=1.5, dpi=200)
   
@@ -1515,7 +1515,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     theme(plot.title=element_text(size=10, hjust=0.5, 
                                   family="Times New Roman"))}
   
-  ggsave(filename=here("Results", output_string, paste0("pscore_density_", output_string, ".png")),
+  ggsave(filename=here(subdirectory, output_string, paste0("pscore_density_", output_string, ".png")),
          plot=p, width=5, height=4, scale=1.2, dpi=200)
   
   if (method=="IPTW") {
@@ -1526,13 +1526,13 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     
     if (title==T) {
       stargazer(tbl.balance, type="text", summary=FALSE, 
-                out=here("Results", output_string, paste0("balance_", output_string, ".html")),
+                out=here(subdirectory, output_string, paste0("balance_", output_string, ".html")),
                 digits=2,
                 title=paste0("Covariate balance before and after applying IPTW weights <br>", 
                              title_string))
     } else {
       stargazer(tbl.balance, type="text", summary=FALSE, 
-                out=here("Results", output_string, paste0("balance_", output_string, ".html")),
+                out=here(subdirectory, output_string, paste0("balance_", output_string, ".html")),
                 digits=2)
     }
     
@@ -1573,8 +1573,8 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                                     family="Times New Roman"))}
     
     # export it
-    ggsave(filename=here("Results", output_string, 
-             paste0("/balanceplot_", output_string, ".png")), 
+    ggsave(filename=here(subdirectory, output_string, 
+                         paste0("/balanceplot_", output_string, ".png")), 
            plot=p, width=5, height=4, scale=1.2, dpi=200)
     dev.off()
     
@@ -1642,7 +1642,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                         "Raw attention: lower is more impaired.", 
                         "Standardized attention: higher is more impaired."),
                 notes.align="l", align=F,
-                out=here("Results", output_string, paste0("results_", output_string, ".html")),
+                out=here(subdirectory, output_string, paste0("results_", output_string, ".html")),
                 title=paste0("IPTW Propensity Score Analayis Results Summary<br>", 
                              title_string))
     } else {
@@ -1660,7 +1660,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                         "Raw attention: lower is more impaired.", 
                         "Standardized attention: higher is more impaired."),
                 notes.align="l", align=F,
-                out=here("Results", output_string, paste0("results_", output_string, ".html")))
+                out=here(subdirectory, output_string, paste0("results_", output_string, ".html")))
     }
     # collect results for plotting
     IPTW <- rbind(
@@ -1789,7 +1789,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                                       family="Times New Roman"))
     }
     
-    ggsave(filename=here("Results", output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
+    ggsave(filename=here(subdirectory, output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
            plot=p, 
            width=16, height=12, 
            dpi=200, scale=1.4)   
@@ -1816,7 +1816,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     
     p_raw <- recordPlot()
     
-    ggsave(filename=here("Results", output_string, 
+    ggsave(filename=here(subdirectory, output_string, 
                          paste0("result_raw_", output_string, "_k=", strata, ".png")),
            plot=cowplot::plot_grid(p_raw),
            width=5, height=4, 
@@ -1835,7 +1835,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
     
     p_std <- recordPlot()
     
-    ggsave(filename=here("Results", output_string, 
+    ggsave(filename=here(subdirectory, output_string, 
                          paste0("result_std_", output_string, "_k=", strata, ".png")),
            plot=plot_grid(p_std),
            width=5, height=4, 
@@ -1866,7 +1866,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                 notes.align="l", align=F,
                 title = paste0("Stratification propensity score model results<br>Outcome: Raw attention, ",  
                                title_string, ", Strata: ", strata),
-                out=here("Results", output_string, paste0("result_raw_", output_string, "_k=", strata, ".html"))
+                out=here(subdirectory, output_string, paste0("result_raw_", output_string, "_k=", strata, ".html"))
       )
     
     strat.std$summary.strata %>%
@@ -1892,7 +1892,7 @@ psa <- function(data, iterations, estimand, TVage, covariates,
                 notes.align="l", align=F,
                 title = paste0("Stratification ropensity score model results<br>Outcome: Within-sex standardized attention, ", 
                                title_string, ", Strata: ", strata),
-                out=here("Results", output_string, paste0("result_std_", output_string, "_k=", strata, ".html"))
+                out=here(subdirectory, output_string, paste0("result_std_", output_string, "_k=", strata, ".html"))
       )
     # collect results for plotting
     
@@ -1928,26 +1928,25 @@ psa <- function(data, iterations, estimand, TVage, covariates,
   return(results)
 }
 
-#PPP
+# test the function
+# psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
+#     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+# 
+# psa(data=analysis, iterations=1000, estimand="ATE", TVage=3, covariates="Expanded", 
+#     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+# 
+# psa(data=analysis, iterations=3000, estimand="ATE", TVage=3, covariates="Original", 
+#     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+# 
+# psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
+#     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 
-psa(data=analysis, iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
-                method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 
-psa(data=analysis, iterations=1000, estimand="ATE", TVage=3, covariates="Expanded", 
-    method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
-
-psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Original", 
-    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
-
-psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
-    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
-
-
-  ##################################################
-  #                                                #
-  #   Function for linear regression analysis      #
-  #                                                #
-  ##################################################
+##################################################
+#                                                #
+#   Function for linear regression analysis      #
+#                                                #
+##################################################
 
 # define function to pool contrasts from multiple imputation
 pooled.contrast <- function(x) {
@@ -1964,13 +1963,12 @@ pooled.contrast <- function(x) {
   return(c(pool.est, se.pool))
 }
 
-regression <- function(data, path, missing, covariates, order=1, title=TRUE,
+regression <- function(data, subdirectory, missing, covariates, order=1, title=TRUE,
                        m=10, maxit=50, seed=1) {
   
   # some of these function calls produce meaningless warnings
   # this suppresses them. You can comment this out for safety
   options(warn = -1)      
-  
   
   # make temp copy of data frame
   df <- data
@@ -1998,12 +1996,12 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                                        ifelse(order==3, "cubed", 
                                               paste0(order, "th order polynomial")))))
   
-  # check if path subdirectory exists
+  # check if subdirectory exists
   # if not, create it
-  
-  if (!dir.exists(paste0(path, "/", output_string))) {
-    dir.create(paste0(path, "/", output_string), showWarnings=F)
+  if (!dir.exists(here(subdirectory, output_string))) {
+    dir.create(here(subdirectory, output_string), showWarnings=F)
   } 
+  
   
   TV1vars <- ifelse(order==1, "TV1+", 
                     ifelse(order==2, "TV1+TV1_2+", 
@@ -2168,7 +2166,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")),
                   title=paste0("Descriptive statistics for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Listwise deletion"))
@@ -2177,7 +2176,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")),
                   title=paste0("Descriptive statistics for categorical variables<br>", 
                                covariates, " covariate set<br>",
                                "Listwise deletion"))
@@ -2185,7 +2185,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")),
                   title=paste0("Correlation matrix for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Listwise deletion"))
@@ -2193,19 +2194,22 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")))
         
         stargazer(ctable, 
                   type="text", 
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")))
         
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")))
       }
       
     } # closes if covariates==original
@@ -2316,7 +2320,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")),
                   title=paste0("Descriptive statistics for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Listwise deletion"))
@@ -2325,7 +2330,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")),
                   title=paste0("Descriptive statistics for categorical variables<br>", 
                                covariates, " covariate set<br>",
                                "Listwise deletion"))
@@ -2333,7 +2339,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")),
                   title=paste0("Correlation matrix for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Listwise deletion"))
@@ -2342,19 +2349,22 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")))
         
         stargazer(ctable, 
                   type="text", 
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")))
         
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")))
       } 
       
     } #closes if covariates==expanded
@@ -2535,7 +2545,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                                  paste0("p = ", format(round(TV3_std_result$p.value[2],4), nsmall=4)),
                                  paste0("p = ", format(round(TV3_std_result_wts$p,4), nsmall=4))),
                                c("", "", "", "", "")),
-                out=paste0(path, "/", output_string, "/results_", output_string, ".html"),
+                out=here(subdirectory, output_string, 
+                         paste0("results_", output_string, ".html")),
                 title=paste0("Linear Regression Results Summary<br>", 
                              title_string))
     } else {
@@ -2574,7 +2585,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                                  paste0("p = ", format(round(TV3_std_result$p.value[2],4), nsmall=4)),
                                  paste0("p = ", format(round(TV3_std_result_wts$p,4), nsmall=4))),
                                c("", "", "", "", "")),
-                out=paste0(path, "/", output_string, "/results_", output_string, ".html"))
+                out=here(subdirectory, output_string, 
+                         paste0("results_", output_string, ".html")))
     }
     
     if (order==1) {
@@ -2826,7 +2838,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")),
                   title=paste0("Descriptive statistics for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Multiple imputation<br>",
@@ -2836,7 +2849,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")),
                   title=paste0("Descriptive statistics for categorical variables<br>", 
                                covariates, " covariate set<br>",
                                "Multiple imputation<br>",
@@ -2845,7 +2859,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")),
                   title=paste0("Correlation matrix for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Multiple imputation<br>",
@@ -2855,18 +2870,22 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")))
+        
         stargazer(ctable, 
                   type="text", 
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")))
         
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")))
         
       } 
     } # closes if covariates==original
@@ -2991,7 +3010,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")),
                   title=paste0("Descriptive statistics for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Multiple imputation<br>",
@@ -3002,7 +3022,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")),
                   title=paste0("Descriptive statistics for categorical variables<br>", 
                                covariates, " covariate set<br>",
                                "Multiple imputation<br>",
@@ -3011,7 +3032,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"),
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")),
                   title=paste0("Correlation matrix for continuous variables<br>", 
                                covariates, " covariate set<br>",
                                "Multiple imputation<br>",
@@ -3021,19 +3043,22 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
         stargazer(dtable, summary=F, rownames=F, header=F,
                   notes=" ", column.sep.width="20pt",
                   type="text",
-                  out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_continuous_", output_string, ".html")))
         
         stargazer(ctable, 
                   type="text", 
                   summary=F, 
                   rownames=F, 
                   header=F,
-                  out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("descriptives_categorical_", output_string, ".html")))
         
         stargazer(r_continuous,
                   type="text",
                   summary=F,
-                  out=paste0(path, "/", output_string, "/corr_matrix_", output_string, ".html"))
+                  out=here(subdirectory, output_string, 
+                           paste0("corr_matrix_", output_string, ".html")))
       } 
       
       
@@ -3152,7 +3177,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                                  paste0("p = ", format(round(TV1_std_result$test[4],4), nsmall=4)),
                                  paste0("p = ", format(round(TV3_std_result$test[4],4), nsmall=4))),
                                c("", "", "", "", "")),
-                out=paste0(path, "/", output_string, "/results_", output_string, "_MI.html"),
+                out=here(subdirectory, output_string, 
+                         paste0("results_", output_string, "_MI.html")),
                 title=paste0("Linear Regression Results Summary<br>", 
                              "Sample weights incorporated<br>",
                              title_string))
@@ -3187,7 +3213,8 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
                                  paste0("p = ", format(round(TV1_std_result$test[4],4), nsmall=4)),
                                  paste0("p = ", format(round(TV3_std_result$test[4],4), nsmall=4))),
                                c("", "", "", "", "")),
-                out=paste0(path, "/", output_string, "/results_", output_string, "_MI.html"))
+                out=here(subdirectory, output_string, 
+                         paste0("results_", output_string, "_MI.html")))
     } # closes else if title=T
     
     
@@ -3331,13 +3358,27 @@ regression <- function(data, path, missing, covariates, order=1, title=TRUE,
   options(warn = 0)    
 }
 
+# test it
+regression(data=analysis, subdirectory="Results", missing="listwise", 
+           covariates="Original", order=1, title=TRUE,
+           m=10, maxit=50, seed=1)
+
+regression(data=analysis, subdirectory="Results", missing="listwise", 
+           covariates="Expanded", order=1, title=TRUE,
+           m=10, maxit=50, seed=1)
+
+regression(data=analysis, subdirectory="Results", missing="MI", 
+           covariates="Expanded", order=2, title=TRUE,
+           m=3, maxit=5, seed=1)
+
+
 ####################################################
 #                                                  #
 #   Function for logistic regression analysis      #
 #                                                  #
 ####################################################
 
-logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
+logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, title=TRUE,
                      m=10, maxit=50, seed=1) {
   
   results <- list()
@@ -3477,12 +3518,11 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
                            ifelse(missing=="MI", "multiple imputation", "listwise deletion"), 
                            ", Attention cutoff = ", att_cutpoints[i])
     
-    # check if path subdirectory exists
+    # check if subdirectory exists
     # if not, create it
-    
-    if (!dir.exists(paste0(path, "/", output_string))) {
-      dir.create(paste0(path, "/", output_string), showWarnings=F)
-    }
+    if (!dir.exists(here(subdirectory, output_string))) {
+      dir.create(here(subdirectory, output_string), showWarnings=F)
+    } 
     
     if (missing=="listwise") {
       
@@ -3592,7 +3632,8 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
                           "Models estimate the probability of classification into the problematic attention category as defined by the cutpoint."),
                   notes.align="l", align=F,
                   omit.stat=c("f", "ser"),
-                  out=paste0(path, "/", output_string, "/results_", output_string, ".html"),
+                  out=here(subdirectory, output_string,
+                           paste0("results_", output_string, ".html")),
                   title=paste0("Logistic Regression Results Summary<br>", 
                                title_string))
         
@@ -3619,7 +3660,9 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
                           "Models estimate the probability of classification into the problematic attention category as defined by the cutpoint."),
                   notes.align="l", align=F,
                   omit.stat=c("f", "ser"),
-                  out=paste0(path, "/", output_string, "/results_", output_string, ".html"))
+                  out=here(subdirectory, output_string,
+                           paste0("results_", output_string, ".html")))
+        
       } # closes else title toggle
       
     } # closes missing=listwise
@@ -3705,7 +3748,8 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
                           paste0("Problematic raw attention defined as ", raw_attn_cutpoints[i], " and below (equivalent percentile)"),
                           "Models estimate the probability of classification into the problematic attention category as defined by the cutpoint."),
                   notes.align="l", align=F,
-                  out=paste0(path, "/", output_string, "/results_", output_string, "_MI.html"),
+                  out=here(subdirectory, output_string,
+                           paste0("results_", output_string, "_MI.html")),
                   title=paste0("Logistic Regression Results Summary<br>", 
                                title_string))
       } else {
@@ -3730,7 +3774,9 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
                           paste0("Problematic raw attention defined as ", raw_attn_cutpoints[i], " and below (equivalent percentile)"),
                           "Models estimate the probability of classification into the problematic attention category as defined by the cutpoint."),
                   notes.align="l", align=F,
-                  out=paste0(path, "/", output_string, "/results_", output_string, "_MI.html"))
+                  out=here(subdirectory, output_string,
+                           paste0("results_", output_string, "_MI.html")))
+        
       } # closes if title=T
     } # closes if missing=MI
     
@@ -3826,7 +3872,7 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
       ctable2$Value <- ifelse(ctable2$Value=="1", "Impaired", 
                               ifelse(ctable2$Value=="0", "Healthy", ctable2$Value))
       
-      # remove all the values in the Low TV and High TV columns
+      # remove all the values in the Low Attention and High Attention columns
       #  (keep these columns in the table header
       ctable2[, c(3,6)] <- ""
       
@@ -3856,13 +3902,16 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
       # make the table and write it to a file
       if (title==T) {
         stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                  notes=" ", out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                  notes=" ", 
+                  out=here(subdirectory, output_string,
+                           paste0("descriptives_categorical_", output_string, ".html")),
                   title=paste0("Descriptive statistics for categorical variables by attention group<br>",
                                substr(title_string, 16, nchar(title_string))))
       } else {
         stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                  notes=" ", out=paste0(path, "/", output_string, 
-                                        "/descriptives_categorical_", output_string, ".html"))
+                  notes=" ", 
+                  out=here(subdirectory, output_string,
+                           paste0("descriptives_categorical_", output_string, ".html")))
         
       } # close else if title=T
     } # closes if covariates="Original"
@@ -3944,7 +3993,7 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
       ctable2$Value <- ifelse(ctable2$Value=="1", "Impaired", 
                               ifelse(ctable2$Value=="0", "Healthy", ctable2$Value))
       
-      # remove all the values in the Low TV and High TV columns
+      # remove all the values in the Low Attention and High Attention columns
       #  (keep these columns in the table header
       ctable2[, c(3,6)] <- ""
       
@@ -3982,22 +4031,28 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
     # make the table and write it to a file
     if (title==T) {
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, "/descriptives_continuous_", output_string, ".html"),
+                notes=" ", 
+                out=here(subdirectory, output_string,
+                         paste0("descriptives_continuous_", output_string, ".html")),
                 title=paste0("Descriptive statistics for continuous variables by attention group<br>",
                              substr(title_string, 16, nchar(title_string))))
       
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, "/descriptives_categorical_", output_string, ".html"),
+                notes=" ", 
+                out=here(subdirectory, output_string,
+                         paste0("descriptives_categorical_", output_string, ".html")),
                 title=paste0("Descriptive statistics for categorical variables by attention group<br>",
                              substr(title_string, 16, nchar(title_string))))
     } else {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, 
-                                      "/descriptives_categorical_", output_string, ".html"))
+                notes=" ", 
+                out=here(subdirectory, output_string,
+                         paste0("descriptives_categorical_", output_string, ".html")))
       
       stargazer(dtable, summary=F, rownames=F, header=F, type="text",
-                notes=" ", out=paste0(path, "/", output_string, 
-                                      "/descriptives_continuous_", output_string, ".html"))
+                notes=" ", 
+                out=here(subdirectory, output_string,
+                         paste0("descriptives_continuous_", output_string, ".html")))
       
     } # closes else if title==T
     
@@ -4008,6 +4063,19 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
   
 } # closes function definition
 
+# test it
+
+# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original", 
+#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# 
+# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded", 
+#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# 
+# logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Original", 
+#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# 
+# logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Expanded", 
+#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
 
 
 ###########################################################
@@ -4017,7 +4085,6 @@ logistic <- function(data, path, missing, covariates, att_cutpoints, title=TRUE,
 #                                                         #
 ###########################################################
 
-path <- "/Users/matt/OneDrive/NLSY-79/doc_v3"
 
 conditions_IPTW <- expand.grid(estimand=c("ATE", "ATT"), 
                                TVage=c("1", "3"),
@@ -4044,12 +4111,11 @@ conditions_logistic <- expand.grid(covariates=c("Original", "Expanded"),
                               stringsAsFactors=F)
 
 
-
 result_IPTW <- list()
 for (i in 1:nrow(conditions_IPTW)) {
   print(i)
   result_IPTW[[i]] <- psa(data=analysis, 
-                          path=path, 
+                          subdirectory="Results", 
                           iterations=4000, 
                           estimand=conditions_IPTW$estimand[i], 
                           TVage=conditions_IPTW$TVage[i], 
@@ -4062,7 +4128,7 @@ result_strat <- list()
 for (i in 1:nrow(conditions_strat)) {
   print(i)
   result_strat[[i]] <- psa(data=analysis, 
-                           path=path, 
+                           subdirectory="Results", 
                            iterations=4000, 
                            estimand=conditions_strat$estimand[i], 
                            TVage=conditions_strat$TVage[i], 
@@ -4089,7 +4155,7 @@ result_logistic <- list()
 for (i in 1:nrow(conditions_logistic)) {
   print(i)
   result_logistic[[i]] <- logistic(data=analysis, 
-                                path=path, 
+                                   subdirectory="Results",  
                                 maxit=5,
                                 m=2,
                                 seed=2,
@@ -4113,17 +4179,13 @@ all.results$Attention.cutpoint <- as.numeric(as.character(all.results$Attention.
 all.results$CI.lower <- all.results$Estimate - (all.results$StdErr * qnorm(.975))
 all.results$CI.upper <- all.results$Estimate + (all.results$StdErr * qnorm(.975))
 
-# Figure: summarizing IPTW results 
+# Figure: summarizing the results of all the models
 
 plot_estCIs <- function(data, stddev, lower, upper,  ...) {
   
   selection <- enquos(...)
   
-   data <- filter(data,  !!!selection) %>% group_by(TV.age) 
-  
-  #data <- filter(data,  !!!selection) %>% group_by(TV.age) %>%
-  #  mutate(rank = row_number(desc(p)))
-  # PPP
+  data <- filter(data,  !!!selection) %>% group_by(TV.age) 
   
   data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
   data$Estimate <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
@@ -4160,18 +4222,7 @@ plot_estCIs <- function(data, stddev, lower, upper,  ...) {
           strip.text.x = element_text(family = "Times New Roman", size=10),
           strip.background = element_rect(fill="gray90"))
   
-  # p <- p + geom_point(data=filter(data, p<.05), 
-  #                aes(x=rank, y=Estimate / stddev),
-  #                alpha=.6, shape=22, size=3, fill="gray20")+
-  #   geom_errorbar(data=filter(data, p<.05), 
-  #                 aes(x=rank,
-  #                     ymin=CI.lower/stddev,
-  #                     ymax=CI.upper/stddev),
-  #                 size=.8,
-  #                 width=0,#nrow(data)/100,
-  #                 alpha=1)
-  
-  return(p)
+   return(p)
 }
 
 
@@ -4179,13 +4230,9 @@ plot_ps <- function(data, ...) {
   
   selection <- enquos(...)
   
-  # data <- filter(data,  !!!selection) %>% group_by(TV.age) %>%
-  #   mutate(rank = row_number(desc(Estimate/StdErr)))
-  
   data <- filter(data,  !!!selection) %>% group_by(TV.age) %>%
     mutate(rank = row_number(desc(p)))
-  # PPP
-  
+
   data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
   
   p <- ggplot(data=data,
@@ -4212,116 +4259,79 @@ plot_ps <- function(data, ...) {
   return(p)
 }
 
-
 # calculate standard deviations for standardized effect sizes
 sd.std <- sd(analysis$att_sex_ss, na.rm=T)
 sd.raw <- sd(analysis$attention, na.rm=T)
 
 
-
-# plot_estCIs2 <- function(data, stddev, outcome, ...) {
-#   
-#   selection <- enquos(...)
-# 
-#   data <- filter(data,  !!!selection) %>% group_by(TV.age) %>%
-#     mutate(rank = row_number(desc(p)))
-#   
-#   data <- filter(data,  Outcome==outcome)
-# 
-#       
-#    data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
-#   
-#    p <- ggplot(data=data,
-#                aes(x=rank, y=Estimate / stddev))+
-#      geom_point(alpha=.6, shape=22, size=2, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-#      geom_errorbar(aes(ymin=CI.lower/stddev,
-#                        ymax=CI.upper/stddev),
-#                    width=0,#nrow(data)/60,
-#                    alpha=.6)+
-#      geom_hline(yintercept=0, linetype="dotted", color="gray20")+
-#      theme_classic()+
-#      labs(x="", y="")+
-#      facet_wrap(~TV.age)+
-#      scale_fill_manual(values = c("gray20", "white"))+
-#      theme(legend.position="none",
-#            axis.text.x = element_blank(),
-#            axis.ticks.x = element_blank(),
-#            axis.title.x=element_blank(),
-#            plot.title= element_text(family="Times New Roman", size=11),
-#            axis.title.y = element_text(family = "Times New Roman", size=10),
-#            axis.text.y = element_text(family = "Times New Roman", size=10),
-#            legend.text = element_text(family = "Times New Roman", size=11),
-#            legend.title = element_text(family = "Times New Roman", size=11))
-# 
-#    # p <- p + geom_point(data=filter(data, p<.05),
-#    #                aes(x=rank, y=Estimate / stddev),
-#    #                alpha=.6, shape=22, size=3, fill="gray20")+
-#    #   geom_errorbar(data=filter(data, p<.05),
-#    #                 aes(x=rank,
-#    #                     ymin=CI.lower/stddev,
-#    #                     ymax=CI.upper/stddev),
-#    #                 size=.8,
-#    #                 width=0,#nrow(data)/100,
-#    #                 alpha=1)
-# 
-#   return(p)
-# }
-
-
-a <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Within-sex SS",
+# make regression results figure
+est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Within-sex SS",
                  lower=-.1*sd.std, upper=.1*sd.std)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
                  labs(y="TV slope coefficient")
-b <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Raw", 
+
+est_raw <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Raw", 
                  lower=-.1*sd.raw, upper=.1*sd.raw)+ggtitle("Raw attention: point estimate and 95% CI")+
                   labs(y="TV slope coefficient")
-c <- plot_ps(data=all.results, Analysis=="Regression")+ggtitle("Hypothesis test for TV effect")+
+
+pvals <- plot_ps(data=all.results, Analysis=="Regression")+ggtitle("Hypothesis test for TV effect")+
   labs(y="p value")
-d <- plot_grid(a, b, nrow=2)
-ggsave(filename=paste(path, "/Figures/regression_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
+upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
+ggsave(filename=here("Manuscript", "Figures", "regression_results_summary.png"),
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
-# IPTW
-a <- plot_estCIs(data=all.results, stddev=sd.std, Method=="IPTW", Outcome=="Within-sex SS",
+# make IPTW results figure
+est_std <- plot_estCIs(data=all.results, stddev=sd.std, Method=="IPTW", Outcome=="Within-sex SS",
                  lower=-.5, upper=.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
                  labs(y="Cohen's d")
-b <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="IPTW", Outcome=="Raw",
+
+est_raw <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="IPTW", Outcome=="Raw",
                  lower=-.5, upper=.5)+ggtitle("Raw attention: point estimate and 95% CI")+
                   labs(y="Cohen's d")
-c <- plot_ps(data=all.results, Method=="IPTW")+ggtitle("Hypothesis test for TV effect")+labs(y="p value")
-d <- plot_grid(a, b, nrow=2)
-ggsave(filename=paste(path, "/Figures/IPTW_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
+
+pvals <- plot_ps(data=all.results, Method=="IPTW")+ggtitle("Hypothesis test for TV effect")+labs(y="p value")
+
+upper_panel <- plot_grid(est_std, est_raw, nrow=2)
+
+ggsave(filename=here("Manuscript", "Figures", "IPTW_results_summary.png"), 
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
 
 
-
-# stratification
-a <- plot_estCIs(data=all.results, stddev=sd.std, Method=="stratification", Outcome=="Within-sex SS",
+# make stratification results figure
+est_std <- plot_estCIs(data=all.results, stddev=sd.std, Method=="stratification", Outcome=="Within-sex SS",
                  lower=-.5, upper=.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
                   labs(y="Cohen's d")
-b <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="stratification", Outcome=="Raw",
+
+est_raw <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="stratification", Outcome=="Raw",
                  lower=-.5, upper=.5)+ggtitle("Raw attention: point estimate and 95% CI")+
                 labs(y="Cohen's d")
-c <- plot_ps(data=all.results, Method=="stratification")+ggtitle("Hypothesis test for TV effect")+
+
+pvals <- plot_ps(data=all.results, Method=="stratification")+ggtitle("Hypothesis test for TV effect")+
              labs(y="p value")
-d <- plot_grid(a, b, nrow=2)
-ggsave(filename=paste(path, "/Figures/stratification_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=7, height=6, scale=1.2, dpi=200)
+
+upper_panel <- plot_grid(est_std, est_raw, nrow=2)
+
+ggsave(filename=here("Manuscript", "Figures", "stratification_results_summary.png"),
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
 
 # logistic
-a <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
+est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
                  lower=-.3, upper=.3)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
                 labs(y="TV slope (logit scale)")
-b <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
+
+est_raw <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
                  lower=-.3, upper=.3)+ggtitle("Raw attention: point estimate and 95% CI")+
                 labs(y="TV slope (logit scale)")
-c <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test for TV effect")+
+
+pvals <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test for TV effect")+
       labs(y="p value")
-d <- plot_grid(a, b, nrow=2)
-ggsave(filename=paste(path, "/Figures/logistic_results_summary.png", sep=""), 
-       plot=plot_grid(d,c, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
+
+upper_panel <- plot_grid(a, b, nrow=2)
+
+ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
 
 
 
