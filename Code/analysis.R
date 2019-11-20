@@ -853,6 +853,7 @@ analysis2000 <- data.frame(cbind(childID, momID, cohort, race, female, age, temp
                                  att_sex_ss))
 
 
+# Create overall combined analysis dataset --------------------------------
 
 ##################################################################################
 #                                                                                #
@@ -936,7 +937,13 @@ for (i in 1:num.vars) {
 #  headStart variable (which is always NA)
 analysis <- dplyr::select(data, -childID, -momID, -headStart)
 
-# Figure: Histogram of TV consumption at age 1
+# remove all cases with NAs on the attention variable
+analysis <- analysis[!is.na(analysis$attention),]
+
+
+# Make density plots of TV use at age ~1.5 and age ~3 ---------------------
+
+# Figure: Density plot of TV consumption at age 1
 
 p1 <- ggplot(data=analysis, aes(x=TV1))+geom_density()+theme_classic()+
   theme(plot.title= element_text(family="Times New Roman", size=11),
@@ -954,7 +961,7 @@ p1
 ggsave(filename=here("Manuscript", "Figures", "fig_TV1_density.png"), 
        plot=p1, width=6, height=4, scale=1.2, dpi=200)
 
-# Figure: Histogram of TV consumption at age ~3
+# Figure: Density plot of TV consumption at age ~3
 
 p3 <- ggplot(data=analysis, aes(x=TV3))+geom_density()+theme_classic()+
   theme(plot.title= element_text(family="Times New Roman", size=11),
@@ -972,30 +979,8 @@ p3
 ggsave(filename=here("Manuscript", "Figures", "fig_TV3_density.png"), 
        plot=p3, width=6, height=4, scale=1.2, dpi=200)
 
-# set percentile cutoffs for low/high TV use
-percentiles <- c(.2, .8)
 
-# find the values corresponding to these percentiles
-quantiles1 <- quantile(analysis$TV1, percentiles, na.rm=T)
-quantiles1
-
-quantiles3 <- quantile(analysis$TV3, percentiles, na.rm=T)
-quantiles3
-
-# create a categorical variable for low / high groups
-
-analysis$TV1cat <- ifelse(analysis$TV1<=quantiles1[1], 0, 
-                            ifelse(analysis$TV1>=quantiles1[2], 1, NA))
-
-analysis$TV3cat <- ifelse(analysis$TV3<=quantiles3[1], 0, 
-                          ifelse(analysis$TV3>=quantiles3[2], 1, NA))
-
-# remove all cases with NAs on the attention variable
-analysis <- analysis[!is.na(analysis$attention),]
-
-# check the descriptives
-table(analysis$TV1cat, useNA="always")
-table(analysis$TV3cat, useNA="always")
+# Create marginal descriptive statistics tables ---------------------------
 
 # save a copy of the analysis dataset 
 # convert factors to numeric first
@@ -1006,12 +991,7 @@ analysis.nofactors$alcohol <- as.numeric(analysis$alcohol) - 1
 analysis.nofactors$smoking <- as.numeric(analysis$smoking) - 1
 analysis.nofactors$SMSA <- as.numeric(analysis$SMSA)
 analysis.nofactors$rural <- as.numeric(analysis$rural) - 1
-analysis.nofactors$TV1cat <- as.numeric(analysis$TV1cat)
-analysis.nofactors$TV3cat <- as.numeric(analysis$TV3cat)
 
-# save the analysis dataset
-write.csv(analysis.nofactors, file=here("Data", "NLSY_analysis_dataset.csv"), 
-          row.names=F)
 
 ##### descriptive statistics ######
 
@@ -1023,7 +1003,6 @@ analysis.factors$lowBirthWt <- factor(analysis.factors$lowBirthWt, labels=c("No"
 analysis.factors$fatherAbsent <- factor(analysis.factors$fatherAbsent, labels=c("No", "Yes"))
 
 # functions to calculate summary statistics in the presence of missing data
-#  tabular()'s built-in ones return NAs when any values are missing
 
 Validn <- function(x) {length(which(!is.na(x)))}
 Mean <- function(x) {mean(x, na.rm=T) %>% formatC(digits=2, format="f")}
@@ -1083,6 +1062,12 @@ stargazer(ctable, summary=F, rownames=F, header=F,
           notes=" ", column.sep.width="20pt",
           out=here("Manuscript", "Tables", "table_descr_factor.html"))
 
+# Export the analysis dataset as a CSV file -------------------------------
+
+# save the analysis dataset
+write.csv(analysis.nofactors, file=here("Data", "NLSY_analysis_dataset.csv"), 
+          row.names=F)
+
 #################################################
 #                                               #
 #   Define functions for performing analysis    #
@@ -1095,6 +1080,8 @@ stargazer(ctable, summary=F, rownames=F, header=F,
     #                                               #
     #################################################
 
+
+# Define the function for propensity score analysis -----------------------
 
 psa <- function(data, subdirectory, iterations, estimand, TVage, covariates, 
                 method, TVpercentiles, strata=5, title=TRUE, order=1) {
@@ -1959,6 +1946,8 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
   return(results)
 }
 
+# Test the propensity score analysis function -----------------------------
+
 # test the function
 # psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
 #     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
@@ -1975,6 +1964,8 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
 # psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
 #     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 
+
+# Define the function for linear regression analysis ----------------------
 
 ##################################################
 #                                                #
@@ -2722,14 +2713,14 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     }
     
     results <- matrix(c(
-      "Regression", "", "ATE",  NA, "", "~1.5", "Raw", NA, covariates, "listwise", order, NA, NA,
-      "Regression", "", "ATE",  NA, "", "~3", "Raw", NA, covariates, "listwise", order, NA, NA,
-      "Regression", "", "ATE",  NA, "", "~1.5", "Within-sex SS", NA, covariates, "listwise", order, NA, NA,
-      "Regression", "", "ATE",  NA, "", "~3", "Within-sex SS", NA, covariates, "listwise", order, NA, NA,
-      "Regression", "", "ATE",  NA, "", "~1.5", "Raw", NA, covariates, "listwise", order, "Sample weights", NA,
-      "Regression", "", "ATE",  NA, "", "~3", "Raw", NA, covariates, "listwise", order, "Sample weights", NA, 
-      "Regression", "", "ATE",  NA, "", "~1.5", "Within-sex SS", NA, covariates, "listwise", order, "Sample weights", NA, 
-      "Regression", "", "ATE",  NA, "", "~3", "Within-sex SS", NA, covariates, "listwise", order, "Sample weights", NA),
+      "Regression", NA, "ATE",  NA, NA, "~1.5", "Raw", NA, covariates, "listwise", order, NA, NA,
+      "Regression", NA, "ATE",  NA, NA, "~3", "Raw", NA, covariates, "listwise", order, NA, NA,
+      "Regression", NA, "ATE",  NA, NA, "~1.5", "Within-sex SS", NA, covariates, "listwise", order, NA, NA,
+      "Regression", NA, "ATE",  NA, NA, "~3", "Within-sex SS", NA, covariates, "listwise", order, NA, NA,
+      "Regression", NA, "ATE",  NA, NA, "~1.5", "Raw", NA, covariates, "listwise", order, "Sample weights", NA,
+      "Regression", NA, "ATE",  NA, NA, "~3", "Raw", NA, covariates, "listwise", order, "Sample weights", NA, 
+      "Regression", NA, "ATE",  NA, NA, "~1.5", "Within-sex SS", NA, covariates, "listwise", order, "Sample weights", NA, 
+      "Regression", NA, "ATE",  NA, NA, "~3", "Within-sex SS", NA, covariates, "listwise", order, "Sample weights", NA),
       nrow=8, byrow=T) %>% data.frame()
     
     results <- cbind(results, reg_results) 
@@ -3099,7 +3090,6 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
       
     } # closes if covariates==expanded
     
-    # PPP
     m0_TV1_raw <- with(df.mi, lm(as.formula(c("attention~", covs))))
     m1_TV1_raw <- with(df.mi, lm(as.formula(c("attention~", TV1vars, covs))))
     TV1_raw_result <- mitml::testModels(model=m1_TV1_raw$analyses, 
@@ -3373,10 +3363,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     }
     
     results <- matrix(c(
-      "Regression", "", "ATE",  NA, "", "~1.5", "Raw", NA, covariates, "multiple imputation", order, NA, NA, 
-      "Regression", "", "ATE",  NA, "", "~3", "Raw", NA, covariates, "multiple imputation", order, NA, NA, 
-      "Regression", "", "ATE",  NA, "", "~1.5", "Within-sex SS", NA, covariates, "multiple imputation", order, NA, NA, 
-      "Regression", "", "ATE",  NA, "", "~3", "Within-sex SS", NA, covariates, "multiple imputation", order, NA, NA),
+      "Regression", NA, "ATE",  NA, NA, "~1.5", "Raw", NA, covariates, "multiple imputation", order, NA, NA, 
+      "Regression", NA, "ATE",  NA, NA, "~3", "Raw", NA, covariates, "multiple imputation", order, NA, NA, 
+      "Regression", NA, "ATE",  NA, NA, "~1.5", "Within-sex SS", NA, covariates, "multiple imputation", order, NA, NA, 
+      "Regression", NA, "ATE",  NA, NA, "~3", "Within-sex SS", NA, covariates, "multiple imputation", order, NA, NA),
       nrow=4, byrow=T) %>% data.frame()
     
     results <- cbind(results, reg_results) 
@@ -3392,12 +3382,14 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
   options(warn = 0)    
 }
 
+# Test the regression analysis function -----------------------------------
+
 # test it
 # regression(data=analysis, subdirectory="Results", missing="listwise", 
 #            covariates="Original", order=1, title=TRUE,
 #            m=2, maxit=3, seed=1)
 # 
-# regression(data=analysis, subdirectory="Results", missing="listwise", 
+# regression(data=analysis, subdirectory="Results", missing="listwise",
 #            covariates="Expanded", order=1, title=TRUE,
 #            m=10, maxit=50, seed=1)
 # 
@@ -3405,6 +3397,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
 #            covariates="Expanded", order=2, title=TRUE,
 #            m=3, maxit=5, seed=1)
 
+
+# Define the logistic regression function ---------------------------------
 
 ####################################################
 #                                                  #
@@ -4097,6 +4091,9 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
   
 } # closes function definition
 
+
+# Test the logistic analysis function -------------------------------------
+
 # test it
 
 # logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original", 
@@ -4111,6 +4108,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
 # logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Expanded", 
 #          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
 
+
+# ** Perform the multiverse analysis ** -------------------
 
 ###########################################################
 #                                                         #
@@ -4184,8 +4183,7 @@ for (i in 1:nrow(conditions_reg)) {
                                 covariates=conditions_reg$covariates[i], 
                                 order=conditions_reg$order[i])
 }
-#logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, title=TRUE,
-#m=10, maxit=50, seed=1)
+
 
 result_logistic <- list()
 for (i in 1:nrow(conditions_logistic)) {
@@ -4205,22 +4203,11 @@ result2 <- do.call(rbind, lapply(result_IPTW, as.data.frame, stringsAsFactors=F)
 result3 <- do.call(rbind, lapply(result_reg, as.data.frame, stringsAsFactors=F))
 result4 <- do.call(rbind, lapply(result_logistic, as.data.frame.list, stringsAsFactors=F))
 
-# write results to CSV files for re-importation (to avoid the hourse of computation
-#  needed to re-create them
-write.csv(result1, file=here("Results", "results_stratification.csv"), row.names=FALSE)
-write.csv(result2, file=here("Results", "results_IPTW.csv"), row.names=FALSE)
-write.csv(result3, file=here("Results", "results_regression.csv"), row.names=FALSE)
-write.csv(result4, file=here("Results", "results_logistic.csv"), row.names=FALSE)
-
-# import the results CSVs. Commented out for now
-# result1 <- read.csv(file=here("Results", "results_stratification.csv"), 
-#                     stringsAsFactors=F, header=T)
-# result2 <- read.csv(file=here("Results", "results_IPTW.csv"), 
-#                     stringsAsFactors=F, header=T)
-# result3 <- read.csv(file=here("Results", "results_regression.csv"), 
-#                     stringsAsFactors=F, header=T)
-# result4 <- read.csv(file=here("Results", "results_logistic.csv"), 
-#                     stringsAsFactors=F, header=T)
+# results3 and results4 are data frame lists due to having unequal numbers
+# of rows in each list. This needs to be corrected prior to writing the
+# results to CSV
+result3 <- as.data.frame(lapply(result3, unlist))
+result4 <- as.data.frame(lapply(result3, unlist))
 
 # Many of the logistic regression results are redundant because of sparsity
 #  on the attention scores. Sometimes raising the classification cutoff does not 
@@ -4229,6 +4216,27 @@ write.csv(result4, file=here("Results", "results_logistic.csv"), row.names=FALSE
 result4.nodupes <- result4[!duplicated(result4[,1:13]),]
 result4.nodupes <- result4.nodupes[!duplicated(result4.nodupes[,14:16]),]
 
+# Write results to raw CSV files ------------------------------------------
+
+# write results to CSV files for re-importation (to avoid the hourse of computation
+#  needed to re-create them
+write.csv(result1, file=here("Results", "results_stratification.csv"), row.names=FALSE)
+write.csv(result2, file=here("Results", "results_IPTW.csv"), row.names=FALSE)
+write.csv(result3, file=here("Results", "results_regression.csv"), row.names=FALSE)
+write.csv(result4.nodupes, file=here("Results", "results_logistic.csv"), row.names=FALSE)
+
+# import the results CSVs. Commented out for now
+# result1 <- read.csv(file=here("Results", "results_stratification.csv"),
+#                     stringsAsFactors=F, header=T)
+# result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
+#                     stringsAsFactors=F, header=T)
+# result3 <- read.csv(file=here("Results", "results_regression.csv"),
+#                     stringsAsFactors=F, header=T)
+# result4 <- read.csv(file=here("Results", "results_logistic.csv"),
+#                     stringsAsFactors=F, header=T)
+
+
+
 # bind all the results together
 all.results <- data.frame(rbind(result1, result2, result3, result4.nodupes))
 all.results <- as.data.frame(lapply(all.results, unlist))
@@ -4236,6 +4244,9 @@ all.results$Attention.cutpoint <- as.numeric(as.character(all.results$Attention.
 
 all.results$CI.lower <- all.results$Estimate - (all.results$StdErr * qnorm(.975))
 all.results$CI.upper <- all.results$Estimate + (all.results$StdErr * qnorm(.975))
+
+
+# Define the summary plot function for estimates and CIs ------------------
 
 # Figure: summarizing the results of all the models
 
@@ -4284,6 +4295,8 @@ plot_estCIs <- function(data, stddev, lower, upper,  ...) {
 }
 
 
+# Define the function for plotting the summary of the p values ------------
+
 plot_ps <- function(data, ...) {
   
   selection <- enquos(...)
@@ -4322,6 +4335,8 @@ sd.std <- sd(analysis$att_sex_ss, na.rm=T)
 sd.raw <- sd(analysis$attention, na.rm=T)
 
 
+# Make the regression results summary figure ------------------------------
+
 # make regression results figure
 est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Within-sex SS",
                  lower=-.1*sd.std, upper=.1*sd.std)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
@@ -4338,6 +4353,9 @@ upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
 ggsave(filename=here("Manuscript", "Figures", "regression_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
+
+
+# Make the propensity score (IPTW) results summary figure -----------------
 
 # make IPTW results figure
 est_std <- plot_estCIs(data=all.results, stddev=sd.std, Method=="IPTW", Outcome=="Within-sex SS",
@@ -4356,6 +4374,8 @@ ggsave(filename=here("Manuscript", "Figures", "IPTW_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
 
 
+# Make the propensity score (stratification) results summary figure -------
+
 # make stratification results figure
 est_std <- plot_estCIs(data=all.results, stddev=sd.std, Method=="stratification", Outcome=="Within-sex SS",
                  lower=-.5, upper=.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
@@ -4373,6 +4393,8 @@ upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 ggsave(filename=here("Manuscript", "Figures", "stratification_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
+
+# Make the logistic regression results summary figure ---------------------
 
 # logistic
 est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
@@ -4393,6 +4415,7 @@ ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
 
 
 
+# Make a table of significance by attention cutpoint for logistic  --------
 
 table(result4.nodupes$"Attention cutpoint", result4.nodupes$p<.05)
 
@@ -4408,14 +4431,18 @@ IPTW_table$Cutpoint <- as.character(IPTW_table$Cutpoint)
 stargazer(IPTW_table, summary=F, type="text")
 
 
+# Summarize and plot overall results --------------------------------------
 
-
+# sort the results by p-value
 all.results <- all.results[order(all.results$p),]
 all.results$model <- 1:nrow(all.results)
 
+# create an indicator of logistic regression model (now a deprecated feature)
 all.results$logistic <- 0
 all.results$logistic[all.results$Analysis=="Logistic"]  <- 1
 
+# create an indicator of the direction of the estimate (e.g, helpful vs harmful; 
+#    now a deprecated feature)
 all.results <- all.results %>%  
   mutate(direction=ifelse(Estimate>1 & Analysis=="Logistic regression", -1, NA)) %>%
   mutate(direction=ifelse(Estimate<1 & Analysis=="Logistic regression", 1, direction)) %>%
@@ -4424,20 +4451,10 @@ all.results <- all.results %>%
   mutate(direction=ifelse(Estimate>0 & Outcome=="Raw" & Analysis!="Logistic regression", 1, direction)) %>%
   mutate(direction=ifelse(Estimate<0 & Outcome=="Raw" & Analysis!="Logistic regression", -1, direction))
 
-
-p_value_summary <- ggplot(data=filter(all.results),# is.na(Sample.weights), Analysis != "Logistic"),
-                                      #Analysis=="Logistic", 
-                                      #Attention.cutpoint>120, 
-                                      #Outcome=="Within-sex SS",
-                                      #Missing=="multiple imputation", 
-                                      #Covariates=="Original",
-                                      #is.na(Sample.weights)
+# create the plot of p values for all models
+p_value_summary <- ggplot(data=filter(all.results),
                                       aes(x=as.numeric(model), y=p))+
-   geom_point(#aes(fill=factor(logistic), 
-                  #color=factor(logistic)),
-              shape=1, size=.1, alpha=.6)+
-  #shape=factor(direction)), size=2)+
-  #geom_line(aes(x=as.numeric(model), y=p), alpha=.5)+
+   geom_point(shape=1, size=.1, alpha=.6)+
   scale_fill_grey(start=.2, end=1)+
   scale_color_grey(start=.1, end=.7)+
   geom_hline(yintercept=.05, col="red", linetype="dotted")+
@@ -4451,18 +4468,16 @@ p_value_summary <- ggplot(data=filter(all.results),# is.na(Sample.weights), Anal
         axis.text = element_text(family = "Times New Roman", size=9),
         legend.text = element_text(family = "Times New Roman", size=9),
         legend.title = element_text(family = "Times New Roman", size=10))+
-  labs(     # x="Model id", 
-    y="p value",
-    #fill = "Logistic regression model",
-    color= "Logistic regression model")+
+  labs(y="p value")+
   guides(color="none", fill="none")+
   theme(plot.margin = unit(c(1, 1, 0, 1), "cm"))+
   coord_cartesian(ylim=c(0,1))+
   scale_y_continuous(breaks=seq(0,1,.1))
-# scale_shape_manual(values=c(25, 24))
+
 
 p_value_summary + coord_flip()
 # calculate AUC
+
 
 all.results$emp.p.percentile <- as.numeric(rownames(all.results)) / nrow(all.results)
 
