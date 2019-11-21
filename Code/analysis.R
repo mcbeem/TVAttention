@@ -17,11 +17,113 @@
 
 ################################################################################
 
+# sessionInfo() -----------------------------------------------------------
+# This code has been tested and runs corrently on the following platforms. See sessionInfo()
+# dumps below: 
+
+# > sessionInfo()
+# R version 3.6.1 (2019-07-05)
+# Platform: x86_64-apple-darwin15.6.0 (64-bit)
+# Running under: macOS Catalina 10.15
+# 
+# Matrix products: default
+# BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+# LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+# 
+# locale:
+# [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+# 
+# attached base packages:
+# [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] gridGraphics_0.4-1     ggExtra_0.9            dplyr_0.8.3            multcomp_1.4-10       
+# [5] TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         extrafont_0.17        
+# [9] tibble_2.1.3           GPArotation_2014.11-1  psych_1.8.12           cowplot_1.0.0         
+# [13] stringr_1.4.0          mice_3.6.0             data.table_1.12.2      reshape2_1.4.3        
+# [17] broom_0.5.2            openxlsx_4.1.0.1       stargazer_5.2.2        PSAgraphics_2.1.1     
+# [21] rpart_4.1-15           tables_0.8.8           Hmisc_4.2-0            Formula_1.2-3         
+# [25] kableExtra_1.1.0       apaTables_2.0.5        knitr_1.25             ggplot2_3.2.1         
+# [29] yarrr_0.1.5            circlize_0.4.8         BayesFactor_0.9.12-4.2 coda_0.19-3           
+# [33] jpeg_0.1-8             twang_1.5              latticeExtra_0.6-28    RColorBrewer_1.1-2    
+# [37] lattice_0.20-38        xtable_1.8-4           survey_3.36            survival_2.44-1.1     
+# [41] Matrix_1.2-17          gbm_2.1.5              tidyr_1.0.0            here_0.1              
+# 
+# loaded via a namespace (and not attached):
+# [1] minqa_1.2.4         colorspace_1.4-1    rprojroot_1.3-2     htmlTable_1.13.2   
+# [5] GlobalOptions_0.1.0 base64enc_0.1-3     rstudioapi_0.10     MatrixModels_0.4-1 
+# [9] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5       
+# [13] zeallot_0.1.0       nloptr_1.2.1        packrat_0.5.0       Rttf2pt1_1.3.7     
+# [17] cluster_2.1.0       shiny_1.3.2         readr_1.3.1         compiler_3.6.1     
+# [21] httr_1.4.1          backports_1.1.5     assertthat_0.2.1    lazyeval_0.2.2     
+# [25] later_0.8.0         acepack_1.4.1       htmltools_0.3.6     tools_3.6.1        
+# [29] gtable_0.3.0        glue_1.3.1          Rcpp_1.0.2          vctrs_0.2.0        
+# [33] nlme_3.1-141        extrafontdb_1.0     xfun_0.10           lme4_1.1-21        
+# [37] rvest_0.3.4         mime_0.7            miniUI_0.1.1.1      lifecycle_0.1.0    
+# [41] gtools_3.8.1        pan_1.6             zoo_1.8-6           scales_1.0.0       
+# [45] promises_1.0.1      hms_0.5.1           sandwich_2.5-1      parallel_3.6.1     
+# [49] pbapply_1.4-2       gridExtra_2.3       stringi_1.4.3       checkmate_1.9.4    
+# [53] boot_1.3-22         zip_2.0.4           shape_1.4.4         rlang_0.4.0        
+# [57] pkgconfig_2.0.3     evaluate_0.14       purrr_0.3.2         htmlwidgets_1.3    
+# [61] tidyselect_0.2.5    plyr_1.8.4          magrittr_1.5        R6_2.4.0           
+# [65] generics_0.0.2      mitml_0.3-7         DBI_1.0.0           pillar_1.4.2       
+# [69] foreign_0.8-72      withr_2.1.2         nnet_7.3-12         crayon_1.3.4       
+# [73] jomo_2.6-9          rmarkdown_1.15      digest_0.6.21       webshot_0.5.1      
+# [77] httpuv_1.5.2        munsell_0.5.0       viridisLite_0.3.0   mitools_2.4  
+
+# also tested on Windows 10 machine with following sessionInfo()
+
+# > sessionInfo()
+# R version 3.6.1 (2019-07-05)
+# Platform: x86_64-w64-mingw32/x64 (64-bit)
+# Running under: Windows 10 x64 (build 17763)
+# 
+# Matrix products: default
+# 
+# locale:
+# [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+# [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+# [5] LC_TIME=English_United States.1252    
+# 
+# attached base packages:
+# [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+# 
+# other attached packages:
+# [1] multcomp_1.4-10        TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         ggExtra_0.9           
+# [6] gridGraphics_0.4-1     dplyr_0.8.3            extrafont_0.17         tibble_2.1.3           GPArotation_2014.11-1 
+# [11] psych_1.8.12           cowplot_1.0.0          stringr_1.4.0          mice_3.6.0             data.table_1.12.6     
+# [16] reshape2_1.4.3         broom_0.5.2            openxlsx_4.1.3         stargazer_5.2.2        PSAgraphics_2.1.1     
+# [21] rpart_4.1-15           tables_0.8.8           Hmisc_4.3-0            Formula_1.2-3          kableExtra_1.1.0      
+# [26] apaTables_2.0.5        knitr_1.26             ggplot2_3.2.1          yarrr_0.1.5            circlize_0.4.8        
+# [31] BayesFactor_0.9.12-4.2 coda_0.19-3            jpeg_0.1-8.1           twang_1.5              latticeExtra_0.6-28   
+# [36] RColorBrewer_1.1-2     lattice_0.20-38        xtable_1.8-4           survey_3.36            survival_2.44-1.1     
+# [41] Matrix_1.2-17          gbm_2.1.5              tidyr_1.0.0            here_0.1              
+# 
+# loaded via a namespace (and not attached):
+#   [1] minqa_1.2.4         colorspace_1.4-1    ellipsis_0.3.0      rprojroot_1.3-2     htmlTable_1.13.2   
+# [6] GlobalOptions_0.1.1 base64enc_0.1-3     rstudioapi_0.10     farver_2.0.1        MatrixModels_0.4-1 
+# [11] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5        zeallot_0.1.0      
+# [16] nloptr_1.2.1        Rttf2pt1_1.3.7      cluster_2.1.0       shiny_1.4.0         readr_1.3.1        
+# [21] compiler_3.6.1      httr_1.4.1          backports_1.1.5     fastmap_1.0.1       assertthat_0.2.1   
+# [26] lazyeval_0.2.2      later_1.0.0         acepack_1.4.1       htmltools_0.4.0     tools_3.6.1        
+# [31] gtable_0.3.0        glue_1.3.1          Rcpp_1.0.3          vctrs_0.2.0         nlme_3.1-140       
+# [36] extrafontdb_1.0     xfun_0.11           lme4_1.1-21         rvest_0.3.5         mime_0.7           
+# [41] miniUI_0.1.1.1      lifecycle_0.1.0     gtools_3.8.1        pan_1.6             zoo_1.8-6          
+# [46] scales_1.1.0        promises_1.1.0      hms_0.5.2           sandwich_2.5-1      parallel_3.6.1     
+# [51] pbapply_1.4-2       gridExtra_2.3       stringi_1.4.3       checkmate_1.9.4     boot_1.3-22        
+# [56] zip_2.0.4           shape_1.4.4         rlang_0.4.1         pkgconfig_2.0.3     evaluate_0.14      
+# [61] purrr_0.3.3         htmlwidgets_1.5.1   labeling_0.3        tidyselect_0.2.5    plyr_1.8.4         
+# [66] magrittr_1.5        R6_2.4.1            generics_0.0.2      mitml_0.3-7         DBI_1.0.0          
+# [71] pillar_1.4.2        foreign_0.8-71      withr_2.1.2         nnet_7.3-12         crayon_1.3.4       
+# [76] jomo_2.6-10         rmarkdown_1.17      digest_0.6.22       webshot_0.5.1       httpuv_1.5.2       
+# [81] munsell_0.5.0       viridisLite_0.3.0   mitools_2.4   
+
+
+# Load packages -----------------------------------------------------------
+
 # install the required packages to your computer
 # this only needs to be done once
 # uncomment the following lines to download and install packages
-
-# Load packages -----------------------------------------------------------
 
 # install.packages("here")
 # install.packages("tidyr")
@@ -4239,8 +4341,8 @@ all.results$CI.upper <- all.results$Estimate + (all.results$StdErr * qnorm(.975)
 
 # Write results to raw CSV files ------------------------------------------
 
-# write results to CSV files for re-importation (to avoid the hourse of computation
-#  needed to re-create them
+# write results to CSV files for re-importation (to avoid the hours of computation
+#  needed to re-create them)
 write.csv(result1, file=here("Results", "results_stratification.csv"), row.names=FALSE)
 write.csv(result2, file=here("Results", "results_IPTW.csv"), row.names=FALSE)
 write.csv(result3, file=here("Results", "results_regression.csv"), row.names=FALSE)
