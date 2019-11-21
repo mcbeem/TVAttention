@@ -4131,7 +4131,7 @@ conditions_strat <- expand.grid(estimand=c("ATE"),
                                 covariates=c("Original", "Expanded"), 
                                 TVpercentiles=list(c(.2, .8), c(.3, .7),
                                                    c(.4, .6), .5, .6, .7), 
-                                strata=c(8, 5),
+                                strata=c(4,5,6,7,8),
                                 stringsAsFactors=F)
 
 conditions_reg <- expand.grid(covariates=c("Original", "Expanded"), 
@@ -4207,7 +4207,7 @@ result4 <- do.call(rbind, lapply(result_logistic, as.data.frame.list, stringsAsF
 # of rows in each list. This needs to be corrected prior to writing the
 # results to CSV
 result3 <- as.data.frame(lapply(result3, unlist))
-result4 <- as.data.frame(lapply(result3, unlist))
+result4 <- as.data.frame(lapply(result4, unlist))
 
 # Many of the logistic regression results are redundant because of sparsity
 #  on the attention scores. Sometimes raising the classification cutoff does not 
@@ -4215,6 +4215,27 @@ result4 <- as.data.frame(lapply(result3, unlist))
 # The redundant results are dropped here. 
 result4.nodupes <- result4[!duplicated(result4[,1:13]),]
 result4.nodupes <- result4.nodupes[!duplicated(result4.nodupes[,14:16]),]
+
+# bind all the results together
+# first ensure all the names are the same. sometimes periods get inserted to replace 
+#  the spaces (inconsistently it seems), which makes the rbind() fail
+
+correct.names <- c("Analysis", "Method", "Effect", "Strata", "Cutpoint", "TV.age", 
+                   "Outcome", "Doubly.robust", "Covariates", "Missing", "Order", 
+                   "Sample.weights", "Attention.cutpoint", "Estimate", "StdErr", 
+                   "p")
+
+names(result1) <- correct.names
+names(result2) <- correct.names
+names(result3) <- correct.names
+names(result4) <- correct.names
+
+all.results <- data.frame(rbind(result1, result2, result3, result4.nodupes))
+all.results$Attention.cutpoint <- as.numeric(as.character(all.results$Attention.cutpoint))
+
+all.results$CI.lower <- all.results$Estimate - (all.results$StdErr * qnorm(.975))
+all.results$CI.upper <- all.results$Estimate + (all.results$StdErr * qnorm(.975))
+
 
 # Write results to raw CSV files ------------------------------------------
 
@@ -4224,6 +4245,8 @@ write.csv(result1, file=here("Results", "results_stratification.csv"), row.names
 write.csv(result2, file=here("Results", "results_IPTW.csv"), row.names=FALSE)
 write.csv(result3, file=here("Results", "results_regression.csv"), row.names=FALSE)
 write.csv(result4.nodupes, file=here("Results", "results_logistic.csv"), row.names=FALSE)
+write.csv(all.results, file=here("Results", "results_all.csv"), row.names=FALSE)
+
 
 # import the results CSVs. Commented out for now
 # result1 <- read.csv(file=here("Results", "results_stratification.csv"),
@@ -4234,16 +4257,8 @@ write.csv(result4.nodupes, file=here("Results", "results_logistic.csv"), row.nam
 #                     stringsAsFactors=F, header=T)
 # result4 <- read.csv(file=here("Results", "results_logistic.csv"),
 #                     stringsAsFactors=F, header=T)
-
-
-
-# bind all the results together
-all.results <- data.frame(rbind(result1, result2, result3, result4.nodupes))
-all.results <- as.data.frame(lapply(all.results, unlist))
-all.results$Attention.cutpoint <- as.numeric(as.character(all.results$Attention.cutpoint))
-
-all.results$CI.lower <- all.results$Estimate - (all.results$StdErr * qnorm(.975))
-all.results$CI.upper <- all.results$Estimate + (all.results$StdErr * qnorm(.975))
+# all.results <- read.csv(file=here("Results", "results_all.csv"),
+#                     stringsAsFactors=F, header=T)
 
 
 # Define the summary plot function for estimates and CIs ------------------
@@ -4408,18 +4423,22 @@ est_raw <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome
 pvals <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test for TV effect")+
       labs(y="p value")
 
-upper_panel <- plot_grid(a, b, nrow=2)
+upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
 ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
 
 
 
-# Make a table of significance by attention cutpoint for logistic  --------
+# Make tables of significance by attention cutpoint for logistic  --------
+with(dplyr::filter(result4.nodupes, Outcome=="Within-sex SS"),
+     table(as.character(Attention.cutpoint), p<.05))
 
-table(result4.nodupes$"Attention cutpoint", result4.nodupes$p<.05)
+with(dplyr::filter(result4.nodupes, Outcome=="Raw"),
+     table(as.character(Attention.cutpoint), p<.05))
 
 
+# Make tables of significance by TV cutpoints for IPTW  --------
 IPTW_table <- with(result2, table(Cutpoint, p<.05)) %>% data.frame()
 names(IPTW_table) <- c("Cutpoint", "Sig", "Freq")
 IPTW_table$Sig <- as.numeric(IPTW_table$Sig) - 1
@@ -4475,6 +4494,10 @@ p_value_summary <- ggplot(data=filter(all.results),
   scale_y_continuous(breaks=seq(0,1,.1))
 
 
+ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
+       plot=p_value_summary, width=10, height=7, scale=1.0, dpi=200)
+
+
 p_value_summary + coord_flip()
 # calculate AUC
 
@@ -4507,231 +4530,6 @@ empirical.AUC(all.results$p, as.numeric(rownames(all.results)) / nrow(all.result
 ggExtra::ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, adjust=.5, 
                     binwidth=.025, yparams=list(size=.5))
 
-ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
-       plot=p_value_summary, width=10, height=7, scale=1.0, dpi=200)
-
-
-model_descriptions <- all.results %>% select(-Estimate, -StdErr, -p, -logistic) %>%
-  mutate_if(is.factor, as.character) %>%
-  mutate(Effect=ifelse(Analysis=="Logistic regression", "ATE", Effect)) %>%
-  melt(id.vars="model") %>% filter(!is.na(value)) %>% 
-  arrange((variable)) 
-
-
-
-model_descriptions$value[model_descriptions$value == "Yes"] <- "Doubly-robust"
-model_descriptions$value[model_descriptions$value == "PSA"] <- "Propensity score analysis"
-#model_descriptions$value[model_descriptions$value == "Logistic regression"] <- "ATE"
-
-
-model_descriptions <- filter(model_descriptions, 
-                             !is.na(value), 
-                             !is.na(variable),
-                             value != "")
-
-#levels(model_descriptions$value) <- c(NA, levels(model_descriptions$value))
-#model_descriptions$variable <- addNA(model_descriptions$variable)
-model_descriptions[nrow(model_descriptions)+1,] <- c(as.character(nrow(all.results)+1),
-                                                     "Analysis", "Attention cutpoint")
-
-model_descriptions$value <- factor(model_descriptions$value)
-model_descriptions$value <- factor(model_descriptions$value,
-                                   levels = rev(unique(model_descriptions$value)))
-
-model_desc_plot <-  ggplot(data=#model_descriptions,
-                             filter(model_descriptions, 
-                                   variable != "Attention.cutpoint" & variable != "Missing" & value != "No"),
-                           #model_descriptions,      
-                           aes(x=factor(model), y=value))+
-  #geom_point(alpha=.7, shape=22, size=2.5, fill="gray50")+  
-  geom_raster(alpha=.7, fill="gray50")+
-  theme_classic()+
-  theme(legend.position="bottom", 
-        axis.text.x = element_text(angle = 90, hjust=1, family = "Times New Roman", size=2),
-        plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=10),
-        axis.text.y = element_text(family = "Times New Roman", size=8),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))+
-  labs(      x="Model id", 
-             y="")+
-  geom_vline(xintercept=seq(1.5,nrow(all.results)+1.5,1), alpha=.1)+
-  geom_hline(yintercept=seq(1.5,60,1), alpha=.1)+ 
-  theme(plot.margin = unit(c(0, 1, 1, 1), "cm"))+
-  geom_text(data=filter(model_descriptions, variable=="Attention.cutpoint"),
-            aes(x=factor(model), y=1, label=value), size=.5, angle=90,
-            family="Times New Roman")+
-  scale_x_discrete(limits=as.character(1:nrow(all.results)))#+
-  #geom_text(x=0, y=1, label="A", size=5, 
-  #          family="Times New Roman")
-
-summary_fig <- plot_grid(p_value_summary, model_desc_plot , ncol=1, align="v", axis="lr", 
-                         rel_heights=c(.8,1.2))
-
-ggsave(filename=here("Manuscript", "Figures", "p_value_summary_with_description.png"),
-       plot=summary_fig, width=24, height=8, scale=.95, dpi=500)
-
-
-
-
-# add linebreaks to the long labels
-results$ID = str_wrap(results$ID, width = 15)
-
-##### Model summary plot for all propensity score and regression models 
-#####  Standardized attention outcome
-
-summary_std <- ggplot(data=filter(results, Outcome=="Within-sex SS"), 
-       aes(y=Estimate, x=factor(ID), 
-           shape=factor(Effect), color=factor(TVage), fill=factor(TVage)))+  
-  geom_point(position=position_dodge(width=.6), size=2.1, alpha=.8)+
-  scale_shape_manual(values=c(21,24))+
-
-  # uncomment the following two lines for a greyscale image
-  #scale_fill_manual(values=c("gray20", "gray80"))+
-  #scale_color_manual(values=c("gray20", "gray80"))+
-  
-  # uncomment the following two lines for a color image
-  scale_fill_manual(values=c("#e41a1c", "#377eb8"))+
-  scale_color_manual(values=c("#e41a1c", "#377eb8"))+
-  
-  geom_errorbar(aes(ymin=Estimate-(1.96*StdErr), ymax=Estimate+(1.96*StdErr)), width=0,
-                alpha=.6, position=position_dodge(width=.6), color="gray50")+
-  geom_hline(yintercept=0, alpha=.5, color="gray50", linetype="solid", size=.5)+
-  # add vertical reference lines at d =  +/- 1
-  geom_hline(yintercept=sd(analysis$att_sex_ss, na.rm=T)*c(-1, 1), 
-             alpha=.25, color="black", linetype="dashed")+
-  labs(x="Model", y='Estimated effect of early TV exposure (standardized metric)')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        legend.position="none")+
-  labs(color="TV age", linetype="Cutpoint", shape="Estimand")+
-  guides(fill=FALSE)+
-  coord_flip()+
-  annotate("text", 
-           y = sd(analysis$att_sex_ss, na.rm=T)*c(-.55,.55), 
-           x=(nrow(table(results$ID))+c(.53, .53)), 
-           label = c("Helps attention", "Harms attention"), family="Times New Roman", 
-           fontface=1, size=2.5)+
-  annotate("segment", yend=sd(analysis$att_sex_ss, na.rm=T)*c(-.95,.95),
-           y=sd(analysis$att_sex_ss, na.rm=T)*c(-.03,.03),
-           x=(nrow(table(results$ID))+c(.46, .46)), 
-           xend=(nrow(table(results$ID))+c(.46, .46)),
-           color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))+
-  scale_y_reverse(breaks=seq(-16, 16, by=2))
-
-#ggsave(filename=here("Manuscript", "Figures", "summary_standardized_attention.png"),
-#       plot=summary_std, width=7, height=6, scale=1.0, dpi=200)
-
-
-##### Model summary plot for all propensity score and regression models 
-#####  Raw attention outcome
-
-summary_raw <- ggplot(data=filter(results, Outcome=="Raw"), 
-       aes(y=Estimate, x=factor(ID), 
-           shape=factor(Effect), color=factor(TVage), fill=factor(TVage)))+  
-  geom_point(position=position_dodge(width=.6), size=2.1, alpha=.8)+
-  scale_shape_manual(values=c(21,24))+
-  
-  # uncomment the following two lines for a greyscale image
-  #scale_fill_manual(values=c("gray20", "gray80"))+
-  #scale_color_manual(values=c("gray20", "gray80"))+
-  
-  # uncomment the following two lines for a color image
-  scale_fill_manual(values=c("#e41a1c", "#377eb8"))+
-  scale_color_manual(values=c("#e41a1c", "#377eb8"))+
-  
-  geom_errorbar(aes(ymin=Estimate-(1.96*StdErr), ymax=Estimate+(1.96*StdErr)), width=0,
-                alpha=.6, position=position_dodge(width=.6), color="gray50")+
-  geom_hline(yintercept=0, alpha=.5, color="gray50", linetype="solid", size=.5)+
-  # add vertical reference lines at d =  +/- 1
-  geom_hline(yintercept=sd(analysis$attention, na.rm=T)*c(-1, 1), 
-             alpha=.25, color="black", linetype="dashed")+
-  labs(x="", y='Estimated effect of early TV exposure (raw metric)')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        axis.text.y = element_blank(),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        legend.position="right")+
-  labs(color="TV age", linetype="Cutpoint", shape="Estimand")+
-  guides(fill=FALSE)+
-  coord_flip()+
-  annotate("text", 
-           y = sd(analysis$attention, na.rm=T)*c(-.55,.55), 
-           x=(nrow(table(results$ID))+c(.53, .53)), 
-           label = c("Harms attention", "Helps attention"), family="Times New Roman", 
-           fontface=1, size=2.5)+
-  annotate("segment", yend=sd(analysis$attention, na.rm=T)*c(-.95,.95),
-           y=sd(analysis$attention, na.rm=T)*c(-.03,.03),
-           x=(nrow(table(results$ID))+c(.46, .46)), 
-           xend=(nrow(table(results$ID))+c(.46, .46)),
-           color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))
-
-
-#ggsave(filename=here("Manuscript", "Figures", "summary_raw_attention.png"),
-#       plot=summary_raw, width=7, height=6, scale=1.0, dpi=200)
-
-
-summary_wide <- plot_grid(summary_std, summary_raw, nrow=1)
-ggsave(filename=here("Manuscript", "Figures", "summary_attention_wide.png"),
-       plot=summary_wide, width=12, height=6, scale=1.0, dpi=200)
-
-
-##### Model summary plot for the logistic regression models 
-##### varying the cutpoints
-
-summary_logistic_expanded <- ggplot(data=results13, 
-       aes(y=Estimate, x=Cutpoint, 
-           shape=factor(TVage), fill=factor(TVage)))+
-  geom_point(position=position_dodge(width=.6), size=2.5, alpha=.8)+
-  scale_shape_manual(values=c(21,22))+
-  geom_line(aes(color=factor(TVage)), alpha=.8, linetype="dotted")+
-  
-  # uncomment the following two lines for a greyscale image
-  #scale_fill_manual(values=c("gray20", "gray80"))+
-  #scale_color_manual(values=c("gray20", "gray80"))+
-  
-  # uncomment the following two lines for a color image
-  scale_fill_manual(values=c("#e41a1c", "#377eb8"))+
-  scale_color_manual(values=c("#e41a1c", "#377eb8"))+
-  
-  scale_linetype_manual(values=c("solid", "twodash"))+
-  geom_errorbar(aes(ymin=low95, ymax=high95), width=0,
-                alpha=.6, position=position_dodge(width=.6), color="gray50")+
-  geom_errorbar(data=filter(results13, Cutpoint==120), aes(ymin=low95, ymax=high95), width=0,
-                alpha=1, position=position_dodge(width=.6), color="gray10")+
-  geom_hline(yintercept=1, alpha=.5, color="gray50", linetype="solid", size=.5)+
-  labs(x="Cutpoint Defining Problematic Attention", y='Odds Ratio for Attention Problems')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        legend.position="right")+
-  labs(fill="TV age", shape="TV age")+
-  guides(color=FALSE)+
-  coord_flip()+
-  scale_x_continuous(breaks=seq(110, 130, by=1))+
-  annotate("text", 
-           y = c(2.4), 
-           x=c(131.9), 
-           label = c("Increased risk of attention problems"), family="Times New Roman", 
-           fontface=1, size=2.5)+
-  annotate("segment", yend=2.8,
-           y=1.04,
-           x=131.5, 
-           xend=131.5,
-           color="gray50", size=.2, arrow=arrow(length = unit(0.15, "cm")))
-
-ggsave(filename=here("Manuscript", "Figures", "summary_logistic_expanded.png"),
-       plot=summary_logistic_expanded, width=7, height=6, scale=1.0, dpi=200)
 
 
 
