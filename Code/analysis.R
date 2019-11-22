@@ -4383,30 +4383,58 @@ plot_estCIs <- function(data, stddev, lower, upper,  ...) {
   
   data <- mutate(data, rank = row_number((Estimate/StdErr)))
   
-  p <- ggplot(data=data,
-              aes(x=rank, y=Estimate / stddev))+
-    geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-    geom_errorbar(aes(ymin=CI.lower/stddev,
-                      ymax=CI.upper/stddev),
-                  width=0,#nrow(data)/60,
-                  alpha=.6)+
-    geom_hline(yintercept=0, linetype="dotted", color="gray20")+
-    theme_classic()+
-    labs(x="", y="")+
-    facet_wrap(~TV.age)+
-    scale_fill_manual(values = c("gray20", "white"))+
-    coord_cartesian(ylim=c(lower, upper))+
-    theme(legend.position="none", 
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.title.x=element_blank(),
-          plot.title= element_text(family="Times New Roman", size=11),
-          axis.title.y = element_text(family = "Times New Roman", size=10),
-          axis.text.y = element_text(family = "Times New Roman", size=10),
-          legend.text = element_text(family = "Times New Roman", size=10),
-          legend.title = element_text(family = "Times New Roman", size=10),
-          strip.text.x = element_text(family = "Times New Roman", size=10),
-          strip.background = element_rect(fill="gray90"))
+  if (data$Analysis == "Logistic") {
+    
+    p <- ggplot(data=data,
+                aes(x=rank, y=exp(Estimate)))+
+      geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
+      geom_errorbar(aes(ymin=exp(CI.lower),
+                        ymax=exp(CI.upper)),
+                    width=0,
+                    alpha=.6)+
+      geom_hline(yintercept=1, linetype="dotted", color="gray20")+
+      theme_classic()+
+      labs(x="", y="")+
+      facet_wrap(~TV.age)+
+      scale_fill_manual(values = c("gray20", "white"))+
+      coord_cartesian(ylim=c(lower, upper))+
+      theme(legend.position="none", 
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.title.x=element_blank(),
+            plot.title= element_text(family="Times New Roman", size=11),
+            axis.title.y = element_text(family = "Times New Roman", size=10),
+            axis.text.y = element_text(family = "Times New Roman", size=10),
+            legend.text = element_text(family = "Times New Roman", size=10),
+            legend.title = element_text(family = "Times New Roman", size=10),
+            strip.text.x = element_text(family = "Times New Roman", size=10),
+            strip.background = element_rect(fill="gray90"))  
+   } else {
+     p <- ggplot(data=data,
+                 aes(x=rank, y=Estimate / stddev))+
+       geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
+       geom_errorbar(aes(ymin=CI.lower/stddev,
+                         ymax=CI.upper/stddev),
+                     width=0,#nrow(data)/60,
+                     alpha=.6)+
+       geom_hline(yintercept=0, linetype="dotted", color="gray20")+
+       theme_classic()+
+       labs(x="", y="")+
+       facet_wrap(~TV.age)+
+       scale_fill_manual(values = c("gray20", "white"))+
+       coord_cartesian(ylim=c(lower, upper))+
+       theme(legend.position="none", 
+             axis.text.x = element_blank(),
+             axis.ticks.x = element_blank(),
+             axis.title.x=element_blank(),
+             plot.title= element_text(family="Times New Roman", size=11),
+             axis.title.y = element_text(family = "Times New Roman", size=10),
+             axis.text.y = element_text(family = "Times New Roman", size=10),
+             legend.text = element_text(family = "Times New Roman", size=10),
+             legend.title = element_text(family = "Times New Roman", size=10),
+             strip.text.x = element_text(family = "Times New Roman", size=10),
+             strip.background = element_rect(fill="gray90"))
+   }
   
    return(p)
 }
@@ -4515,12 +4543,12 @@ ggsave(filename=here("Manuscript", "Figures", "stratification_results_summary.pn
 
 # logistic
 est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
-                 lower=-.3, upper=.3)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
-                labs(y="TV slope (logit scale)")
+                 lower=.8, upper=1.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
+                labs(y="TV slope (OR)")
 
 est_raw <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
-                 lower=-.3, upper=.3)+ggtitle("Raw attention: point estimate and 95% CI")+
-                labs(y="TV slope (logit scale)")
+                       lower=.8, upper=1.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
+                       labs(y="TV slope (OR)")
 
 pvals <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test for TV effect")+
       labs(y="p value")
@@ -4597,7 +4625,9 @@ p_value_summary <- ggplot(data=filter(all.results),
 
 
 ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
-       plot=p_value_summary, width=10, height=7, scale=1.0, dpi=200)
+       plot=ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, 
+                                binwidth=.025, yparams=list(size=.5)),
+         width=10, height=7, scale=1.0, dpi=200)
 
 
 p_value_summary + coord_flip()
@@ -4629,8 +4659,7 @@ empirical.AUC <- function(x, y) {
 empirical.AUC(all.results$p, as.numeric(rownames(all.results)) / nrow(all.results))
   
 
-ggExtra::ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, adjust=.5, 
-                    binwidth=.025, yparams=list(size=.5))
+
 
 
 
