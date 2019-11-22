@@ -1,0 +1,193 @@
+"Analysis","Method","Effect","Strata","Cutpoint","TV.age","Outcome","Doubly.robust","Covariates","Missing","Order","Sample.weights","Attention.cutpoint","Estimate","StdErr","p"
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.6",-0.00996356455481383,0.0169960086270595,0.557806852489089
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.6",-0.00178749064199389,0.0166344973824914,0.914445487661716
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"110",-0.00532194515366991,0.0171095607804051,0.755800760489178
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"110",-0.00369375893316608,0.0168486502296732,0.826505327973178
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.4",-0.0104248404373248,0.0199569409706065,0.60151584210642
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.4",0.0138007617227837,0.0187128226718172,0.460958932933982
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"111",-0.00911654643988129,0.0191929995040293,0.634894852965846
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"111",0.0097348831816884,0.0179246433069489,0.587136313096531
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"112",-0.00990575668727046,0.0195916946206189,0.613254565255947
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"112",0.0098603943943296,0.0184292113054927,0.592721250677061
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"115",0.000526571367024582,0.020054208281991,0.97905763946606
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"115",0.0145837737719637,0.0189375235240127,0.441386128349393
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.2",0.018428714015535,0.0222818776266408,0.408311057364608
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.2",0.0228635346735535,0.0218030948505394,0.294507430158438
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"117",0.00164888338869617,0.0220074995787798,0.940298412357119
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"117",0.0253840930443044,0.0205094108913979,0.216130793454259
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"119",0.00650881111815621,0.02311994120454,0.77838101171728
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"119",0.0354939919922028,0.02190172100783,0.105590831111898
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"120",-0.00307608698496758,0.0254953669163889,0.903993172332756
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"120",0.0399157112636452,0.0235142313588759,0.0902138691070373
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2",-0.0311440330725914,0.0308582655515224,0.31298345328536
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2",0.0110756588626544,0.0282976393076064,0.695593318390572
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"121",0.00778428673186423,0.0255273456072081,0.760475080972694
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"121",0.0418187383823419,0.0241396486763105,0.0837414949677378
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"123",0.0218786469610935,0.0270882936201179,0.419529932255042
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"123",0.0493159882685883,0.0256615394284153,0.0552124312322211
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"125",0.0295398325041473,0.0288459074466494,0.306064762428564
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"125",0.0502262752783645,0.0284139010860412,0.0777038541684116
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"1.8",-0.0188451666150836,0.0408539569190938,0.644668806848973
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"1.8",0.0636516126955471,0.0364774342442662,0.0816984902178324
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"128",0.0409520058427574,0.0330970084518566,0.216170731758667
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"128",0.0631478451528647,0.0323081005287375,0.0508699881454375
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.6",-0.0125326938402998,0.0172730523044541,0.468245951634852
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.6",-0.00703211362847374,0.0169048250201385,0.677562912490139
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"110",-0.00870258393532882,0.0174300002497548,0.617661964273076
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"110",-0.00791541892496114,0.0174079481071784,0.649531037423847
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.4",-0.0149174407504359,0.0201751099097126,0.459817020432531
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.4",0.0099632893633341,0.0196897305235477,0.613177821457809
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"111",-0.0124065508212886,0.0195380092188096,0.525616846496249
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"111",0.00327656938694051,0.0190648098902801,0.863657016988029
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"112",-0.0129922716428516,0.0199004581719579,0.514046878501987
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"112",0.00391036833691065,0.0194041171216474,0.840429543251536
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"115",-0.00316520795932719,0.0203826082588531,0.876634219381508
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"115",0.0100579504282733,0.0198301211576288,0.612341301754014
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.2",0.0204228357183287,0.0231116773210729,0.377187702396671
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.2",0.020834993181494,0.0233820807857992,0.373658610015974
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"117",-0.00282340931317165,0.0224361211936625,0.89990496179009
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"117",0.0211514179691169,0.0212876367408555,0.321081676887362
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"119",0.00382328117723156,0.0238953442826887,0.872956558590609
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"119",0.0327279446850049,0.0221667469681961,0.140574351193386
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"120",-0.000141906736756372,0.0260528173672473,0.995656094051875
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"120",0.0402848549986069,0.0238730752855918,0.0925397982014198
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2",-0.0305987899138969,0.031341343841398,0.329051472999153
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2",0.00493923906284082,0.02847376395738,0.862327826846385
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"121",0.00959642028404664,0.0262357934408465,0.714663872600499
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"121",0.0426585745457274,0.0250497688316283,0.0898942502869844
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"123",0.0244349379807663,0.0274973829796844,0.374578682016939
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"123",0.0530261848918652,0.0267463449648762,0.0487701710163635
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"125",0.0337711686939975,0.0294420974288901,0.251847297688079
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"125",0.0511601972836966,0.0292370803098349,0.0813057778726534
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"1.8",-0.0151313375362047,0.042042623473584,0.718981850828568
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"1.8",0.0634406194792695,0.0350640979571745,0.0706382062485806
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"128",0.0394704723636651,0.034025119483061,0.246298877953739
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"128",0.0626741003449751,0.0330791607971342,0.0586295736000719
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,"Sample weights","2.6",-0.0126920197963109,0.0240146901499422,0.597228598027266
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,"Sample weights","2.6",0.0259344103462521,0.0234817014543503,0.269586793685559
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","110",-0.0103385909639001,0.0245619285772699,0.673879376561226
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","110",0.0235489051959509,0.0241694768066773,0.330066241430135
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,NA,"2.6",-0.00569535882832637,0.019744732334688,0.77300265599441
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,NA,"2.6",0.0112020109001024,0.019195846162185,0.559513471689442
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"110",-0.00697840590937225,0.0201857947230493,0.729561605953335
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"110",0.00118420006658241,0.0198510021416262,0.952430872711467
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,"Sample weights","2.4",-0.00177924879270973,0.0272559560688213,0.947960957433785
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,"Sample weights","2.4",0.032080135280265,0.0263692601641432,0.223971556214615
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","111",-0.0104586810697901,0.0273863574981814,0.702598783348984
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","111",0.0230883771047985,0.0250788250365681,0.357403204820471
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,NA,"2.4",-0.0127643577528132,0.0233964507853742,0.585362840973784
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,NA,"2.4",0.0141913675924592,0.0218987995551457,0.516957025783234
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"111",-0.00956542548050008,0.0224786569719803,0.670447679445715
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"111",0.00925368018389747,0.0217494998582156,0.670496751400955
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","112",-0.00860220359435809,0.0277807590522966,0.756876745154142
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","112",0.026336418226664,0.0254626372726005,0.301169451323704
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"112",-0.0069848401831089,0.022705491518937,0.758365571437709
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"112",0.00986586339815606,0.0220114068059238,0.653997359682281
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","115",0.00149426222718936,0.0290875686159198,0.959037181441594
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","115",0.0285034337789445,0.0266743409940415,0.285449655531765
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"115",0.00481160383718705,0.0233247922193274,0.836566651458096
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"115",0.0113797126012018,0.022830820259947,0.61817646328221
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,"Sample weights","2.2",0.0674943801981872,0.0304519065873926,0.0268223947517983
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,"Sample weights","2.2",0.0564012167493162,0.0329835993164792,0.0874914286558437
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,NA,"2.2",0.0413391229535571,0.0261484514378994,0.113891843512012
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,NA,"2.2",0.027769950742771,0.0261997722158261,0.289175991662274
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","117",0.0142615503345632,0.0307275069756843,0.642627829896933
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","117",0.0443461151244799,0.0294427914840714,0.132249909955203
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"117",-0.000750103122339929,0.0254674107134154,0.976502943890092
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"117",0.0166238009680081,0.0245378351271,0.498103822450652
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","119",0.0485274318707789,0.0307248431805563,0.114468424920371
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","119",0.0733981364678343,0.0305247777041534,0.0163236743756212
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"119",0.0140703473561773,0.0270719426907932,0.60324542498051
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"119",0.0368647021612638,0.0258534981801914,0.153894986117452
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","120",0.05513398141227,0.0361520378981328,0.127473081012442
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","120",0.0991578872189784,0.0317812249899101,0.00184585786605815
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"120",0.0155756600433406,0.0297669440562712,0.600797799777844
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"120",0.0518309317602878,0.0278250829011429,0.0624986688908448
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,"Sample weights","2",0.0170212890039633,0.0379640900087348,0.653968203983696
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,"Sample weights","2",0.0587338188594932,0.0398721633978741,0.140961307303127
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","121",0.0638170024063712,0.0368342759303756,0.0833996898839848
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","121",0.0970294012536202,0.0336481696329959,0.00399193814942503
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,NA,"2",0.0160320113967435,0.0339563813196148,0.63683010999298
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,NA,"2",0.0229464882867871,0.0330367579379751,0.487322022844635
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"121",0.0277241723031271,0.0302710280099087,0.359737754028018
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"121",0.0549794764854571,0.0289631908798203,0.0576627052243475
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","123",0.0891930023038425,0.0369213216200227,0.0158313737234861
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","123",0.104734551224393,0.0367968291026366,0.00448853040289202
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"123",0.0517705207466593,0.0319412420351438,0.105059493054606
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"123",0.0657377850524178,0.0311415617634004,0.0347779754738875
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","125",0.112467138995576,0.038241752756931,0.00332647590055823
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","125",0.131609880407617,0.0399772402869157,0.00101948340401851
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"125",0.0764974261671784,0.0333673579129929,0.0218720436149547
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"125",0.0827847967118611,0.0335693270918994,0.013659911108989
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,"Sample weights","1.8",0.0626425070569888,0.0431554740843312,0.146849339736639
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,"Sample weights","1.8",0.109712932739646,0.0586758287637693,0.0617179702532373
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,NA,"1.8",0.0218084608048362,0.0480130626437449,0.649670976675442
+"Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,NA,"1.8",0.0523151596306097,0.0453253649223282,0.248412544793715
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","128",0.124979828568424,0.0480865202155025,0.00944734011782038
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","128",0.16205817730295,0.0453778306887698,0.000367398558324618
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,NA,"128",0.103679382771708,0.0386122851187632,0.0072499478433023
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","listwise",NA,NA,"128",0.111327050440433,0.0383801904240689,0.00372403458537742
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,"Sample weights","2.6",-0.0110372556215176,0.0279721160570093,0.693228268021066
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,"Sample weights","2.6",0.0395929182128347,0.0283526447121565,0.162861373937301
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","110",-0.00806658810335319,0.028457581927265,0.776877917631897
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","110",0.0387396020346113,0.0290362465298711,0.182424310518157
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,NA,"2.6",-0.00616229075807467,0.0240544466421759,0.797811125146189
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,NA,"2.6",0.0256453541889455,0.0232255000059176,0.269510925720424
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"110",-0.00440731027292497,0.0245484572551262,0.857517541805834
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"110",0.0126154594427607,0.0240424215451006,0.599780165067148
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,"Sample weights","2.4",0.00763565928577517,0.0315899356772479,0.809048194024364
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,"Sample weights","2.4",0.0518542363436383,0.0323348634378806,0.109074558563374
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","111",0.0094016124104749,0.0313562611274318,0.764362320369957
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","111",0.0365334015813233,0.0296768419242657,0.218574160995647
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,NA,"2.4",-0.00195774789491614,0.0281889605314289,0.944630736491673
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,NA,"2.4",0.0340196042042403,0.026646024638835,0.201699903472957
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"111",0.0118659556147869,0.0268904817606337,0.659017737665164
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"111",0.0235373501938829,0.0259645569256544,0.364661497894667
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","112",0.0121775866187979,0.0320223471627966,0.703808557809855
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","112",0.0394437310985302,0.0303152688058616,0.193494166641877
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"112",0.015567483384396,0.0272992996213455,0.568506712801302
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"112",0.0232449658556443,0.0263161625866297,0.377076267805235
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","115",0.0186527901435651,0.0332747725220376,0.575206703202511
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","115",0.0481804906521792,0.0309206782118563,0.119478040003536
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"115",0.0249947956976666,0.0278409370046072,0.369307459869929
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"115",0.0289531163891613,0.0273224374092778,0.289288940109278
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,"Sample weights","2.2",0.103797633379078,0.0346748357593076,0.00281947585844456
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,"Sample weights","2.2",0.0943919112132679,0.0390718907669474,0.0158601055751863
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,NA,"2.2",0.0745505219386692,0.031223170500119,0.0169557149109727
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,NA,"2.2",0.0609622504112851,0.0315207652321815,0.0531088745344357
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","117",0.0274129018928031,0.0355807625344096,0.441204593068625
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","117",0.0683509156673793,0.0342333978753455,0.0461162937594427
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"117",0.0175097780435856,0.0305670705133315,0.566758850837006
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"117",0.0477174348644336,0.0294550177019461,0.105230043937706
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","119",0.0553297626360582,0.0353455401874258,0.117779840127297
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","119",0.0913480889844539,0.0345831774352826,0.00837494077970984
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"119",0.0265368039980674,0.0322198041021928,0.410156761781544
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"119",0.0616041395726412,0.0302430265896077,0.0416530427975524
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","120",0.0802025164383271,0.0416045583610833,0.0541473346988751
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","120",0.115593552778574,0.0365887422674665,0.00162535631752628
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"120",0.0358305550558506,0.0358418836252404,0.317463491750444
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"120",0.0708096983973049,0.0327419269708754,0.0305672395937054
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,"Sample weights","2",0.0352197778473973,0.0438156106087551,0.421674333805994
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,"Sample weights","2",0.0926470342612812,0.0468469613515029,0.0482164713461097
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","121",0.09158229476337,0.0434752533410204,0.035385288563563
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","121",0.111779621310311,0.0387825676332289,0.00402670265460241
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,NA,"2",0.0385768012397364,0.0419115162485647,0.357345799944872
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,NA,"2",0.0495926882245899,0.040466863319345,0.220381798166197
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"121",0.0578590624110655,0.0369151787307445,0.117032543333032
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"121",0.0741393325345541,0.034521143170169,0.0317415715601894
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","123",0.119241052420098,0.0426605790343056,0.00527907067706807
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","123",0.124896700644586,0.042993809631749,0.00374706213333601
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"123",0.0818100098230407,0.0380247977034886,0.0314374658755856
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"123",0.088345262843933,0.0370617662536263,0.0171381476708882
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","125",0.139888006258875,0.0427279099591353,0.00109391689111625
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","125",0.16334727162069,0.043786451436441,0.000200949903472024
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"125",0.110647767975844,0.039492686103042,0.00508296953980578
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"125",0.110230418589965,0.0399584680577288,0.00580451471750775
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,"Sample weights","1.8",0.12413697225992,0.0438866386639707,0.0047596688614764
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,"Sample weights","1.8",0.161433191329747,0.0644043851640787,0.0123343849938237
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","listwise",NA,NA,"1.8",0.0867485429949146,0.0533083299086343,0.103673805153115
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","listwise",NA,NA,"1.8",0.102024778966879,0.0543400542412946,0.0604462532511556
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","128",0.164736451993504,0.057652057269797,0.00435198927161451
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,"Sample weights","128",0.174504237322751,0.047067207648156,0.000219841430017124
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","listwise",NA,NA,"128",0.13604177591977,0.0490908911173561,0.00558462726640119
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","listwise",NA,NA,"128",0.136853061955723,0.0455024806500621,0.00263323261293677
