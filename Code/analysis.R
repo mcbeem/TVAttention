@@ -5,8 +5,7 @@
 #   Project: Challenging the Link Between Early Childhood Television Exposure  #
 #     and Later Attention Problems: A Multiverse Analysis                      #
 #   Investigators: Matt McBee, Wallace Dixon, & Rebecca Brand                  #
-#   Programmers: Matthew McBee, Natasha Godkin                                 #
-#     mcbeem@etsu.edu                                                          #
+#   Programmers: Matthew McBee     mcbeem@etsu.edu    @TunnelofFire            #                                                     #
 ################################################################################
 
 # This work is copyrighted by the authors and             
@@ -15,9 +14,21 @@
 # see https://creativecommons.org/licenses/by-nc/4.0/     
 # for details.                                            
 
-################################################################################
-#
-# ** This code requires R 3.6+. It will not run on 3.5.x **
+#################################################################################
+#                                                                               #
+#   IMPORTANT NOTICES TO METHODOLOGICAL TERRORISTS ;)                           #
+#                                                                               #
+# ** This code requires R 3.6+. It will not run on 3.5.x **                     #
+# ** IF YOU ARE RUNNING THIS ON A LOCAL MACHINE:                                #
+# ** OPEN THE R PROJECT FILE FIRST, THEN OPEN THIS SCRIPT **                    #
+# ** OTHERWISE THE FILE PATHS WILL BE INCORRECT AND NOTHING WILL WORK **        #
+#                                                                               #
+#  THE DOCKER CONTAINER IS BUILT SUCH THAT THIS IS NOT NECESSARY, BUT IT IS     #
+#  NOT HARMFUL, EITHER.                                                         #
+#                                                                               #
+#   YOU'VE BEEN WARNED ¯\_(ツ)_/¯                                               #
+#                                                                               #
+#################################################################################
 #
 # This code has been tested on Mac, Windows, and Linux platforms. Details below 
 #
@@ -142,12 +153,13 @@
 #   faster than downloading specific versions (below) and compiling them from 
 #   source. recommend trying this first).
 # 
+# install.packages("here")
+# install.packages("tidyr")
 # install.packages("twang")
 # install.packages("survey")
 # install.packages("ggplot2")
 # install.packages("PSAgraphics")
 # install.packages("stargazer")
-# install.packages("dplyr")
 # install.packages("broom")
 # install.packages("reshape2")
 # install.packages("data.table")
@@ -156,12 +168,12 @@
 # install.packages("cowplot")
 # install.packages("psych")
 # install.packages("GPArotation")
+# install.packages("multcomp")
+# install.packages("dplyr")
 # install.packages("tibble")
 # install.packages("extrafont")
 # install.packages("ggExtra")
-# install.packages("multcomp")
 # install.packages("gridGraphics")
-
 
 # failsafe: install the specific versions of the packages used in this code 
 #  using devtools::install_version()
