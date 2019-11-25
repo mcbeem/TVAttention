@@ -16,11 +16,19 @@
 # for details.                                            
 
 ################################################################################
-
+#
+# ** This code requires R 3.6+. It will not run on 3.5.x **
+#
+# This code has been tested on Mac, Windows, and Linux platforms. Details below 
+#
+# See sessionInfo() dumps below for verified working package versions on Mac and 
+#  Windows platforms. Also note that we have an online Docker image that can
+#  reproduce all of our analyses.
+#
+# One more thing: this code requires several hours to run -- about 12 hours on 
+#  a mid-2014 Macbook Pro (Core i5-2600ghz). Plan accordingly!
+#
 # sessionInfo() -----------------------------------------------------------
-# This code has been tested and runs corrently on the following platforms. See sessionInfo()
-# dumps below: 
-
 # > sessionInfo()
 # R version 3.6.1 (2019-07-05)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
@@ -37,9 +45,9 @@
 # [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] gridGraphics_0.4-1     ggExtra_0.9            dplyr_0.8.3            multcomp_1.4-10       
-# [5] TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         extrafont_0.17        
-# [9] tibble_2.1.3           GPArotation_2014.11-1  psych_1.8.12           cowplot_1.0.0         
+#  [1] gridGraphics_0.4-1     ggExtra_0.9            dplyr_0.8.3            multcomp_1.4-10       
+#  [5] TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         extrafont_0.17        
+#  [9] tibble_2.1.3           GPArotation_2014.11-1  psych_1.8.12           cowplot_1.0.0         
 # [13] stringr_1.4.0          mice_3.6.0             data.table_1.12.2      reshape2_1.4.3        
 # [17] broom_0.5.2            openxlsx_4.1.0.1       stargazer_5.2.2        PSAgraphics_2.1.1     
 # [21] rpart_4.1-15           tables_0.8.8           Hmisc_4.2-0            Formula_1.2-3         
@@ -50,9 +58,9 @@
 # [41] Matrix_1.2-17          gbm_2.1.5              tidyr_1.0.0            here_0.1              
 # 
 # loaded via a namespace (and not attached):
-# [1] minqa_1.2.4         colorspace_1.4-1    rprojroot_1.3-2     htmlTable_1.13.2   
-# [5] GlobalOptions_0.1.0 base64enc_0.1-3     rstudioapi_0.10     MatrixModels_0.4-1 
-# [9] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5       
+#  [1] minqa_1.2.4         colorspace_1.4-1    rprojroot_1.3-2     htmlTable_1.13.2   
+#  [5] GlobalOptions_0.1.0 base64enc_0.1-3     rstudioapi_0.10     MatrixModels_0.4-1 
+#  [9] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5       
 # [13] zeallot_0.1.0       nloptr_1.2.1        packrat_0.5.0       Rttf2pt1_1.3.7     
 # [17] cluster_2.1.0       shiny_1.3.2         readr_1.3.1         compiler_3.6.1     
 # [21] httr_1.4.1          backports_1.1.5     assertthat_0.2.1    lazyeval_0.2.2     
@@ -89,8 +97,8 @@
 # [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] multcomp_1.4-10        TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         ggExtra_0.9           
-# [6] gridGraphics_0.4-1     dplyr_0.8.3            extrafont_0.17         tibble_2.1.3           GPArotation_2014.11-1 
+#  [1] multcomp_1.4-10        TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         ggExtra_0.9           
+#  [6] gridGraphics_0.4-1     dplyr_0.8.3            extrafont_0.17         tibble_2.1.3           GPArotation_2014.11-1 
 # [11] psych_1.8.12           cowplot_1.0.0          stringr_1.4.0          mice_3.6.0             data.table_1.12.6     
 # [16] reshape2_1.4.3         broom_0.5.2            openxlsx_4.1.3         stargazer_5.2.2        PSAgraphics_2.1.1     
 # [21] rpart_4.1-15           tables_0.8.8           Hmisc_4.3-0            Formula_1.2-3          kableExtra_1.1.0      
@@ -100,8 +108,8 @@
 # [41] Matrix_1.2-17          gbm_2.1.5              tidyr_1.0.0            here_0.1              
 # 
 # loaded via a namespace (and not attached):
-#   [1] minqa_1.2.4         colorspace_1.4-1    ellipsis_0.3.0      rprojroot_1.3-2     htmlTable_1.13.2   
-# [6] GlobalOptions_0.1.1 base64enc_0.1-3     rstudioapi_0.10     farver_2.0.1        MatrixModels_0.4-1 
+#  [1] minqa_1.2.4         colorspace_1.4-1    ellipsis_0.3.0      rprojroot_1.3-2     htmlTable_1.13.2   
+#  [6] GlobalOptions_0.1.1 base64enc_0.1-3     rstudioapi_0.10     farver_2.0.1        MatrixModels_0.4-1 
 # [11] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5        zeallot_0.1.0      
 # [16] nloptr_1.2.1        Rttf2pt1_1.3.7      cluster_2.1.0       shiny_1.4.0         readr_1.3.1        
 # [21] compiler_3.6.1      httr_1.4.1          backports_1.1.5     fastmap_1.0.1       assertthat_0.2.1   
@@ -118,15 +126,63 @@
 # [76] jomo_2.6-10         rmarkdown_1.17      digest_0.6.22       webshot_0.5.1       httpuv_1.5.2       
 # [81] munsell_0.5.0       viridisLite_0.3.0   mitools_2.4   
 
-
 # Load packages -----------------------------------------------------------
-
+#
+# Note: If you are running this code in the Docker image, the correct versions
+#  of all these packages are pre-installed. 
+# 
+# It is possible that future updates to these packages will break the code. See
+#  working version numbers above. 
+#
 # install the required packages to your computer
 # this only needs to be done once
 # uncomment the following lines to download and install packages
 
-# install.packages("here")
-# install.packages("tidyr")
+# install the specific versions of the packages used in this code
+install.packages("devtools")
+library(devtools)
+install_version("here", version="0.1", 
+                dependencies=TRUE, upgrade="never")
+install_version("tidyr", version="1.0.0", 
+                dependencies=TRUE, upgrade="never")
+install_version("twang", version="1.5", 
+                dependencies=TRUE, upgrade="never")
+install_version("survey", version="3.36", 
+                dependencies=TRUE, upgrade="never")
+install_version("ggplot2", version="3.2.1", 
+                dependencies=TRUE, upgrade="never")
+install_version("PSAGraphics", version="2.1.1", 
+                dependencies=TRUE, upgrade="never")
+install_version("stargazer", version="5.2.2", 
+                dependencies=TRUE, upgrade="never")
+install_version("dplyr", version="0.8.3", 
+                dependencies=TRUE, upgrade="never")
+install_version("broom", version="0.5.2", 
+                dependencies=TRUE, upgrade="never")
+install_version("reshape2", version="1.4.3", 
+                dependencies=TRUE, upgrade="never")
+install_version("data.table", version="1.12.2", 
+                dependencies=TRUE, upgrade="never")
+install_version("mice", version="3.6.0", 
+                dependencies=TRUE, upgrade="never")
+install_version("stringr", version="1.4.0", 
+                dependencies=TRUE, upgrade="never")
+install_version("cowplot", version="1.0.0", 
+                dependencies=TRUE, upgrade="never")
+install_version("psych", version="1.8.12", 
+                dependencies=TRUE, upgrade="never")
+install_version("GPArotation", version="2014.11-1", 
+                dependencies=TRUE, upgrade="never")
+install_version("tibble", version="2.1.3", 
+                dependencies=TRUE, upgrade="never")
+install_version("ggExtra", version="0.9", 
+                dependencies=TRUE, upgrade="never")
+install_version("multcomp", version="1.4-10", 
+                dependencies=TRUE, upgrade="never")
+install_version("gridGraphics", version="0.4-1", 
+                dependencies=TRUE, upgrade="never")
+
+# failsafe: install newest available versions of the packages
 # install.packages("twang")
 # install.packages("survey")
 # install.packages("ggplot2")
