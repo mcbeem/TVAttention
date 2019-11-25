@@ -1231,6 +1231,7 @@ write.csv(analysis.nofactors, file=here("Data", "NLSY_analysis_dataset.csv"),
 
 
 # EFA of temperament to address reviewer concern --------------------------
+
 #############################################################################
 # address reviewer concern from Psychological Science round 1 submission:   #
 # "Furthermore, the authors could possibly use factor analyses to           #
@@ -1250,7 +1251,7 @@ write.table(
   file=here("Manuscript", "Tables", "corr_temp_att.txt"), row.names=F, col.names=F)
 
 # second approach, factor analysis
-########### Prep 1996 data ###############
+# Prep 1996 data
 
 # this ended up being quite complicated because the particular "item" variables
 #  measured at different moments in time have different item codes in the NLSY
@@ -1330,7 +1331,7 @@ temp1996$att3 <- NLSY.1996$C1637300
 temp1996$att4 <- NLSY.1996$C1637600
 temp1996$att5 <- NLSY.1996$C1637700
 
-########### Prep 1998 data ###############
+# Prep 1998 data
 
 missing.temp.items.1998 <- cbind(
   # these are the "TMP A (0-11mo) items from birth year 
@@ -1394,7 +1395,7 @@ temp1998$att3 <- NLSY.1998$C1978200
 temp1998$att4 <- NLSY.1998$C1978500
 temp1998$att5 <- NLSY.1998$C1978600
 
-########### Prep 2000 data ###############
+# Prep 2000 data
 
 missing.temp.items.2000 <- cbind(
   # these are the "TMP A (0-11mo) items from birth year 
@@ -1462,6 +1463,8 @@ temp2000$att5 <- NLSY.2000$C2434200
 # combine datasets
 analysisEFA <- rbind(temp1996, temp1998, temp2000)
 
+# Fit EFA models to data
+
 # fit one-factor model
 efa_1factor <- fa(r=analysisEFA, nfactors=1, fm="minres")
 
@@ -1493,6 +1496,74 @@ efa_2factor$Phi %>% data.frame() %>%
                     "Minimum residual solution",
                     "Direct oblimin rotation"))
             
+
+# make raw and residualized scatterplots for TV-attention relationship --------
+##### Unadjusted and adjusted scatterplots of the TV-attention relationship at age 1.5 and 3
+#####  Standardized attention outcome
+
+# save residuals based on a model including all of both covariate sets except where redundant
+#  e.g., rural and SMSA can't both be included because rural is just a coarser categorization
+#  of SMSA. Same for preterm and gestationalAge.
+
+# need to run model on complete data only to merge residuals back in
+analysis.complete <- analysis[complete.cases(analysis),]
+
+analysis.complete$resid.ss <- lm(data=analysis.complete, 
+                                 att_sex_ss ~ age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+
+                                   kidsInHouse+momAge+income+Rosen87+CESD92+gestationalAge+cohort+race+
+                                   female+alcohol+fatherAbsent+smoking+SMSA+lowBirthWt+poorHealth)$resid
+
+scatter.1.std.unadj <- ggplot(data=analysis, aes(x=TV1, y=att_sex_ss))+
+  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
+  geom_smooth(method="loess")+
+  labs(x="", y='Standardized Attention at Age 7')+
+  theme_classic()+
+  theme(plot.title= element_text(family="Times New Roman", size=11),
+        axis.title = element_text(family = "Times New Roman", size=9),
+        axis.text = element_text(family = "Times New Roman", size=9),
+        legend.text = element_text(family = "Times New Roman", size=9),
+        legend.title = element_text(family = "Times New Roman", size=10))
+
+scatter.3.std.unadj <- ggplot(data=analysis, aes(x=TV3, y=att_sex_ss))+
+  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
+  geom_smooth(method="loess")+
+  labs(x="", y="")+
+  theme_classic()+
+  theme(plot.title= element_text(family="Times New Roman", size=11),
+        axis.title = element_text(family = "Times New Roman", size=9),
+        axis.text = element_text(family = "Times New Roman", size=9),
+        legend.text = element_text(family = "Times New Roman", size=9),
+        legend.title = element_text(family = "Times New Roman", size=10))
+
+scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
+  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
+  geom_smooth(method="loess")+
+  labs(x="TV consumption at Age ~1.5 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
+  theme_classic()+
+  theme(plot.title= element_text(family="Times New Roman", size=11),
+        axis.title = element_text(family = "Times New Roman", size=9),
+        axis.text = element_text(family = "Times New Roman", size=9),
+        legend.text = element_text(family = "Times New Roman", size=9),
+        legend.title = element_text(family = "Times New Roman", size=10))
+
+scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
+  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
+  geom_smooth(method="loess")+
+  labs(x="TV consumption at Age ~3 (hours per day)", y="")+
+  theme_classic()+
+  theme(plot.title= element_text(family="Times New Roman", size=11),
+        axis.title = element_text(family = "Times New Roman", size=9),
+        axis.text = element_text(family = "Times New Roman", size=9),
+        legend.text = element_text(family = "Times New Roman", size=9),
+        legend.title = element_text(family = "Times New Roman", size=10))
+
+att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj, 
+                                     scatter.1.std.adj, scatter.3.std.adj,
+                                     labels="auto")
+
+ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
+       plot=att_TV_scatterplots_std, width=7, height=6, scale=1.0, dpi=200)
+
 
 # define functions for multiverse analysis --------------------------------
 #################################################################
@@ -4989,127 +5060,6 @@ empirical.AUC(all.results$p, as.numeric(rownames(all.results)) / nrow(all.result
 
 
 
-##### Unadjusted and adjusted scatterplots of the TV-attention relationship at age 1.5 and 3
-#####  Standardized attention outcome
-
-# save residuals
-
-analysis.complete <- analysis[complete.cases(analysis),]
-
-analysis.complete$resid.ss <- lm(data=analysis.complete, 
-                                att_sex_ss~+age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
-                                  momAge+income+Rosen87+CESD92+alcohol+fatherAbsent+female+lowBirthWt+
-                                  poorHealth+preterm+race+smoking+SMSA)$resid
-
-analysis.complete$resid.raw <- lm(data=analysis.complete, 
-                                 attention~+age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
-                                   momAge+income+Rosen87+CESD92+alcohol+fatherAbsent+female+lowBirthWt+
-                                   poorHealth+preterm+race+smoking+SMSA)$resid
-
-scatter.1.std.unadj <- ggplot(data=analysis, aes(x=TV1, y=att_sex_ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~1.5 (hours per day)", y='Adjusted Standardized Attention at Age 7')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-scatter.3.std.unadj <- ggplot(data=analysis, aes(x=TV3, y=att_sex_ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~3 (hours per day)", y="")+
-  #labs(x="", y='')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~1.5 (hours per day)", y='Adjusted Standardized Attention at Age 7')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~3 (hours per day)", y="")+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj)#, 
-                                 #scatter.1.std.adj, scatter.3.std.adj)
-
-ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
-       plot=att_TV_scatterplots_std, width=7, height=3, scale=1.0, dpi=200)
-
-
-##### Unadjusted and adjusted scatterplots of the TV-attention relationship at age 1.5 and 3
-#####  Raw attention outcome
-
-scatter.1.raw.unadj <- ggplot(data=analysis, aes(x=TV1, y=attention))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="", y='Raw Attention at Age 7')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-scatter.3.raw.unadj <- ggplot(data=analysis, aes(x=TV3, y=attention))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="", y='')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-scatter.1.raw.adj <- ggplot(data=imputed.analysis.impute1, aes(x=TV1, y=resid.raw))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~1.5 (hours per day)", y='Adjusted Raw Attention at Age 7')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-scatter.3.raw.adj <- ggplot(data=imputed.analysis.impute1, aes(x=TV3, y=resid.raw))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~3 (hours per day)", y="")+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
-
-att_TV_scatterplots_raw <- plot_grid(scatter.1.raw.unadj, scatter.3.raw.unadj, 
-                                     scatter.1.raw.adj, scatter.3.raw.adj)
-
-ggsave(filename=here("Manuscript", "Figures", "scatterplots_raw.png"),
-       plot=att_TV_scatterplots_raw, width=7, height=6, scale=1.0, dpi=200)
 
 # make plot of logistic point estimates and CIs
 
