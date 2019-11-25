@@ -1229,11 +1229,277 @@ stargazer(ctable, summary=F, rownames=F, header=F,
 write.csv(analysis.nofactors, file=here("Data", "NLSY_analysis_dataset.csv"), 
           row.names=F)
 
-#################################################
-#                                               #
-#   Define functions for performing analysis    #
-#                                               #
-#################################################
+
+# EFA of temperament to address reviewer concern --------------------------
+#############################################################################
+# address reviewer concern from Psychological Science round 1 submission:   #
+# "Furthermore, the authors could possibly use factor analyses to           #
+#  probe whether temperament and attentional problems are separate          #
+#  constructs in an additional data-driven approach to supplement           #
+#  their theoretical argumentation."                                        #
+#############################################################################         
+
+# first approach: correlation
+cor(analysis$temperament, analysis$attention, use="complete.obs")
+# write it to a file
+write.table(
+  paste0("The correlation between temperament and raw attention is ", 
+         round(cor(analysis$temperament, analysis$attention, use="complete.obs"),3), ".\n",
+        "The correlation between temperament and within-sex standardized attention is ", 
+         round(cor(analysis$temperament, analysis$att_sex_ss, use="complete.obs"),3), ".\n"),
+  file=here("Manuscript", "Tables", "corr_temp_att.txt"), row.names=F, col.names=F)
+
+# second approach, factor analysis
+########### Prep 1996 data ###############
+
+# this ended up being quite complicated because the particular "item" variables
+#  measured at different moments in time have different item codes in the NLSY
+#  dataset. Generally all of these except one set will be missing depending on 
+#  exactly how old the child was on the date that the mother was interviewed.
+#
+# ** Doubtless there is a more elegant way to accomplish this. **
+#
+# Step 1: figure out which set of items has the least missingness
+#  This code selects the six items (4 different sets) and computes how 
+#  many are missing. This gets placed in a matrix where each row is a subject,
+#  and there are four columns correponding to the 4 different sets of possible
+#  items. The numbers in each row are the number of missing values in each item.
+#  set.
+missing.temp.items.1996 <- cbind(
+  # these are the "TMP A (0-11mo) items from birth year 
+  NLSY.1996 %>% dplyr::select(C0764600, C0764700, C0764900, C0765400, C0765500, C0765600) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP B (12-23mo) items from birth year
+  NLSY.1996 %>% dplyr::select(C0765700, C0765800, C0766000, C0766500, C0766600, C0766700) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP A (0-11mo) items from birth year + 2
+  NLSY.1996 %>% dplyr::select(C0967600, C0967700, C0967900, C0968400, C0968500, C0968600) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP B (12-23mo) items from birth year + 2
+  NLSY.1996 %>% dplyr::select(C0968700, C0968800, C0969000, C0969500, C0969600, C0969700) %>% 
+    is.na() %>% apply(1, sum, na.rm=F)
+)
+# This code identifies which of the four sets has the minimum amount of missing
+#  items responses. If there is a tie, the latest set is kept.
+index1996 <- apply(missing.temp.items.1996, 1, 
+                   function(x) {which(x==min(x))}) %>% lapply(max) %>% unlist()
+# initialize and empty data frame to hold the temperament (and soon, attention)
+#  item responses
+temp1996 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index1996)))
+names(temp1996) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
+# loop over the data, selecting the set of item responses with the 
+#  least missingness as per the above
+for (i in 1:length(index1996)) {
+  if (index1996[i]==1) {
+    temp1996$temp1[i] <- NLSY.1996$C0764600[i]
+    temp1996$temp2[i] <- NLSY.1996$C0764700[i]
+    temp1996$temp3[i] <- NLSY.1996$C0764900[i]
+    temp1996$temp4[i] <- NLSY.1996$C0765400[i]
+    temp1996$temp5[i] <- NLSY.1996$C0765500[i]
+    temp1996$temp6[i] <- NLSY.1996$C0765600[i]
+  }
+  if (index1996[i]==2) {
+    temp1996$temp1[i] <- NLSY.1996$C0765700[i]
+    temp1996$temp2[i] <- NLSY.1996$C0765800[i]
+    temp1996$temp3[i] <- NLSY.1996$C0766000[i]
+    temp1996$temp4[i] <- NLSY.1996$C0766500[i]
+    temp1996$temp5[i] <- NLSY.1996$C0766600[i]
+    temp1996$temp6[i] <- NLSY.1996$C0766700[i]
+  }
+  if (index1996[i]==3) {
+    temp1996$temp1[i] <- NLSY.1996$C0967600[i]
+    temp1996$temp2[i] <- NLSY.1996$C0967700[i]
+    temp1996$temp3[i] <- NLSY.1996$C0967900[i]
+    temp1996$temp4[i] <- NLSY.1996$C0968400[i]
+    temp1996$temp5[i] <- NLSY.1996$C0968500[i]
+    temp1996$temp6[i] <- NLSY.1996$C0968600[i]
+  }
+  if (index1996[i]==4) {
+    temp1996$temp1[i] <- NLSY.1996$C0968700[i]
+    temp1996$temp2[i] <- NLSY.1996$C0968800[i]
+    temp1996$temp3[i] <- NLSY.1996$C0969000[i]
+    temp1996$temp4[i] <- NLSY.1996$C0969500[i]
+    temp1996$temp5[i] <- NLSY.1996$C0969600[i]
+    temp1996$temp6[i] <- NLSY.1996$C0969700[i]
+  }
+}
+# append the attention items
+temp1996$att1 <- NLSY.1996$C1636700
+temp1996$att2 <- NLSY.1996$C1636800
+temp1996$att3 <- NLSY.1996$C1637300
+temp1996$att4 <- NLSY.1996$C1637600
+temp1996$att5 <- NLSY.1996$C1637700
+
+########### Prep 1998 data ###############
+
+missing.temp.items.1998 <- cbind(
+  # these are the "TMP A (0-11mo) items from birth year 
+  NLSY.1998 %>% dplyr::select(C0967600, C0967700, C0967900, C0968400, C0968500, C0968600) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP B (12-23mo) items from birth year
+  NLSY.1998 %>% dplyr::select(C0968700, C0968800, C0969000, C0969500, C0969600, C0969700) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP A (0-11mo) items from birth year + 2
+  NLSY.1998 %>% dplyr::select(C1165900, C1166000, C1166200, C1166700, C1166800, C1166900) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP B (12-23mo) items from birth year + 2
+  NLSY.1998 %>% dplyr::select(C1167000, C1167100, C1167300, C1167800, C1167900, C1168000) %>% 
+    is.na() %>% apply(1, sum, na.rm=F)
+)
+
+index1998 <- apply(missing.temp.items.1998, 1, 
+                   function(x) {which(x==min(x))}) %>% lapply(max) %>% unlist()
+
+temp1998 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index1998)))
+names(temp1998) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
+
+for (i in 1:length(index1998)) {
+  if (index1998[i]==1) {
+    temp1998$temp1[i] <- NLSY.1998$C0967600[i]
+    temp1998$temp2[i] <- NLSY.1998$C0967700[i]
+    temp1998$temp3[i] <- NLSY.1998$C0967900[i]
+    temp1998$temp4[i] <- NLSY.1998$C0968400[i]
+    temp1998$temp5[i] <- NLSY.1998$C0968500[i]
+    temp1998$temp6[i] <- NLSY.1998$C0968600[i]
+  }
+  if (index1998[i]==2) {
+    temp1998$temp1[i] <- NLSY.1998$C0968700[i]
+    temp1998$temp2[i] <- NLSY.1998$C0968800[i]
+    temp1998$temp3[i] <- NLSY.1998$C0969000[i]
+    temp1998$temp4[i] <- NLSY.1998$C0969500[i]
+    temp1998$temp5[i] <- NLSY.1998$C0969600[i]
+    temp1998$temp6[i] <- NLSY.1998$C0969700[i]
+  }
+  if (index1998[i]==3) {
+    temp1998$temp1[i] <- NLSY.1998$C1165900[i]
+    temp1998$temp2[i] <- NLSY.1998$C1166000[i]
+    temp1998$temp3[i] <- NLSY.1998$C1166200[i]
+    temp1998$temp4[i] <- NLSY.1998$C1166700[i]
+    temp1998$temp5[i] <- NLSY.1998$C1166800[i]
+    temp1998$temp6[i] <- NLSY.1998$C1166900[i]
+  }
+  if (index1998[i]==4) {
+    temp1998$temp1[i] <- NLSY.1998$C1167000[i]
+    temp1998$temp2[i] <- NLSY.1998$C1167100[i]
+    temp1998$temp3[i] <- NLSY.1998$C1167300[i]
+    temp1998$temp4[i] <- NLSY.1998$C1167800[i]
+    temp1998$temp5[i] <- NLSY.1998$C1167900[i]
+    temp1998$temp6[i] <- NLSY.1998$C1168000[i]
+  }
+}
+
+temp1998$att1 <- NLSY.1998$C1977600
+temp1998$att2 <- NLSY.1998$C1977700
+temp1998$att3 <- NLSY.1998$C1978200
+temp1998$att4 <- NLSY.1998$C1978500
+temp1998$att5 <- NLSY.1998$C1978600
+
+########### Prep 2000 data ###############
+
+missing.temp.items.2000 <- cbind(
+  # these are the "TMP A (0-11mo) items from birth year 
+  NLSY.2000 %>% dplyr::select(C1165900, C1166000, C1166200, C1166700, C1166800, C1166900) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP B (12-23mo) items from birth year
+  NLSY.2000 %>% dplyr::select(C1167000, C1167100, C1167300, C1167800, C1167900, C1168000) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP A (0-11mo) items from birth year + 2
+  NLSY.2000 %>% dplyr::select(C1418300, C1418400, C1418600, C1419100, C1419200, C1419300) %>% 
+    is.na() %>% apply(1, sum, na.rm=F), 
+  # these are the "TMP B (12-23mo) items from birth year + 2
+  NLSY.2000 %>% dplyr::select(C1419400, C1419500, C1419700, C1420200, C1420300, C1420400) %>% 
+    is.na() %>% apply(1, sum, na.rm=F)
+)
+
+index2000 <- apply(missing.temp.items.2000, 1, 
+                   function(x) {which(x==min(x))}) %>% lapply(max) %>% unlist()
+
+temp2000 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index2000)))
+names(temp2000) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
+
+for (i in 1:length(index)) {
+  if (index2000[i]==1) {
+    temp2000$temp1[i] <- NLSY.2000$C1165900[i]
+    temp2000$temp2[i] <- NLSY.2000$C1166000[i]
+    temp2000$temp3[i] <- NLSY.2000$C1166200[i]
+    temp2000$temp4[i] <- NLSY.2000$C1166700[i]
+    temp2000$temp5[i] <- NLSY.2000$C1166800[i]
+    temp2000$temp6[i] <- NLSY.2000$C1166900[i]
+  }
+  if (index2000[i]==2) {
+    temp2000$temp1[i] <- NLSY.2000$C1167000[i]
+    temp2000$temp2[i] <- NLSY.2000$C1167100[i]
+    temp2000$temp3[i] <- NLSY.2000$C1167300[i]
+    temp2000$temp4[i] <- NLSY.2000$C1167800[i]
+    temp2000$temp5[i] <- NLSY.2000$C1167900[i]
+    temp2000$temp6[i] <- NLSY.2000$C1168000[i]
+  }
+  if (index2000[i]==3) {
+    temp2000$temp1[i] <- NLSY.2000$C1418300[i]
+    temp2000$temp2[i] <- NLSY.2000$C1418400[i]
+    temp2000$temp3[i] <- NLSY.2000$C1418600[i]
+    temp2000$temp4[i] <- NLSY.2000$C1419100[i]
+    temp2000$temp5[i] <- NLSY.2000$C1419200[i]
+    temp2000$temp6[i] <- NLSY.2000$C1419300[i]
+  }
+  if (index2000[i]==4) {
+    temp2000$temp1[i] <- NLSY.2000$C1419400[i]
+    temp2000$temp2[i] <- NLSY.2000$C1419500[i]
+    temp2000$temp3[i] <- NLSY.2000$C1419700[i]
+    temp2000$temp4[i] <- NLSY.2000$C1420200[i]
+    temp2000$temp5[i] <- NLSY.2000$C1420300[i]
+    temp2000$temp6[i] <- NLSY.2000$C1420400[i]
+  }
+}
+
+temp2000$att1 <- NLSY.2000$C2433200
+temp2000$att2 <- NLSY.2000$C2433300
+temp2000$att3 <- NLSY.2000$C2433800
+temp2000$att4 <- NLSY.2000$C2434100
+temp2000$att5 <- NLSY.2000$C2434200
+
+########################################################3
+# combine datasets
+analysisEFA <- rbind(temp1996, temp1998, temp2000)
+
+# fit one-factor model
+efa_1factor <- fa(r=analysisEFA, nfactors=1, fm="minres")
+
+efa_1factor$Structure[1:11,] %>% data.frame() %>% 
+  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
+            type="text",
+            out=here("Manuscript", "Tables", "temp_att_EFA_1factor.html"),
+            title="EFA results",
+            notes=c("Structure coefficients for a 1-factor solution"))
+
+# fit two-factor model
+efa_2factor <- fa(r=analysisEFA , nfactors=2, fm="minres", rotate="oblimin")
+
+efa_2factor$Structure[1:11,] %>% data.frame() %>% 
+  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
+            type="text",
+            out=here("Manuscript", "Tables", "temp_att_EFA_2factor.html"),
+            title="EFA results",
+            notes=c("Structure coefficients for a 2-factor solution",
+                   "Minimum residual solution",
+                   "Direct oblimin rotation"))
+
+efa_2factor$Phi %>% data.frame() %>% 
+  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
+            type="text",
+            out=here("Manuscript", "Tables", "temp_att_EFA_2factor_Phi.html"),
+            title="EFA results",
+            notes=c("Factor intercorrelation matrix for a 2-factor solution",
+                    "Minimum residual solution",
+                    "Direct oblimin rotation"))
+            
+
+# define functions for multiverse analysis --------------------------------
+#################################################################
+#                                                               #
+#   Define functions for performing the multiverse analysis     #
+#                                                               #
+#################################################################
 
     #################################################
     #                                               #
@@ -5116,265 +5382,6 @@ logistic_results <- rename(logistic_results, "Attention cutpoint"=Cutpoint)
 
 all.results <- bind_rows(results, logistic_results)
 
-
-##################################################################
-# address reviewer concern:
-# "Furthermore, the authors could possibly use factor analyses to 
-#  probe whether temperament and attentional problems are separate 
-#  constructs in an additional data-driven approach to supplement 
-#  their theoretical argumentation."
-###################################################################
-
-# first approach: correlation
-cor(analysis$temperament, analysis$attention, use="complete.obs")
-
-# second approach, factor analysis
-
-########### Prep 1996 data ###############
-
-# this ended up being quite complicated because the particular "item" variables
-#  measured at different moments in time have different item codes in the NLSY
-#  dataset. Generally all of these except one set will be missing depending on 
-#  exactly how old the child was on the date that the mother was interviewed.
-#
-# ** Doubtless there is a more elegant way to accomplish this. **
-#
-# Step 1: figure out which set of items has the least missingness
-#  This code selects the six items (4 different sets) and computes how 
-#  many are missing. This gets placed in a matrix where each row is a subject,
-#  and there are four columns correponding to the 4 different sets of possible
-#  items. The numbers in each row are the number of missing values in each item.
-#  set.
-missing.temp.items.1996 <- cbind(
-  # these are the "TMP A (0-11mo) items from birth year 
-  NLSY.1996 %>% dplyr::select(C0764600, C0764700, C0764900, C0765400, C0765500, C0765600) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP B (12-23mo) items from birth year
-  NLSY.1996 %>% dplyr::select(C0765700, C0765800, C0766000, C0766500, C0766600, C0766700) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP A (0-11mo) items from birth year + 2
-  NLSY.1996 %>% dplyr::select(C0967600, C0967700, C0967900, C0968400, C0968500, C0968600) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP B (12-23mo) items from birth year + 2
-  NLSY.1996 %>% dplyr::select(C0968700, C0968800, C0969000, C0969500, C0969600, C0969700) %>% 
-    is.na() %>% apply(1, sum, na.rm=F)
-)
-# This code identifies which of the four sets has the minimum amount of missing
-#  items responses. If there is a tie, the latest set is kept.
-index1996 <- apply(missing.temp.items.1996, 1, 
-                   function(x) {which(x==min(x))}) %>% lapply(max) %>% unlist()
-# initialize and empty data frame to hold the temperament (and soon, attention)
-#  item responses
-temp1996 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index1996)))
-names(temp1996) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
-# loop over the data, selecting the set of item responses with the 
-#  least missingness as per the above
-for (i in 1:length(index1996)) {
-  if (index1996[i]==1) {
-    temp1996$temp1[i] <- NLSY.1996$C0764600[i]
-    temp1996$temp2[i] <- NLSY.1996$C0764700[i]
-    temp1996$temp3[i] <- NLSY.1996$C0764900[i]
-    temp1996$temp4[i] <- NLSY.1996$C0765400[i]
-    temp1996$temp5[i] <- NLSY.1996$C0765500[i]
-    temp1996$temp6[i] <- NLSY.1996$C0765600[i]
-  }
-  if (index1996[i]==2) {
-    temp1996$temp1[i] <- NLSY.1996$C0765700[i]
-    temp1996$temp2[i] <- NLSY.1996$C0765800[i]
-    temp1996$temp3[i] <- NLSY.1996$C0766000[i]
-    temp1996$temp4[i] <- NLSY.1996$C0766500[i]
-    temp1996$temp5[i] <- NLSY.1996$C0766600[i]
-    temp1996$temp6[i] <- NLSY.1996$C0766700[i]
-  }
-  if (index1996[i]==3) {
-    temp1996$temp1[i] <- NLSY.1996$C0967600[i]
-    temp1996$temp2[i] <- NLSY.1996$C0967700[i]
-    temp1996$temp3[i] <- NLSY.1996$C0967900[i]
-    temp1996$temp4[i] <- NLSY.1996$C0968400[i]
-    temp1996$temp5[i] <- NLSY.1996$C0968500[i]
-    temp1996$temp6[i] <- NLSY.1996$C0968600[i]
-  }
-  if (index1996[i]==4) {
-    temp1996$temp1[i] <- NLSY.1996$C0968700[i]
-    temp1996$temp2[i] <- NLSY.1996$C0968800[i]
-    temp1996$temp3[i] <- NLSY.1996$C0969000[i]
-    temp1996$temp4[i] <- NLSY.1996$C0969500[i]
-    temp1996$temp5[i] <- NLSY.1996$C0969600[i]
-    temp1996$temp6[i] <- NLSY.1996$C0969700[i]
-  }
-}
-# append the attention items
-temp1996$att1 <- NLSY.1996$C1636700
-temp1996$att2 <- NLSY.1996$C1636800
-temp1996$att3 <- NLSY.1996$C1637300
-temp1996$att4 <- NLSY.1996$C1637600
-temp1996$att5 <- NLSY.1996$C1637700
-
-########### Prep 1998 data ###############
-
-missing.temp.items.1998 <- cbind(
-  # these are the "TMP A (0-11mo) items from birth year 
-  NLSY.1998 %>% dplyr::select(C0967600, C0967700, C0967900, C0968400, C0968500, C0968600) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP B (12-23mo) items from birth year
-  NLSY.1998 %>% dplyr::select(C0968700, C0968800, C0969000, C0969500, C0969600, C0969700) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP A (0-11mo) items from birth year + 2
-  NLSY.1998 %>% dplyr::select(C1165900, C1166000, C1166200, C1166700, C1166800, C1166900) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP B (12-23mo) items from birth year + 2
-  NLSY.1998 %>% dplyr::select(C1167000, C1167100, C1167300, C1167800, C1167900, C1168000) %>% 
-    is.na() %>% apply(1, sum, na.rm=F)
-)
-
-index1998 <- apply(missing.temp.items.1998, 1, 
-                   function(x) {which(x==min(x))}) %>% lapply(max) %>% unlist()
-
-temp1998 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index1998)))
-names(temp1998) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
-
-for (i in 1:length(index1998)) {
-  if (index1998[i]==1) {
-    temp1998$temp1[i] <- NLSY.1998$C0967600[i]
-    temp1998$temp2[i] <- NLSY.1998$C0967700[i]
-    temp1998$temp3[i] <- NLSY.1998$C0967900[i]
-    temp1998$temp4[i] <- NLSY.1998$C0968400[i]
-    temp1998$temp5[i] <- NLSY.1998$C0968500[i]
-    temp1998$temp6[i] <- NLSY.1998$C0968600[i]
-  }
-  if (index1998[i]==2) {
-    temp1998$temp1[i] <- NLSY.1998$C0968700[i]
-    temp1998$temp2[i] <- NLSY.1998$C0968800[i]
-    temp1998$temp3[i] <- NLSY.1998$C0969000[i]
-    temp1998$temp4[i] <- NLSY.1998$C0969500[i]
-    temp1998$temp5[i] <- NLSY.1998$C0969600[i]
-    temp1998$temp6[i] <- NLSY.1998$C0969700[i]
-  }
-  if (index1998[i]==3) {
-    temp1998$temp1[i] <- NLSY.1998$C1165900[i]
-    temp1998$temp2[i] <- NLSY.1998$C1166000[i]
-    temp1998$temp3[i] <- NLSY.1998$C1166200[i]
-    temp1998$temp4[i] <- NLSY.1998$C1166700[i]
-    temp1998$temp5[i] <- NLSY.1998$C1166800[i]
-    temp1998$temp6[i] <- NLSY.1998$C1166900[i]
-  }
-  if (index1998[i]==4) {
-    temp1998$temp1[i] <- NLSY.1998$C1167000[i]
-    temp1998$temp2[i] <- NLSY.1998$C1167100[i]
-    temp1998$temp3[i] <- NLSY.1998$C1167300[i]
-    temp1998$temp4[i] <- NLSY.1998$C1167800[i]
-    temp1998$temp5[i] <- NLSY.1998$C1167900[i]
-    temp1998$temp6[i] <- NLSY.1998$C1168000[i]
-  }
-}
-
-temp1998$att1 <- NLSY.1998$C1977600
-temp1998$att2 <- NLSY.1998$C1977700
-temp1998$att3 <- NLSY.1998$C1978200
-temp1998$att4 <- NLSY.1998$C1978500
-temp1998$att5 <- NLSY.1998$C1978600
-
-########### Prep 2000 data ###############
-
-missing.temp.items.2000 <- cbind(
-  # these are the "TMP A (0-11mo) items from birth year 
-  NLSY.2000 %>% dplyr::select(C1165900, C1166000, C1166200, C1166700, C1166800, C1166900) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP B (12-23mo) items from birth year
-  NLSY.2000 %>% dplyr::select(C1167000, C1167100, C1167300, C1167800, C1167900, C1168000) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP A (0-11mo) items from birth year + 2
-  NLSY.2000 %>% dplyr::select(C1418300, C1418400, C1418600, C1419100, C1419200, C1419300) %>% 
-    is.na() %>% apply(1, sum, na.rm=F), 
-  # these are the "TMP B (12-23mo) items from birth year + 2
-  NLSY.2000 %>% dplyr::select(C1419400, C1419500, C1419700, C1420200, C1420300, C1420400) %>% 
-    is.na() %>% apply(1, sum, na.rm=F)
-)
-
-index2000 <- apply(missing.temp.items.2000, 1, 
-                   function(x) {which(x==min(x))}) %>% lapply(max) %>% unlist()
-
-temp2000 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index2000)))
-names(temp2000) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
-
-for (i in 1:length(index)) {
-  if (index2000[i]==1) {
-    temp2000$temp1[i] <- NLSY.2000$C1165900[i]
-    temp2000$temp2[i] <- NLSY.2000$C1166000[i]
-    temp2000$temp3[i] <- NLSY.2000$C1166200[i]
-    temp2000$temp4[i] <- NLSY.2000$C1166700[i]
-    temp2000$temp5[i] <- NLSY.2000$C1166800[i]
-    temp2000$temp6[i] <- NLSY.2000$C1166900[i]
-  }
-  if (index2000[i]==2) {
-    temp2000$temp1[i] <- NLSY.2000$C1167000[i]
-    temp2000$temp2[i] <- NLSY.2000$C1167100[i]
-    temp2000$temp3[i] <- NLSY.2000$C1167300[i]
-    temp2000$temp4[i] <- NLSY.2000$C1167800[i]
-    temp2000$temp5[i] <- NLSY.2000$C1167900[i]
-    temp2000$temp6[i] <- NLSY.2000$C1168000[i]
-  }
-  if (index2000[i]==3) {
-    temp2000$temp1[i] <- NLSY.2000$C1418300[i]
-    temp2000$temp2[i] <- NLSY.2000$C1418400[i]
-    temp2000$temp3[i] <- NLSY.2000$C1418600[i]
-    temp2000$temp4[i] <- NLSY.2000$C1419100[i]
-    temp2000$temp5[i] <- NLSY.2000$C1419200[i]
-    temp2000$temp6[i] <- NLSY.2000$C1419300[i]
-  }
-  if (index2000[i]==4) {
-    temp2000$temp1[i] <- NLSY.2000$C1419400[i]
-    temp2000$temp2[i] <- NLSY.2000$C1419500[i]
-    temp2000$temp3[i] <- NLSY.2000$C1419700[i]
-    temp2000$temp4[i] <- NLSY.2000$C1420200[i]
-    temp2000$temp5[i] <- NLSY.2000$C1420300[i]
-    temp2000$temp6[i] <- NLSY.2000$C1420400[i]
-  }
-}
-
-temp2000$att1 <- NLSY.2000$C2433200
-temp2000$att2 <- NLSY.2000$C2433300
-temp2000$att3 <- NLSY.2000$C2433800
-temp2000$att4 <- NLSY.2000$C2434100
-temp2000$att5 <- NLSY.2000$C2434200
-
-########################################################3
-# combine datasets
-temp <- rbind(temp1996, temp1998, temp2000)
-
-# fit one-factor model
-efa_1factor <- fa(r=temp, nfactors=1, fm="minres")
-
-efa_1factor$Structure[1:11,] %>% data.frame() %>% 
-  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
-            type="text",
-            out=here("Manuscript", "Tables", "temp_att_EFA_1factor.html"))
-
-
-# fit two-factor model
-efa_2factor <- fa(r=temp, nfactors=2, fm="minres")
-
-efa_2factor$Structure[1:11,] %>% data.frame() %>% 
-  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
-            type="text",
-            out=here("Manuscript", "Tables", "temp_att_EFA_3factor.html"))
-
-efa_2factor$Phi %>% data.frame() %>% 
-  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
-            type="text",
-            out=here("Manuscript", "Tables", "temp_att_EFA_3factor_Phi.html"))
-
-# fit three-factor model
-efa_3factor <- fa(r=temp, nfactors=3, fm="minres")
-efa_3factor$Structure[1:11,] %>% data.frame() %>% 
-  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
-            type="text",
-            out=here("Manuscript", "Tables", "temp_att_EFA_3factor.html"))
-
-efa_3factor$Phi %>% data.frame() %>% 
-  stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
-            type="text",
-            out=here("Manuscript", "Tables", "temp_att_EFA_3factor_Phi.html"))
 
 
 
