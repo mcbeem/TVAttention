@@ -16,6 +16,7 @@
 # for details.                                            
 
 ################################################################################
+
 #
 # ** This code requires R 3.6+. It will not run on 3.5.x **
 #
@@ -29,6 +30,9 @@
 #  a mid-2014 Macbook Pro (Core i5-2600ghz). Plan accordingly!
 #
 # sessionInfo() -----------------------------------------------------------
+# This code has been tested and runs corrently on the following platforms. See sessionInfo()
+# dumps below: 
+
 # > sessionInfo()
 # R version 3.6.1 (2019-07-05)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
@@ -48,6 +52,10 @@
 #  [1] gridGraphics_0.4-1     ggExtra_0.9            dplyr_0.8.3            multcomp_1.4-10       
 #  [5] TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         extrafont_0.17        
 #  [9] tibble_2.1.3           GPArotation_2014.11-1  psych_1.8.12           cowplot_1.0.0         
+#
+# [1] gridGraphics_0.4-1     ggExtra_0.9            dplyr_0.8.3            multcomp_1.4-10       
+# [5] TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         extrafont_0.17        
+# [9] tibble_2.1.3           GPArotation_2014.11-1  psych_1.8.12           cowplot_1.0.0         
 # [13] stringr_1.4.0          mice_3.6.0             data.table_1.12.2      reshape2_1.4.3        
 # [17] broom_0.5.2            openxlsx_4.1.0.1       stargazer_5.2.2        PSAgraphics_2.1.1     
 # [21] rpart_4.1-15           tables_0.8.8           Hmisc_4.2-0            Formula_1.2-3         
@@ -61,6 +69,10 @@
 #  [1] minqa_1.2.4         colorspace_1.4-1    rprojroot_1.3-2     htmlTable_1.13.2   
 #  [5] GlobalOptions_0.1.0 base64enc_0.1-3     rstudioapi_0.10     MatrixModels_0.4-1 
 #  [9] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5       
+
+# [1] minqa_1.2.4         colorspace_1.4-1    rprojroot_1.3-2     htmlTable_1.13.2   
+# [5] GlobalOptions_0.1.0 base64enc_0.1-3     rstudioapi_0.10     MatrixModels_0.4-1 
+# [9] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5       
 # [13] zeallot_0.1.0       nloptr_1.2.1        packrat_0.5.0       Rttf2pt1_1.3.7     
 # [17] cluster_2.1.0       shiny_1.3.2         readr_1.3.1         compiler_3.6.1     
 # [21] httr_1.4.1          backports_1.1.5     assertthat_0.2.1    lazyeval_0.2.2     
@@ -99,6 +111,9 @@
 # other attached packages:
 #  [1] multcomp_1.4-10        TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         ggExtra_0.9           
 #  [6] gridGraphics_0.4-1     dplyr_0.8.3            extrafont_0.17         tibble_2.1.3           GPArotation_2014.11-1 
+
+# [1] multcomp_1.4-10        TH.data_1.0-10         MASS_7.3-51.4          mvtnorm_1.0-11         ggExtra_0.9           
+# [6] gridGraphics_0.4-1     dplyr_0.8.3            extrafont_0.17         tibble_2.1.3           GPArotation_2014.11-1 
 # [11] psych_1.8.12           cowplot_1.0.0          stringr_1.4.0          mice_3.6.0             data.table_1.12.6     
 # [16] reshape2_1.4.3         broom_0.5.2            openxlsx_4.1.3         stargazer_5.2.2        PSAgraphics_2.1.1     
 # [21] rpart_4.1-15           tables_0.8.8           Hmisc_4.3-0            Formula_1.2-3          kableExtra_1.1.0      
@@ -110,6 +125,9 @@
 # loaded via a namespace (and not attached):
 #  [1] minqa_1.2.4         colorspace_1.4-1    ellipsis_0.3.0      rprojroot_1.3-2     htmlTable_1.13.2   
 #  [6] GlobalOptions_0.1.1 base64enc_0.1-3     rstudioapi_0.10     farver_2.0.1        MatrixModels_0.4-1 
+
+#   [1] minqa_1.2.4         colorspace_1.4-1    ellipsis_0.3.0      rprojroot_1.3-2     htmlTable_1.13.2   
+# [6] GlobalOptions_0.1.1 base64enc_0.1-3     rstudioapi_0.10     farver_2.0.1        MatrixModels_0.4-1 
 # [11] xml2_1.2.2          codetools_0.2-16    splines_3.6.1       mnormt_1.5-5        zeallot_0.1.0      
 # [16] nloptr_1.2.1        Rttf2pt1_1.3.7      cluster_2.1.0       shiny_1.4.0         readr_1.3.1        
 # [21] compiler_3.6.1      httr_1.4.1          backports_1.1.5     fastmap_1.0.1       assertthat_0.2.1   
@@ -134,6 +152,9 @@
 # It is possible that future updates to these packages will break the code. See
 #  working version numbers above. 
 #
+
+# Load packages -----------------------------------------------------------
+
 # install the required packages to your computer
 # this only needs to be done once
 # uncomment the following lines to download and install packages
@@ -183,6 +204,9 @@ install_version("gridGraphics", version="0.4-1",
                 dependencies=TRUE, upgrade="never")
 
 # failsafe: install newest available versions of the packages
+
+# install.packages("here")
+# install.packages("tidyr")
 # install.packages("twang")
 # install.packages("survey")
 # install.packages("ggplot2")
@@ -4539,6 +4563,8 @@ upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 ggsave(filename=here("Manuscript", "Figures", "regression_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
+ggsave(filename=here("Manuscript", "Figures", "regression_results_summary.png"),
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
 # Make the propensity score (IPTW) results summary figure -----------------
 
@@ -4558,6 +4584,11 @@ upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 ggsave(filename=here("Manuscript", "Figures", "IPTW_results_summary.png"), 
        plot=plot_grid(upper_panel, pvals, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
 
+
+upper_panel <- plot_grid(est_std, est_raw, nrow=2)
+
+ggsave(filename=here("Manuscript", "Figures", "IPTW_results_summary.png"), 
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
 
 # Make the propensity score (stratification) results summary figure -------
 
@@ -4598,15 +4629,24 @@ upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
 
+upper_panel <- plot_grid(est_std, est_raw, nrow=2)
+
+ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
+       plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
 
 
 # Make tables of significance by attention cutpoint for logistic  --------
 with(dplyr::filter(result4.nodupes, Outcome=="Within-sex SS"),
      table(as.character(Attention.cutpoint), p<.05))
 
+# Make tables of significance by attention cutpoint for logistic  --------
+with(dplyr::filter(result4.nodupes, Outcome=="Within-sex SS"),
+with(dplyr::filter(result4.nodupes, Outcome=="Raw"),
+
+table(as.character(Attention.cutpoint), p<.05))
+
 with(dplyr::filter(result4.nodupes, Outcome=="Raw"),
      table(as.character(Attention.cutpoint), p<.05))
-
 
 # Make tables of significance by TV cutpoints for IPTW  --------
 IPTW_table <- with(result2, table(Cutpoint, p<.05)) %>% data.frame()
