@@ -4745,22 +4745,20 @@ write.csv(result3, file=here("Results", "results_regression.csv"), row.names=FAL
 write.csv(result4.nodupes, file=here("Results", "results_logistic.csv"), row.names=FALSE)
 write.csv(all.results, file=here("Results", "results_all.csv"), row.names=FALSE)
 
-
 # import the results CSVs. Commented out for now
-# result1 <- read.csv(file=here("Results", "results_stratification.csv"),
-#                     stringsAsFactors=F, header=T)
-# result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
-#                     stringsAsFactors=F, header=T)
-# result3 <- read.csv(file=here("Results", "results_regression.csv"),
-#                     stringsAsFactors=F, header=T)
-# result4 <- read.csv(file=here("Results", "results_logistic.csv"),
-#                     stringsAsFactors=F, header=T)
-# all.results <- read.csv(file=here("Results", "results_all.csv"),
-#                     stringsAsFactors=F, header=T)
+result1 <- read.csv(file=here("Results", "results_stratification.csv"),
+                    stringsAsFactors=F, header=T)
+result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
+                    stringsAsFactors=F, header=T)
+result3 <- read.csv(file=here("Results", "results_regression.csv"),
+                    stringsAsFactors=F, header=T)
+result4 <- read.csv(file=here("Results", "results_logistic.csv"),
+                    stringsAsFactors=F, header=T)
+all.results <- read.csv(file=here("Results", "results_all.csv"),
+                    stringsAsFactors=F, header=T)
 
 
 # Define the summary plot function for estimates and CIs ------------------
-
 # Figure: summarizing the results of all the models
 
 plot_estCIs <- function(data, stddev, lower, upper,  ...) {
@@ -4837,7 +4835,6 @@ plot_estCIs <- function(data, stddev, lower, upper,  ...) {
 
 
 # Define the function for plotting the summary of the p values ------------
-
 plot_ps <- function(data, ...) {
   
   selection <- enquos(...)
@@ -4956,14 +4953,6 @@ ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
 
 
 
-# Make tables of significance by attention cutpoint for logistic  --------
-with(dplyr::filter(result4.nodupes, Outcome=="Within-sex SS"),
-     table(as.character(Attention.cutpoint), p<.05))
-
-with(dplyr::filter(result4.nodupes, Outcome=="Raw"),
-     table(as.character(Attention.cutpoint), p<.05))
-
-
 # Make tables of significance by TV cutpoints for IPTW  --------
 IPTW_table <- with(result2, table(Cutpoint, p<.05)) %>% data.frame()
 names(IPTW_table) <- c("Cutpoint", "Sig", "Freq")
@@ -5026,83 +5015,20 @@ ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
          width=10, height=7, scale=1.0, dpi=200)
 
 
-p_value_summary + coord_flip()
-# calculate AUC
 
 
-all.results$emp.p.percentile <- as.numeric(rownames(all.results)) / nrow(all.results)
-
-y <- c(0, .2, .3, .5, .7, .75, .8, .9, .95, 1)
-x <- c(0, .1, .2, .3, .4, .5, .6, .7, .8, 1)
-y <- x
-
-plot(x, y)
-
-empirical.AUC <- function(x, y) {
-  
-  delta.x <- x - lag(x)
-  delta.y <- y - lag(y)
-  # calculate AUC
-
-  delta.x[is.na(delta.x)] <- NA
-  delta.y[is.na(delta.y)] <- NA
-  tri.area = .5 * delta.x * delta.y
-
-  rect.area = lag(y) * delta.x
-  return(sum(rect.area + tri.area, na.rm=T))
-}
-
-empirical.AUC(all.results$p, as.numeric(rownames(all.results)) / nrow(all.results))
-  
-
-
-
-
-
-
-
-# make plot of logistic point estimates and CIs
-
-summary_orig_logistic <- ggplot(data=results14, 
-                                aes(y=Estimate, x=Cutpoint, 
-                                    shape=factor(TVage), fill=factor(TVage)))+
-  geom_point(position=position_dodge(width=.6), size=2.5, alpha=.8)+
-  scale_shape_manual(values=c(21,22))+
-  geom_line(aes(color=factor(TVage)), alpha=.8, linetype="dotted")+
-  
-  # uncomment the following two lines for a greyscale image
-  #scale_fill_manual(values=c("gray20", "gray80"))+
-  #scale_color_manual(values=c("gray20", "gray80"))+
-  
-  # uncomment the following two lines for a color image
-  scale_fill_manual(values=c("#e41a1c", "#377eb8"))+
-  scale_color_manual(values=c("#e41a1c", "#377eb8"))+
-  
-  scale_linetype_manual(values=c("solid", "twodash"))+
-  geom_errorbar(aes(ymin=low95, ymax=high95), width=0,
-                alpha=.6, position=position_dodge(width=.6), color="gray50")+
-  geom_errorbar(data=filter(results14, Cutpoint==120), aes(ymin=low95, ymax=high95), width=0,
-                alpha=1, position=position_dodge(width=.6), color="gray10")+
-  geom_hline(yintercept=1, alpha=.5, color="gray50", linetype="solid", size=.5)+
-  labs(x="Cutpoint Defining Problematic Attention", y='Odds Ratio for Attention Problems')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        legend.position="right")+
-  labs(fill="TV age", shape="TV age")+
-  guides(color=FALSE)+
-  coord_flip()+
-  scale_x_continuous(breaks=seq(110, 130, by=1))
-
-ggsave(filename=here("Manuscript", "Figures", "summary_logistic.png"),
-       plot=summary_orig_logistic, width=7, height=6, scale=1.0, dpi=200)
+# understanding logistic regression results -------------------------------
 
 ###############################################################
 # investigate logistic regression results                     #
 ###############################################################
+
+# Make tables of significance by attention cutpoint for logistic  --------
+with(dplyr::filter(result4.nodupes, Outcome=="Within-sex SS"),
+     table(as.character(Attention.cutpoint), p<.05))
+
+with(dplyr::filter(result4.nodupes, Outcome=="Raw"),
+     table(as.character(Attention.cutpoint), p<.05))
 
 
 ###### Logistic post-mortem plot #1  ###########
@@ -5323,15 +5249,4 @@ logistic_postmortem_residualized <-
 
 ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_residualized.png"),
        plot=logistic_postmortem_residualized, width=8, height=6, scale=1.0, dpi=200)
-
-
-
-logistic_results <- rbind(results14, results13)
-logistic_results$ID <- logistic_results$Analysis
-logistic_results <- rename(logistic_results, "Attention cutpoint"=Cutpoint)
-
-all.results <- bind_rows(results, logistic_results)
-
-
-
 
