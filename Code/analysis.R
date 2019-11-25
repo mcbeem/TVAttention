@@ -134,55 +134,14 @@
 # It is possible that future updates to these packages will break the code. See
 #  working version numbers above. 
 #
+# 
 # install the required packages to your computer
 # this only needs to be done once
 # uncomment the following lines to download and install packages
-
-# install the specific versions of the packages used in this code
-install.packages("devtools")
-library(devtools)
-install_version("here", version="0.1", 
-                dependencies=TRUE, upgrade="never")
-install_version("tidyr", version="1.0.0", 
-                dependencies=TRUE, upgrade="never")
-install_version("twang", version="1.5", 
-                dependencies=TRUE, upgrade="never")
-install_version("survey", version="3.36", 
-                dependencies=TRUE, upgrade="never")
-install_version("ggplot2", version="3.2.1", 
-                dependencies=TRUE, upgrade="never")
-install_version("PSAGraphics", version="2.1.1", 
-                dependencies=TRUE, upgrade="never")
-install_version("stargazer", version="5.2.2", 
-                dependencies=TRUE, upgrade="never")
-install_version("dplyr", version="0.8.3", 
-                dependencies=TRUE, upgrade="never")
-install_version("broom", version="0.5.2", 
-                dependencies=TRUE, upgrade="never")
-install_version("reshape2", version="1.4.3", 
-                dependencies=TRUE, upgrade="never")
-install_version("data.table", version="1.12.2", 
-                dependencies=TRUE, upgrade="never")
-install_version("mice", version="3.6.0", 
-                dependencies=TRUE, upgrade="never")
-install_version("stringr", version="1.4.0", 
-                dependencies=TRUE, upgrade="never")
-install_version("cowplot", version="1.0.0", 
-                dependencies=TRUE, upgrade="never")
-install_version("psych", version="1.8.12", 
-                dependencies=TRUE, upgrade="never")
-install_version("GPArotation", version="2014.11-1", 
-                dependencies=TRUE, upgrade="never")
-install_version("tibble", version="2.1.3", 
-                dependencies=TRUE, upgrade="never")
-install_version("ggExtra", version="0.9", 
-                dependencies=TRUE, upgrade="never")
-install_version("multcomp", version="1.4-10", 
-                dependencies=TRUE, upgrade="never")
-install_version("gridGraphics", version="0.4-1", 
-                dependencies=TRUE, upgrade="never")
-
-# failsafe: install newest available versions of the packages
+#  (note: this downloads the latest available version of each package, but it is
+#   faster than downloading specific versions (below) and compiling them from 
+#   source. recommend trying this first).
+# 
 # install.packages("twang")
 # install.packages("survey")
 # install.packages("ggplot2")
@@ -203,8 +162,58 @@ install_version("gridGraphics", version="0.4-1",
 # install.packages("multcomp")
 # install.packages("gridGraphics")
 
-# load the required packages
 
+# failsafe: install the specific versions of the packages used in this code 
+#  using devtools::install_version()
+# if this doesn't work, results can be reproduced via the Docker image
+# uncomment and run
+#
+# install.packages("devtools")
+# library(devtools)
+# install_version("here", version="0.1", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("tidyr", version="1.0.0", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("twang", version="1.5", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("survey", version="3.36", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("ggplot2", version="3.2.1", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("PSAGraphics", version="2.1.1", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("stargazer", version="5.2.2", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("broom", version="0.5.2", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("reshape2", version="1.4.3", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("data.table", version="1.12.2", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("mice", version="3.6.0", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("stringr", version="1.4.0", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("cowplot", version="1.0.0", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("psych", version="1.8.12", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("GPArotation", version="2014.11-1", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("multcomp", version="1.4-10", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("dplyr", version="0.8.3", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("tibble", version="2.1.3", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("extrafont", version="0.17", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("ggExtra", version="0.9", 
+#                 dependencies=TRUE, upgrade="never")
+# install_version("gridGraphics", version="0.4-1", 
+#                 dependencies=TRUE, upgrade="never")
+
+# load the required packages
 library(here)
 library(tidyr)
 library(twang)
@@ -222,9 +231,9 @@ library(psych)
 library(GPArotation)
 library(multcomp)
 library(dplyr)
+library(tibble)
 library(extrafont)
 library(ggExtra)
-library(multcomp)
 library(gridGraphics)
 
 # Make your system fonts available to R; only needs to be run once
@@ -249,7 +258,6 @@ options(scipen=10)
 
 # this code calls those two scripts, which have only been altered to 
 # use here() instead of fixed file paths
-
 
 source(here("Code", "NLSY_CYA_rawdata_import.r"))
 NLSY.cya.raw <- new_data
@@ -1160,7 +1168,6 @@ dtable <-analysis %>%
        "Temperament" = temperament,
        "TV hours per day age 1.5" = TV1,
        "TV hours per day age 3" = TV3,
-       "BMI"= BMI,
        "Cognitive stimulation of home age 1-3" = cogStim13,
        "Emotional support of home age 1-3" = emoSupp13,
        "Mother's years of schooling" = momEdu,
@@ -1173,7 +1180,7 @@ dtable <-analysis %>%
        "CES-D Depression score (1992)" = CESD92,
        "Attention (raw)" = attention,
        "Attention within-sex SS" = att_sex_ss) %>%
-  summarise_all(funs(Validn, Mean, Sd, Min, Max)) %>%
+  summarise_all(lst(Validn, Mean, Sd, Min, Max)) %>%
   gather(key, value, everything()) %>%
   separate(key, into=c("variable", "stat"), sep="_") %>%
   spread(stat, value) %>%
@@ -2252,7 +2259,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                       "Rosenberg self-esteem score (1987)" = Rosen87,
                       "CES-D Depression score (1992)" = CESD92,
                       "Gestational age (in weeks relative to term)" = gestationalAge) %>%
-        summarise_all(funs(Validn, Mean, Sd, Min, Max)) %>%
+        summarise_all(lst(Validn, Mean, Sd, Min, Max)) %>%
         gather(key, value, everything()) %>%
         separate(key, into=c("variable", "stat"), sep="_") %>%
         pivot_wider(names_from="stat", values_from="value")
@@ -2400,7 +2407,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                        "Annual family income (thousands)" = income,
                        "Rosenberg self-esteem score (1987)" = Rosen87,
                        "CES-D Depression score (1992)" = CESD92) %>%
-        summarise_all(funs(Validn, Mean, Sd, Min, Max)) %>%
+        summarise_all(lst(Validn, Mean, Sd, Min, Max)) %>%
         gather(key, value, everything()) %>%
         separate(key, into=c("variable", "stat"), sep="_") %>%
         pivot_wider(names_from="stat", values_from="value")
@@ -2925,7 +2932,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                       "Rosenberg self-esteem score (1987)" = Rosen87,
                       "CES-D Depression score (1992)" = CESD92,
                       "Gestational age (in weeks relative to term)" = gestationalAge) %>%
-        summarise_all(funs(Validn, Mean, Sd, Min, Max)) %>%
+        summarise_all(lst(Validn, Mean, Sd, Min, Max)) %>%
         gather(key, value, everything()) %>%
         separate(key, into=c("variable", "stat"), sep="_") %>%
         pivot_wider(names_from="stat", values_from="value")
@@ -3093,7 +3100,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                        "Annual family income (thousands)" = income,
                        "Rosenberg self-esteem score (1987)" = Rosen87,
                        "CES-D Depression score (1992)" = CESD92) %>%
-        summarise_all(funs(Validn, Mean, Sd, Min, Max)) %>%
+        summarise_all(lst(Validn, Mean, Sd, Min, Max)) %>%
         gather(key, value, everything()) %>%
         separate(key, into=c("variable", "stat"), sep="_") %>%
         pivot_wider(names_from="stat", values_from="value")
