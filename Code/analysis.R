@@ -1632,7 +1632,6 @@ att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj,
 ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
        plot=att_TV_scatterplots_std, width=7, height=6, scale=1.0, dpi=200)
 
-
 # define functions for multiverse analysis --------------------------------
 #################################################################
 #                                                               #
@@ -4813,17 +4812,19 @@ write.csv(result3, file=here("Results", "results_regression.csv"), row.names=FAL
 write.csv(result4.nodupes, file=here("Results", "results_logistic.csv"), row.names=FALSE)
 write.csv(all.results, file=here("Results", "results_all.csv"), row.names=FALSE)
 
-# import the results CSVs. Commented out for now
-result1 <- read.csv(file=here("Results", "results_stratification.csv"),
-                    stringsAsFactors=F, header=T)
-result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
-                    stringsAsFactors=F, header=T)
-result3 <- read.csv(file=here("Results", "results_regression.csv"),
-                    stringsAsFactors=F, header=T)
-result4 <- read.csv(file=here("Results", "results_logistic.csv"),
-                    stringsAsFactors=F, header=T)
-all.results <- read.csv(file=here("Results", "results_all.csv"),
-                    stringsAsFactors=F, header=T)
+# import the results CSVs. Commented out
+#  you can uncomment these to load the analysis results without recalculating
+#  them all.
+# result1 <- read.csv(file=here("Results", "results_stratification.csv"),
+#                     stringsAsFactors=F, header=T)
+# result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
+#                     stringsAsFactors=F, header=T)
+# result3 <- read.csv(file=here("Results", "results_regression.csv"),
+#                     stringsAsFactors=F, header=T)
+# result4 <- read.csv(file=here("Results", "results_logistic.csv"),
+#                     stringsAsFactors=F, header=T)
+# all.results <- read.csv(file=here("Results", "results_all.csv"),
+#                     stringsAsFactors=F, header=T)
 
 
 # Define the summary plot function for estimates and CIs ------------------
@@ -4845,62 +4846,78 @@ plot_estCIs <- function(data, stddev, lower, upper,  ...) {
   
   data <- mutate(data, rank = row_number((Estimate/StdErr)))
   
-  if (data$Analysis == "Logistic") {
-    
-    p <- ggplot(data=data,
-                aes(x=rank, y=exp(Estimate)))+
-      geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-      geom_errorbar(aes(ymin=exp(CI.lower),
-                        ymax=exp(CI.upper)),
-                    width=0,
-                    alpha=.6)+
-      geom_hline(yintercept=1, linetype="dotted", color="gray20")+
-      theme_classic()+
-      labs(x="", y="")+
-      facet_wrap(~TV.age)+
-      scale_fill_manual(values = c("gray20", "white"))+
-      coord_cartesian(ylim=c(lower, upper))+
-      theme(legend.position="none", 
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.title.x=element_blank(),
-            plot.title= element_text(family="Times New Roman", size=11),
-            axis.title.y = element_text(family = "Times New Roman", size=10),
-            axis.text.y = element_text(family = "Times New Roman", size=10),
-            legend.text = element_text(family = "Times New Roman", size=10),
-            legend.title = element_text(family = "Times New Roman", size=10),
-            strip.text.x = element_text(family = "Times New Roman", size=10),
-            strip.background = element_rect(fill="gray90"))  
-   } else {
-     p <- ggplot(data=data,
-                 aes(x=rank, y=Estimate / stddev))+
-       geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-       geom_errorbar(aes(ymin=CI.lower/stddev,
-                         ymax=CI.upper/stddev),
-                     width=0,#nrow(data)/60,
-                     alpha=.6)+
-       geom_hline(yintercept=0, linetype="dotted", color="gray20")+
-       theme_classic()+
-       labs(x="", y="")+
-       facet_wrap(~TV.age)+
-       scale_fill_manual(values = c("gray20", "white"))+
-       coord_cartesian(ylim=c(lower, upper))+
-       theme(legend.position="none", 
-             axis.text.x = element_blank(),
-             axis.ticks.x = element_blank(),
-             axis.title.x=element_blank(),
-             plot.title= element_text(family="Times New Roman", size=11),
-             axis.title.y = element_text(family = "Times New Roman", size=10),
-             axis.text.y = element_text(family = "Times New Roman", size=10),
-             legend.text = element_text(family = "Times New Roman", size=10),
-             legend.title = element_text(family = "Times New Roman", size=10),
-             strip.text.x = element_text(family = "Times New Roman", size=10),
-             strip.background = element_rect(fill="gray90"))
-   }
-  
-   return(p)
+  p <- ggplot(data=data,
+               aes(x=rank, y=Estimate / stddev))+
+         geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
+         geom_errorbar(aes(ymin=CI.lower/stddev,
+                           ymax=CI.upper/stddev),
+                       width=0,#nrow(data)/60,
+                       alpha=.6)+
+         geom_hline(yintercept=0, linetype="dotted", color="gray20")+
+         theme_classic()+
+         labs(x="", y="")+
+         facet_wrap(~TV.age)+
+         scale_fill_manual(values = c("gray20", "white"))+
+         coord_cartesian(ylim=c(lower, upper))+
+         theme(legend.position="none", 
+               axis.text.x = element_blank(),
+               axis.ticks.x = element_blank(),
+               axis.title.x=element_blank(),
+               plot.title= element_text(family="Times New Roman", size=11),
+               axis.title.y = element_text(family = "Times New Roman", size=10),
+               axis.text.y = element_text(family = "Times New Roman", size=10),
+               legend.text = element_text(family = "Times New Roman", size=10),
+               legend.title = element_text(family = "Times New Roman", size=10),
+               strip.text.x = element_text(family = "Times New Roman", size=10),
+               strip.background = element_rect(fill="gray90"))
+
+       return(p)
 }
 
+plot_estCIs_logistic <- function(data, stddev, lower, upper,  ...) {
+  
+  selection <- enquos(...)
+  
+  data <- filter(data,  !!!selection) %>% group_by(TV.age) 
+  
+  data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
+  data$Estimate <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
+                          -1*data$Estimate, data$Estimate)
+  data$CI.lower <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
+                          -1*data$CI.lower, data$CI.lower)
+  data$CI.upper <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
+                          -1*data$CI.upper, data$CI.upper)
+  
+  data <- mutate(data, rank = row_number((Estimate/StdErr)))
+  
+
+  p <- ggplot(data=data,
+              aes(x=rank, y=exp(Estimate)))+
+        geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
+        geom_errorbar(aes(ymin=exp(CI.lower),
+                          ymax=exp(CI.upper)),
+                      width=0,
+                      alpha=.6)+
+        geom_hline(yintercept=1, linetype="dotted", color="gray20")+
+        theme_classic()+
+        labs(x="", y="")+
+        facet_wrap(~TV.age)+
+        scale_fill_manual(values = c("gray20", "white"))+
+        coord_cartesian(ylim=c(lower, upper))+
+        theme(legend.position="none", 
+              axis.text.x = element_blank(),
+              axis.ticks.x = element_blank(),
+              axis.title.x=element_blank(),
+              plot.title= element_text(family="Times New Roman", size=11),
+              axis.title.y = element_text(family = "Times New Roman", size=10),
+              axis.text.y = element_text(family = "Times New Roman", size=10),
+              legend.text = element_text(family = "Times New Roman", size=10),
+              legend.title = element_text(family = "Times New Roman", size=10),
+              strip.text.x = element_text(family = "Times New Roman", size=10),
+              strip.background = element_rect(fill="gray90"))  
+    
+  return(p)
+}
 
 # Define the function for plotting the summary of the p values ------------
 plot_ps <- function(data, ...) {
@@ -5003,11 +5020,11 @@ ggsave(filename=here("Manuscript", "Figures", "stratification_results_summary.pn
 # Make the logistic regression results summary figure ---------------------
 
 # logistic
-est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
+est_std <- plot_estCIs_logistic(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
                  lower=.8, upper=1.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
                 labs(y="TV slope (OR)")
 
-est_raw <- plot_estCIs(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
+est_raw <- plot_estCIs_logistic(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
                        lower=.8, upper=1.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
                        labs(y="TV slope (OR)")
 
@@ -5019,84 +5036,61 @@ upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
 
-
-
-# Make tables of significance by TV cutpoints for IPTW  --------
-IPTW_table <- with(result2, table(Cutpoint, p<.05)) %>% data.frame()
-names(IPTW_table) <- c("Cutpoint", "Sig", "Freq")
-IPTW_table$Sig <- as.numeric(IPTW_table$Sig) - 1
-
-IPTW_table <- pivot_wider(data=IPTW_table, names_from=Sig, values_from=Freq, names_prefix="Sig=")
-IPTW_table$Percent <- IPTW_table$"Sig=1" / (IPTW_table$"Sig=0" + IPTW_table$"Sig=1")
-IPTW_table$Cutpoint <- as.character(IPTW_table$Cutpoint)
-
-stargazer(IPTW_table, summary=F, type="text")
-
-
 # Summarize and plot overall results --------------------------------------
 
 # sort the results by p-value
 all.results <- all.results[order(all.results$p),]
 all.results$model <- 1:nrow(all.results)
 
-# create an indicator of logistic regression model (now a deprecated feature)
-all.results$logistic <- 0
-all.results$logistic[all.results$Analysis=="Logistic"]  <- 1
-
-# create an indicator of the direction of the estimate (e.g, helpful vs harmful; 
-#    now a deprecated feature)
-all.results <- all.results %>%  
-  mutate(direction=ifelse(Estimate>1 & Analysis=="Logistic regression", -1, NA)) %>%
-  mutate(direction=ifelse(Estimate<1 & Analysis=="Logistic regression", 1, direction)) %>%
-  mutate(direction=ifelse(Estimate>0 & Outcome=="Within-sex SS" & Analysis!="Logistic regression", -1, direction)) %>%
-  mutate(direction=ifelse(Estimate<0 & Outcome=="Within-sex SS" & Analysis!="Logistic regression", 1, direction)) %>%
-  mutate(direction=ifelse(Estimate>0 & Outcome=="Raw" & Analysis!="Logistic regression", 1, direction)) %>%
-  mutate(direction=ifelse(Estimate<0 & Outcome=="Raw" & Analysis!="Logistic regression", -1, direction))
-
 # create the plot of p values for all models
-p_value_summary <- ggplot(data=filter(all.results),
-                                      aes(x=as.numeric(model), y=p))+
-   geom_point(shape=1, size=.1, alpha=.6)+
+p_value_summary <- ggplot(data=all.results,
+                                      aes(x=as.numeric(model)/nrow(all.results), 
+                                          y=p))+
+  geom_point(shape=1, size=.1, alpha=.6)+
+  scale_x_continuous(breaks=seq(0, 1, length.out=5))+
   scale_fill_grey(start=.2, end=1)+
   scale_color_grey(start=.1, end=.7)+
   geom_hline(yintercept=.05, col="red", linetype="dotted")+
+  geom_abline(slope=1, intercept=0, alpha=.3, linetype="dashed")+
   theme_bw()+
   theme(legend.position="bottom", 
-        #axis.text.x = element_text(angle = 90, hjust=1),
         axis.text.x = element_blank(),
-        axis.title.x=element_blank(),
+        axis.title.x=element_text(family="Times New Roman", size=10),
         plot.title= element_text(family="Times New Roman", size=11),
         axis.title = element_text(family = "Times New Roman", size=10),
         axis.text = element_text(family = "Times New Roman", size=9),
         legend.text = element_text(family = "Times New Roman", size=9),
         legend.title = element_text(family = "Times New Roman", size=10))+
-  labs(y="p value")+
+  labs(y="p value", x="Model")+
   guides(color="none", fill="none")+
   theme(plot.margin = unit(c(1, 1, 0, 1), "cm"))+
   coord_cartesian(ylim=c(0,1))+
   scale_y_continuous(breaks=seq(0,1,.1))
-
 
 ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
        plot=ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, 
                                 binwidth=.025, yparams=list(size=.5)),
          width=10, height=7, scale=1.0, dpi=200)
 
-
-
-
 # understanding logistic regression results -------------------------------
 
 ###############################################################
 # investigate logistic regression results                     #
 ###############################################################
+# PPP
 
 # Make tables of significance by attention cutpoint for logistic  --------
-with(dplyr::filter(result4.nodupes, Outcome=="Within-sex SS"),
-     table(as.character(Attention.cutpoint), p<.05))
 
-with(dplyr::filter(result4.nodupes, Outcome=="Raw"),
-     table(as.character(Attention.cutpoint), p<.05))
+logistic_table <- with(dplyr::filter(result4, Outcome=="Within-sex SS"),
+     table(as.character(Attention.cutpoint), p<.05)) %>% data.frame()
+names(logistic_table) <- c("Cutpoint", "Sig", "Freq")
+logistic_table$Sig <- as.numeric(logistic_table$Sig) - 1
+logistic_table <- pivot_wider(data=logistic_table, names_from=Sig, 
+                          values_from=Freq, names_prefix="Sig=")
+logistic_table$Proportion <- format(round(logistic_table$"Sig=1" / 
+                                            (logistic_table$"Sig=0" + logistic_table$"Sig=1"),3), nsmall=3)
+logistic_table$Cutpoint <- as.character(logistic_table$Cutpoint)
+
 
 
 ###### Logistic post-mortem plot #1  ###########
@@ -5318,3 +5312,106 @@ logistic_postmortem_residualized <-
 ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_residualized.png"),
        plot=logistic_postmortem_residualized, width=8, height=6, scale=1.0, dpi=200)
 
+
+###############################################################
+# investigate IPTW propensity score model results             #
+###############################################################
+# Make tables of significance by TV cutpoints for IPTW  --------
+IPTW_table <- with(result2, table(Cutpoint, p<.05)) %>% data.frame()
+names(IPTW_table) <- c("Cutpoint", "Sig", "Freq")
+IPTW_table$Sig <- as.numeric(IPTW_table$Sig) - 1
+
+IPTW_table <- pivot_wider(data=IPTW_table, names_from=Sig, 
+                          values_from=Freq, names_prefix="Sig=")
+IPTW_table$Proportion <- format(round(IPTW_table$"Sig=1" /
+                                        (IPTW_table$"Sig=0" + IPTW_table$"Sig=1"),3), nsmall=3)
+IPTW_table$Cutpoint <- as.character(IPTW_table$Cutpoint)
+
+stargazer(IPTW_table, summary=F, type="text",
+          out=here("Manuscript", "Tables", "IPTW_results_by_TVcutpoint.html"))
+# PPP2
+
+investigate_IPTW <- function(data, outcome, TVpercentiles) {
+  
+  TVquantiles <- quantile(data$TV3, TVpercentiles, na.rm=T)
+  if (length(TVquantiles) == 1) {TVquantiles <- rep(TVquantiles, 2)}
+
+  data$TVcat <- ifelse(data$TV3<=TVquantiles[1], 0, 
+                   ifelse(data$TV3>=TVquantiles[2], 1, NA))
+  
+  
+  output <- t.test(data=data, as.formula(paste0(outcome, "~TVcat")),
+                                         var.equal=T) %>% tidy()
+  return(abs(output$statistic))
+}
+
+percentiles <- list(c(.2, .8), c(.3, .7), c(.4, .6), .5, .6, .7)
+y <- lapply(percentiles, investigate_IPTW, data=analysis.imputed, outcome="resid.ss") %>% unlist()
+
+cbind(unlist(as.character(percentiles)), y)
+
+stargazer(IPTW_table, summary=F, type="text",
+          out=here("Manuscript", "Tables", "IPTW_results_by_TVcutpoint.html"))
+
+
+# find 60th percentile TV3 value
+TV3_cut <- quantile(analysis.imputed$TV3, probs=.6)
+
+analysis.imputed$TVcat <- cut(analysis.imputed$TV3, 
+               c(0, TV3_cut, Inf))
+
+analysis.complete$TVcat <- cut(analysis.complete$TV3, 
+                                c(0, TV3_cut , Inf))
+
+x <- c(0, TV3_cut, TV3_cut, max(analysis$TV3, na.rm=T))
+
+resid.means <- analysis.complete %>% filter(!is.na(TVcat)) %>% group_by(TVcat) %>% 
+  summarise(mean=mean(resid.ss), sd=sd(resid.ss), n=length(resid.ss))
+
+y <- unlist(c(rep(resid.means[1,2], 2), rep(resid.means[2,2], 2)))
+df <- data.frame(x, y)
+df$group <- c(0,0,1,1)
+
+rep((resid.means$mean + resid.means$sd/sqrt(resid.means$n))*-1.96, each=2)
+rep((resid.means$mean + resid.means$sd/sqrt(resid.means$n))*1.96, each=2)
+
+
+ggplot(data=analysis.imputed, 
+                            aes(x=TV3, y=resid.ss/sd(resid.ss, na.rm=T)))+
+  geom_vline(xintercept=TV3_cut)+
+  # add imputed datapoints
+  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
+  #            shape=4, cex=1.5, color="red", alpha=.5, width=.2)+
+  geom_line(data=df, aes(x=x, y=y/sd(analysis.imputed$resid.ss), group=group), 
+            col="red", cex=1.2, alpha=.8)+
+  geom_line(stat="smooth", method="loess", color="blue") +
+  geom_ribbon(stat = "smooth", method="loess", alpha=.1, 
+              se=T, level=.95, fill="gray20")+
+  coord_cartesian(ylim=c(-1, 1))
+  
+  # display points from complete data
+  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
+
+  # display loess fitted line for complete + imputed data with shaded CI
+  geom_line(data=analysis.imputed, aes(x=TV3, y=resid.ss, group=TVcat60),
+            stat = "summary", fun.y = "mean.se", span=10,
+            method="lm", color="red", alpha=.7, cex=.9, linetype="dashed")+
+  geom_ribbon(data=analysis.imputed, aes(x=TV3, y=resid.ss, group=TVcat60), 
+              stat = "summary", fun.y = "mean.se", 
+              method="lm", alpha=.2, 
+              se=T, level=.95, fill="red")+
+  # display loess fitted line for complete data with shaded CI
+  geom_line(data=analysis.complete, aes(x=TV3, y=resid.ss, group=TVcat60),
+            stat = "summary", fun.y = "mean", 
+            method="lm", color="blue", alpha=.7, cex=.9)+
+  geom_ribbon(data=analysis.complete, aes(x=TV3, y=resid.ss, group=TVcat60), 
+              stat = "summary", fun.y = "mean", 
+              method="lm", alpha=.1, 
+              se=T, level=.95, fill="gray20")+
+  labs(x="TV consumption at Age ~3 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
+  theme_classic()+
+  theme(plot.title= element_text(family="Times New Roman", size=11),
+        axis.title = element_text(family = "Times New Roman", size=9),
+        axis.text = element_text(family = "Times New Roman", size=9),
+        legend.text = element_text(family = "Times New Roman", size=9),
+        legend.title = element_text(family = "Times New Roman", size=10))
