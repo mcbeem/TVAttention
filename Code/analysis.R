@@ -1418,7 +1418,7 @@ index2000 <- apply(missing.temp.items.2000, 1,
 temp2000 <- data.frame(matrix(rep(NA, 6), ncol=6, nrow=length(index2000)))
 names(temp2000) <- c("temp1", "temp2", "temp3", "temp4", "temp5", "temp6")
 
-for (i in 1:length(index)) {
+for (i in 1:length(index2000)) {
   if (index2000[i]==1) {
     temp2000$temp1[i] <- NLSY.2000$C1165900[i]
     temp2000$temp2[i] <- NLSY.2000$C1166000[i]
@@ -1503,19 +1503,47 @@ efa_2factor$Phi %>% data.frame() %>%
 
 # save residuals based on a model including all of both covariate sets except where redundant
 #  e.g., rural and SMSA can't both be included because rural is just a coarser categorization
-#  of SMSA. Same for preterm and gestationalAge.
+#  of SMSA. Same for preterm and gestationalAge, more or less.
 
 # need to run model on complete data only to merge residuals back in
 analysis.complete <- analysis[complete.cases(analysis),]
 
+# calculate the attention residuals after controlling for all the covariates
+#  note that TV is left out but all covariates are included
 analysis.complete$resid.ss <- lm(data=analysis.complete, 
                                  att_sex_ss ~ age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+
                                    kidsInHouse+momAge+income+Rosen87+CESD92+gestationalAge+cohort+race+
                                    female+alcohol+fatherAbsent+smoking+SMSA+lowBirthWt+poorHealth)$resid
 
+# identify rows from analysis dataframe that have missing data
+analysis.missingrows <- !complete.cases(select(analysis, att_sex_ss, TV1, TV3,
+                      age, temperament, cogStim13, emoSupp13, momEdu, partnerEdu, 
+                      kidsInHouse, momAge, income, Rosen87, CESD92, gestationalAge, cohort, race, 
+                      female, alcohol, fatherAbsent, smoking, SMSA, lowBirthWt, poorHealth))
+
+# make a single multiply-imputed dataset for plotting
+analysis.imputed <- mice(dplyr::select(analysis, att_sex_ss, TV1, TV3,
+                                       age, temperament, cogStim13, emoSupp13, momEdu, partnerEdu, 
+                                       kidsInHouse, momAge, income, Rosen87, CESD92, gestationalAge, cohort, race, 
+                                       female, alcohol, fatherAbsent, smoking, SMSA, lowBirthWt, poorHealth),
+                         method=c(rep("pmm", 15), rep("polyreg", 2), rep("pmm", 4), "polyreg", rep("pmm", 2)),
+                         m=1, maxit=2) %>% complete()
+
+# calculate the attention residuals after controlling for all the covariates
+#  note that, as before, TV is left out but all covariates are included
+analysis.imputed$resid.ss <- lm(data=analysis.imputed, 
+                                 att_sex_ss ~ age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+
+                                   kidsInHouse+momAge+income+Rosen87+CESD92+gestationalAge+cohort+race+
+                                   female+alcohol+fatherAbsent+smoking+SMSA+lowBirthWt+poorHealth)$resid
+
+# make the scatterplots
+#  unadjusted standardized attention vs TV at age ~ 1.5
 scatter.1.std.unadj <- ggplot(data=analysis, aes(x=TV1, y=att_sex_ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
+  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
+  # display loess fitted line for complete data with shaded CI
+  geom_line(stat="smooth", method="loess", color="blue", alpha=.7, cex=.9)+
+  geom_ribbon(stat="smooth", method="loess", alpha=.1, se=T, level=.95, 
+              fill="gray20")+
   labs(x="", y='Standardized Attention at Age 7')+
   theme_classic()+
   theme(plot.title= element_text(family="Times New Roman", size=11),
@@ -1524,9 +1552,13 @@ scatter.1.std.unadj <- ggplot(data=analysis, aes(x=TV1, y=att_sex_ss))+
         legend.text = element_text(family = "Times New Roman", size=9),
         legend.title = element_text(family = "Times New Roman", size=10))
 
+#  unadjusted standardized attention vs TV at age ~3
 scatter.3.std.unadj <- ggplot(data=analysis, aes(x=TV3, y=att_sex_ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
+  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
+  # display loess fitted line for complete data with shaded CI
+  geom_line(stat="smooth", method="loess", color="blue", alpha=.7, cex=.9)+
+  geom_ribbon(stat="smooth", method="loess", alpha=.1, se=T, level=.95, 
+              fill="gray20")+
   labs(x="", y="")+
   theme_classic()+
   theme(plot.title= element_text(family="Times New Roman", size=11),
@@ -1535,9 +1567,25 @@ scatter.3.std.unadj <- ggplot(data=analysis, aes(x=TV3, y=att_sex_ss))+
         legend.text = element_text(family = "Times New Roman", size=9),
         legend.title = element_text(family = "Times New Roman", size=10))
 
+#  covariate-adjusted standardized attention vs TV at age ~1.5
 scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
+  # display points from complete data
+  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
+  # add imputed datapoints
+  geom_jitter(data=analysis.complete[analysis.missingrows,], aes(x=TV1, y=resid.ss),
+               shape=4, cex=1.5, color="red", alpha=.5, width=.2)+
+  # display loess fitted line for complete + imputed data with shaded CI
+  geom_line(data=analysis.imputed, aes(x=TV1, y=resid.ss),stat="smooth", 
+            method="loess", color="red", alpha=.7, cex=.9, linetype="dashed")+
+  geom_ribbon(data=analysis.imputed, aes(x=TV1, y=resid.ss), stat="smooth", 
+               method="loess", alpha=.2, 
+               se=T, level=.95, fill="red")+
+  # display loess fitted line for complete data with shaded CI
+  geom_line(data=analysis.complete, aes(x=TV1, y=resid.ss),stat="smooth", 
+            method="loess", color="blue", alpha=.7, cex=.9)+
+  geom_ribbon(data=analysis.complete, aes(x=TV1, y=resid.ss), stat="smooth", 
+              method="loess", alpha=.1, 
+              se=T, level=.95, fill="gray20")+
   labs(x="TV consumption at Age ~1.5 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
   theme_classic()+
   theme(plot.title= element_text(family="Times New Roman", size=11),
@@ -1546,10 +1594,26 @@ scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
         legend.text = element_text(family = "Times New Roman", size=9),
         legend.title = element_text(family = "Times New Roman", size=10))
 
+#  covariate-adjusted standardized attention vs TV at age ~3
 scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
-  geom_jitter(shape=21, cex=.3, alpha=.8, fill="gray80", color="gray20")+
-  geom_smooth(method="loess")+
-  labs(x="TV consumption at Age ~3 (hours per day)", y="")+
+  # display points from complete data
+  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
+  # add imputed datapoints
+  geom_jitter(data=analysis.complete[analysis.missingrows,], aes(x=TV3, y=resid.ss),
+              shape=4, cex=1.5, color="red", alpha=.5, width=.2)+
+  # display loess fitted line for complete + imputed data with shaded CI
+  geom_line(data=analysis.imputed, aes(x=TV3, y=resid.ss),stat="smooth", 
+            method="loess", color="red", alpha=.7, cex=.9, linetype="dashed")+
+  geom_ribbon(data=analysis.imputed, aes(x=TV3, y=resid.ss), stat="smooth", 
+              method="loess", alpha=.2, 
+              se=T, level=.95, fill="red")+
+  # display loess fitted line for complete data with shaded CI
+  geom_line(data=analysis.complete, aes(x=TV3, y=resid.ss),stat="smooth", 
+            method="loess", color="blue", alpha=.7, cex=.9)+
+  geom_ribbon(data=analysis.complete, aes(x=TV3, y=resid.ss), stat="smooth", 
+              method="loess", alpha=.1, 
+              se=T, level=.95, fill="gray20")+
+  labs(x="TV consumption at Age ~3 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
   theme_classic()+
   theme(plot.title= element_text(family="Times New Roman", size=11),
         axis.title = element_text(family = "Times New Roman", size=9),
@@ -1557,6 +1621,10 @@ scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
         legend.text = element_text(family = "Times New Roman", size=9),
         legend.title = element_text(family = "Times New Roman", size=10))
 
+# set font and size for plot_grid panel labels
+theme_set(theme_cowplot(font_size=14, font_family = "Times New Roman"))
+
+# arrange panels in a grid
 att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj, 
                                      scatter.1.std.adj, scatter.3.std.adj,
                                      labels="auto")
