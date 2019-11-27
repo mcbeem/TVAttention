@@ -175,56 +175,6 @@
 # install.packages("ggExtra")
 # install.packages("gridGraphics")
 
-# failsafe: install the specific versions of the packages used in this code 
-#  using devtools::install_version()
-# if this doesn't work, results can be reproduced via the Docker image
-# uncomment and run
-#
-# install.packages("devtools")
-# library(devtools)
-# install_version("here", version="0.1", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("tidyr", version="1.0.0", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("twang", version="1.5", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("survey", version="3.36", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("ggplot2", version="3.2.1", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("PSAGraphics", version="2.1.1", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("stargazer", version="5.2.2", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("broom", version="0.5.2", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("reshape2", version="1.4.3", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("data.table", version="1.12.2", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("mice", version="3.6.0", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("stringr", version="1.4.0", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("cowplot", version="1.0.0", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("psych", version="1.8.12", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("GPArotation", version="2014.11-1", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("multcomp", version="1.4-10", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("dplyr", version="0.8.3", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("tibble", version="2.1.3", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("extrafont", version="0.17", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("ggExtra", version="0.9", 
-#                 dependencies=TRUE, upgrade="never")
-# install_version("gridGraphics", version="0.4-1", 
-#                 dependencies=TRUE, upgrade="never")
-
 # load the required packages
 library(here)
 library(tidyr)
