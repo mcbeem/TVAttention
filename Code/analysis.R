@@ -1573,7 +1573,7 @@ scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
   geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
   # add imputed datapoints
   geom_jitter(data=analysis.complete[analysis.missingrows,], aes(x=TV1, y=resid.ss),
-               shape=4, cex=1.5, color="red", alpha=.5, width=.2)+
+               shape=4, cex=1.5, color="red", alpha=.45, width=.2)+
   # display loess fitted line for complete + imputed data with shaded CI
   geom_line(data=analysis.imputed, aes(x=TV1, y=resid.ss),stat="smooth", 
             method="loess", color="red", alpha=.7, cex=.9, linetype="dashed")+
@@ -1600,7 +1600,7 @@ scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
   geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
   # add imputed datapoints
   geom_jitter(data=analysis.complete[analysis.missingrows,], aes(x=TV3, y=resid.ss),
-              shape=4, cex=1.5, color="red", alpha=.5, width=.2)+
+              shape=4, cex=1.5, color="red", alpha=.45, width=.2)+
   # display loess fitted line for complete + imputed data with shaded CI
   geom_line(data=analysis.imputed, aes(x=TV3, y=resid.ss),stat="smooth", 
             method="loess", color="red", alpha=.7, cex=.9, linetype="dashed")+
@@ -1627,7 +1627,7 @@ theme_set(theme_cowplot(font_size=14, font_family = "Times New Roman"))
 # arrange panels in a grid
 att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj, 
                                      scatter.1.std.adj, scatter.3.std.adj,
-                                     labels="auto")
+                                     labels=c("A", "B", "C", "D"))
 
 ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
        plot=att_TV_scatterplots_std, width=7, height=6, scale=1.0, dpi=200)
@@ -5077,7 +5077,6 @@ ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
 ###############################################################
 # investigate logistic regression results                     #
 ###############################################################
-# PPP
 
 # Make tables of significance by attention cutpoint for logistic  --------
 
@@ -5091,6 +5090,10 @@ logistic_table$Proportion <- format(round(logistic_table$"Sig=1" /
                                             (logistic_table$"Sig=0" + logistic_table$"Sig=1"),3), nsmall=3)
 logistic_table$Cutpoint <- as.character(logistic_table$Cutpoint)
 
+names(logistic_table) <- c("Attention cutpoint", "Non-sig", "Sig", "Proportion sig")
+
+stargazer(logistic_table, summary=F, type="text", rownames=F,
+          out=here("Manuscript", "Tables", "logistic_results_by_att_cutpoint.html"))
 
 
 ###### Logistic post-mortem plot #1  ###########
@@ -5317,6 +5320,7 @@ ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_residualized.
 # investigate IPTW propensity score model results             #
 ###############################################################
 # Make tables of significance by TV cutpoints for IPTW  --------
+
 IPTW_table <- with(result2, table(Cutpoint, p<.05)) %>% data.frame()
 names(IPTW_table) <- c("Cutpoint", "Sig", "Freq")
 IPTW_table$Sig <- as.numeric(IPTW_table$Sig) - 1
@@ -5327,91 +5331,104 @@ IPTW_table$Proportion <- format(round(IPTW_table$"Sig=1" /
                                         (IPTW_table$"Sig=0" + IPTW_table$"Sig=1"),3), nsmall=3)
 IPTW_table$Cutpoint <- as.character(IPTW_table$Cutpoint)
 
-stargazer(IPTW_table, summary=F, type="text",
-          out=here("Manuscript", "Tables", "IPTW_results_by_TVcutpoint.html"))
-# PPP2
+names(IPTW_table) <- c("TV cutpoint percentiles", "Non-sig", "Sig", "Proportion sig")
 
-investigate_IPTW <- function(data, outcome, TVpercentiles) {
+stargazer(IPTW_table, summary=F, type="text", rownames=F,
+          out=here("Manuscript", "Tables", "IPTW_results_by_TVcutpoint.html"))
+
+
+# Make IPTW postmortem figure  --------
+IPTW_postmortem <- function(data, outcome, TVpercentiles, ...) {
   
+  # find the values of TV3 corresponding with the requested percentiles
   TVquantiles <- quantile(data$TV3, TVpercentiles, na.rm=T)
   if (length(TVquantiles) == 1) {TVquantiles <- rep(TVquantiles, 2)}
-
+  
+  # categorize TV. Category 2 is 'missing' and will be dropped 
+  #  set to 2 instead of NA because of R's weirdness around matching NAs
   data$TVcat <- ifelse(data$TV3<=TVquantiles[1], 0, 
-                   ifelse(data$TV3>=TVquantiles[2], 1, NA))
+                       ifelse(data$TV3>=TVquantiles[2], 1, 2))
   
+  # calculate the means, SDs, and n by TV category
+  resid.means <- data %>% group_by(TVcat) %>% filter(TVcat != 2) %>%
+         summarise(mean = mean(.data[[outcome]], na.rm=TRUE) ,
+                   sd = sd(.data[[outcome]], na.rm=TRUE),
+                   n = length(.data[[outcome]]))
   
-  output <- t.test(data=data, as.formula(paste0(outcome, "~TVcat")),
-                                         var.equal=T) %>% tidy()
-  return(abs(output$statistic))
+  # create a dataset to plot defining the horizontal lines in each level
+  #  of TVcat; these are the means of the attention residuals within each
+  #  category
+  
+  # define the x values. it takes 2 points to define a line.
+  x <- c(0, TVquantiles[1], TVquantiles[2], max(analysis$TV3, na.rm=T))
+  
+  # the y values are the means, they are repeated twice.
+  y <- unlist(c(rep(resid.means[1,2], 2), rep(resid.means[2,2], 2)))
+  
+  # calculate the 95% CI boundaries around the means using the normal appoximation
+  lower <- rep((resid.means$mean - (resid.means$sd/sqrt(resid.means$n))*qnorm(.975)), each=2)
+  upper <- rep((resid.means$mean + (resid.means$sd/sqrt(resid.means$n))*qnorm(.975)), each=2)
+  
+  # bind those together into the generically-named dataframe for plotting the means
+  df <- data.frame(x, y, lower, upper)
+  df$group <- c(0,0,1,1)
+  
+  # make the plot
+  p <-  ggplot()+
+    # vertical reference line(s) for cutpoints
+    geom_vline(xintercept=TVquantiles, cex=.8, alpha=.8)+
+    # add points
+    geom_point(data=filter(data, TVcat != 2), 
+                aes_string(x="TV3", y=outcome), shape=21, cex=.5, alpha=.35, 
+                fill="gray80", color="gray20")+
+    # plot the means in each level of TVcat as horizontal lines
+    #  and their CIs
+    geom_line(data=df, aes(x=x, y=y, group=group), 
+              col="red", cex=1.2, alpha=.8)+
+    geom_ribbon(data=df, aes(x=x, ymin=lower, ymax=upper, group=group),
+                alpha=.25, fill="red") +
+    # add the loess smoothed fit and its CI
+    geom_line(data=data, 
+              aes_string(x="TV3", y=outcome), stat="smooth", method="loess", 
+              color="blue") +
+    geom_ribbon(data=data, 
+                aes_string(x="TV3", y=outcome),stat = "smooth", method="loess", 
+                alpha=.1, se=T, level=.95, fill="gray20")+
+    # zoom in the plot
+    coord_cartesian(ylim=c(-5, 5))+
+    labs(...)+
+    theme_classic()+
+    theme(axis.title = element_text(family = "Times New Roman", size=9),
+          axis.text = element_text(family = "Times New Roman", size=9))
+
+    return(p)
 }
 
-percentiles <- list(c(.2, .8), c(.3, .7), c(.4, .6), .5, .6, .7)
-y <- lapply(percentiles, investigate_IPTW, data=analysis.imputed, outcome="resid.ss") %>% unlist()
+# could lapply() here, but I need to be able to alter the axis text per panel
+p20_80 <- IPTW_postmortem(data=analysis.imputed, outcome="resid.ss", TVpercentiles=c(.2, .8),
+                          x="", y="Covariate-adjusted Attention at Age 7", text_x=T)
 
-cbind(unlist(as.character(percentiles)), y)
+p30_70 <- IPTW_postmortem(data=analysis.imputed, outcome="resid.ss", TVpercentiles=c(.3, .7),
+                          x="", y="")
 
-stargazer(IPTW_table, summary=F, type="text",
-          out=here("Manuscript", "Tables", "IPTW_results_by_TVcutpoint.html"))
+p40_60 <- IPTW_postmortem(data=analysis.imputed, outcome="resid.ss", TVpercentiles=c(.4, .6),
+                         x="", y="")
 
+p50 <- IPTW_postmortem(data=analysis.imputed, outcome="resid.ss", TVpercentiles=.5,
+                       x="TV consumption at Age ~3 (hours per day)", 
+                       y="Covariate-adjusted Attention at Age 7")
 
-# find 60th percentile TV3 value
-TV3_cut <- quantile(analysis.imputed$TV3, probs=.6)
+p60 <- IPTW_postmortem(data=analysis.imputed, outcome="resid.ss", TVpercentiles=.6,
+                       x="TV consumption at Age ~3 (hours per day)", y="")
 
-analysis.imputed$TVcat <- cut(analysis.imputed$TV3, 
-               c(0, TV3_cut, Inf))
+p70 <- IPTW_postmortem(data=analysis.imputed, outcome="resid.ss", TVpercentiles=.7,
+                       x="TV consumption at Age ~3 (hours per day)", y="")
 
-analysis.complete$TVcat <- cut(analysis.complete$TV3, 
-                                c(0, TV3_cut , Inf))
+IPTW_plots <- plot_grid(p20_80, p30_70, p40_60, p50, p60, p70, nrow=2, 
+          labels=c("A: 20/80", "B: 30/70", "C: 40/60", "D: 50", "E: 60", "F: 70"),
+          label_x=c(.48, .48, .48, .63, .63, .63), label_y=.97)
 
-x <- c(0, TV3_cut, TV3_cut, max(analysis$TV3, na.rm=T))
+ggsave(filename=here("Manuscript", "Figures", "IPTW_postmortem.png"), 
+       plot=IPTW_plots, width=7, height=4, scale=1.2, dpi=200)
 
-resid.means <- analysis.complete %>% filter(!is.na(TVcat)) %>% group_by(TVcat) %>% 
-  summarise(mean=mean(resid.ss), sd=sd(resid.ss), n=length(resid.ss))
-
-y <- unlist(c(rep(resid.means[1,2], 2), rep(resid.means[2,2], 2)))
-df <- data.frame(x, y)
-df$group <- c(0,0,1,1)
-
-rep((resid.means$mean + resid.means$sd/sqrt(resid.means$n))*-1.96, each=2)
-rep((resid.means$mean + resid.means$sd/sqrt(resid.means$n))*1.96, each=2)
-
-
-ggplot(data=analysis.imputed, 
-                            aes(x=TV3, y=resid.ss/sd(resid.ss, na.rm=T)))+
-  geom_vline(xintercept=TV3_cut)+
-  # add imputed datapoints
-  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
-  #            shape=4, cex=1.5, color="red", alpha=.5, width=.2)+
-  geom_line(data=df, aes(x=x, y=y/sd(analysis.imputed$resid.ss), group=group), 
-            col="red", cex=1.2, alpha=.8)+
-  geom_line(stat="smooth", method="loess", color="blue") +
-  geom_ribbon(stat = "smooth", method="loess", alpha=.1, 
-              se=T, level=.95, fill="gray20")+
-  coord_cartesian(ylim=c(-1, 1))
   
-  # display points from complete data
-  geom_jitter(shape=21, cex=.8, alpha=.65, fill="gray80", color="gray20", width=.2)+
-
-  # display loess fitted line for complete + imputed data with shaded CI
-  geom_line(data=analysis.imputed, aes(x=TV3, y=resid.ss, group=TVcat60),
-            stat = "summary", fun.y = "mean.se", span=10,
-            method="lm", color="red", alpha=.7, cex=.9, linetype="dashed")+
-  geom_ribbon(data=analysis.imputed, aes(x=TV3, y=resid.ss, group=TVcat60), 
-              stat = "summary", fun.y = "mean.se", 
-              method="lm", alpha=.2, 
-              se=T, level=.95, fill="red")+
-  # display loess fitted line for complete data with shaded CI
-  geom_line(data=analysis.complete, aes(x=TV3, y=resid.ss, group=TVcat60),
-            stat = "summary", fun.y = "mean", 
-            method="lm", color="blue", alpha=.7, cex=.9)+
-  geom_ribbon(data=analysis.complete, aes(x=TV3, y=resid.ss, group=TVcat60), 
-              stat = "summary", fun.y = "mean", 
-              method="lm", alpha=.1, 
-              se=T, level=.95, fill="gray20")+
-  labs(x="TV consumption at Age ~3 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
-  theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
