@@ -2424,7 +2424,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                                format(round((strat.std$ATE/sd(df$att_sex_ss, na.rm=T)), 3), nsmall=3)),
                         "(higher is more impaired)"),
                 notes.align="l", align=F,
-                title = paste0("Stratification ropensity score model results<br>Outcome: Within-sex standardized attention, ", 
+                title = paste0("Stratification propensity score model results<br>Outcome: Within-sex standardized attention, ", 
                                title_string, ", Strata: ", strata),
                 out=here(subdirectory, output_string, paste0("result_std_", output_string, "_k=", strata, ".html"))
       )
