@@ -1447,7 +1447,7 @@ efa_2factor$Phi %>% data.frame() %>%
                     "Direct oblimin rotation"))
             
 
-# make raw and residualized scatterplots for TV-attention relationship --------
+# Make raw and residualized scatterplots for TV-attention relationship --------
 ##### Unadjusted and adjusted scatterplots of the TV-attention relationship at age 1.5 and 3
 #####  Standardized attention outcome
 
@@ -1577,7 +1577,8 @@ theme_set(theme_cowplot(font_size=14, font_family = "Times New Roman"))
 # arrange panels in a grid
 att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj, 
                                      scatter.1.std.adj, scatter.3.std.adj,
-                                     labels=c("A", "B", "C", "D"))
+                                     labels=c("A", "B", "C", "D"),
+                                     label_x=c(.83, .83, .83, .83))
 
 ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
        plot=att_TV_scatterplots_std, width=7, height=6, scale=1.0, dpi=200)
