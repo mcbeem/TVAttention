@@ -149,9 +149,6 @@
 # install the required packages to your computer
 # this only needs to be done once
 # uncomment the following lines to download and install packages
-#  (note: this downloads the latest available version of each package, but it is
-#   faster than downloading specific versions (below) and compiling them from 
-#   source. recommend trying this first).
 # 
 # install.packages("here")
 # install.packages("tidyr")
