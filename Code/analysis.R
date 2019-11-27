@@ -1477,7 +1477,7 @@ analysis.imputed <- mice(dplyr::select(analysis, att_sex_ss, TV1, TV3,
                                        kidsInHouse, momAge, income, Rosen87, CESD92, gestationalAge, cohort, race, 
                                        female, alcohol, fatherAbsent, smoking, SMSA, lowBirthWt, poorHealth),
                          method=c(rep("pmm", 15), rep("polyreg", 2), rep("pmm", 4), "polyreg", rep("pmm", 2)),
-                         m=1, maxit=2) %>% complete()
+                         m=1, maxit=50) %>% complete()
 
 # calculate the attention residuals after controlling for all the covariates
 #  note that, as before, TV is left out but all covariates are included
@@ -4611,8 +4611,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
 
 # test it
 
- logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original", 
-          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original", 
+#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded", 
 #          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
