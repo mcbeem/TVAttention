@@ -2267,7 +2267,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
       names() %>% append("strat")
     
     df_names_continuous <- df_subset[,sapply(df_subset, is.notcategorical)] %>%
-      names() %>% append("TVcat")
+      names() %>% append("strat") %>% append("TVcat")
     
     # set margins for each panel
     par(mar=rep(1, 4))
@@ -2465,16 +2465,16 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
 # psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
 #     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 #
-# psa(data=analysis, subdirectory="Results", iterations=3000, estimand="ATE", TVage=3, covariates="Original", 
+# psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
 #    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 # 
-# psa(data=analysis, iterations=1000, estimand="ATE", TVage=3, covariates="Expanded", 
+# psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Expanded", 
 #     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 # 
-# psa(data=analysis, iterations=3000, estimand="ATE", TVage=3, covariates="Original", 
-#     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+# psa(data=analysis, subdirectory="Results", iterations=3000, estimand="ATE", TVage=3, covariates="Original",
+#     method="stratification", TVpercentiles=c(.4, .6), strata=4, title=TRUE, order=1)
 # 
-# psa(data=analysis, iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
+# psa(data=analysis, subdirectory="Results", iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
 #     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
 
 
