@@ -1643,11 +1643,11 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
   
   if (covariates=="Original") {
     covs <- "cohort+age+cogStim13+emoSupp13+
-              momEdu+kidsInHouse+momAge+income+Rosen87+CESD92+
+              momEdu+kidsInHouse+momAge+Rosen87+CESD92+
               alcohol+fatherAbsent+female+gestationalAge+
-              race+smoking+rural"
+              race+smoking+SMSA"
     
-    ncovs <- 17
+    ncovs <- 16
     
     cov.labels <- c(ifelse(TVage==1, 
                            "TV category (age ~1.5)", 
@@ -1656,11 +1656,13 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                     "Age at index", "Cognitive stimulation of home",
                     "Emotional support of home", "Maternal years of education",
                     "Children in the household", "Maternal age at birth",
-                    "Family income ($k)", "Maternal self-esteem (1987)", 
+                    "Maternal self-esteem (1987)", 
                     "Maternal depression (1992)", "Alcohol use in pregnancy",
                     "Father absent from household",
                     "Sex = female", "Gestational age at birth", "Race = Black", 
-                    "Race = White", "Smoking in pregnancy", "Rural",
+                    "Race = White", "Smoking in pregnancy", 
+                    "SMSA; not central city", "SMSA; central city unknown", 
+                    "SMSA; in central city",
                     "Intercept")
     
     # make descriptives table for continuous variables by group 
@@ -1676,7 +1678,6 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                       "Mother's years of schooling" = momEdu,
                       "Number of children in household" = kidsInHouse,
                       "Mother's age at birth" = momAge,
-                      "Annual family income (thousands)" = income,
                       "Rosenberg self-esteem score (1987)" = Rosen87,
                       "CES-D Depression score (1992)" = CESD92,
                       "Gestational age (in weeks relative to term)" = gestationalAge,
@@ -1717,10 +1718,10 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     #   make descriptives table for categorical variables
     ctable <- 
       df %>% dplyr::select(TVcat, cohort, race, female, fatherAbsent,
-                           alcohol, smoking, rural) %>%
+                           alcohol, smoking, SMSA) %>%
       transmute_all(factor) %>% 
       gather(variable, value, cohort, race, female, fatherAbsent,
-             alcohol, smoking, rural) %>% 
+             alcohol, smoking, SMSA) %>% 
       group_by(TVcat, variable, value) %>%
       summarise (n = n()) %>%
       mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
@@ -1775,8 +1776,8 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                                                 "Race",
                                                 ifelse(ctable2$Variable=="smoking",
                                                        "Maternal smoking during pregnancy",
-                                                       ifelse(ctable2$Variable=="rural",
-                                                              "Rural",
+                                                       ifelse(ctable2$Variable=="SMSA",
+                                                              "Standard metropolitan statistical area",
                                                               ctable2$Variable))))))))
     
     # make the table and write it to a file
@@ -1795,15 +1796,16 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     }
     
   } else if (covariates=="Expanded") {
-    covs <- "age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
+    covs <- "cohort+age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
               momAge+income+Rosen87+CESD92+alcohol+fatherAbsent+female+lowBirthWt+
               poorHealth+preterm+race+smoking+SMSA"
     
-    ncovs <- 20
+    ncovs <- 21
     
     cov.labels <- c(ifelse(TVage==1, 
                            "TV category (age ~1.5)", 
                            "TV category (age ~3)"),  
+                    "Cohort = 1998", "Cohort = 2000", 
                     "Age at index", "Temperament", 
                     "Cognitive stimulation of home",
                     "Emotional support of home", 
@@ -1872,10 +1874,10 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     
     #   make descriptives table for categorical variables
     ctable <- 
-      df %>% dplyr::select(TVcat, race, female, poorHealth, lowBirthWt, fatherAbsent,
+      df %>% dplyr::select(TVcat, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                            alcohol, smoking, preterm, SMSA) %>%
       transmute_all(factor) %>% 
-      gather(variable, value, race, female, poorHealth, lowBirthWt, fatherAbsent,
+      gather(variable, value, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
              alcohol, smoking, preterm, SMSA) %>% 
       group_by(TVcat, variable, value) %>%
       summarise (n = n()) %>%
@@ -2462,20 +2464,20 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
 # Test the propensity score analysis function -----------------------------
 
 # test the function
-# psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
-#     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
-#
-# psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Original", 
-#    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
-# 
-# psa(data=analysis, subdirectory="Results", iterations=1000, estimand="ATE", TVage=3, covariates="Expanded", 
-#     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
-# 
-# psa(data=analysis, subdirectory="Results", iterations=3000, estimand="ATE", TVage=3, covariates="Original",
-#     method="stratification", TVpercentiles=c(.4, .6), strata=4, title=TRUE, order=1)
-# 
-# psa(data=analysis, subdirectory="Results", iterations=2000, estimand="ATE", TVage=3, covariates="Expanded", 
-#     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1) 
+psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
+    method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+
+psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
+   method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+
+psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
+    method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+
+psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
+    method="stratification", TVpercentiles=c(.4, .6), strata=4, title=TRUE, order=1)
+
+psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
+    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
 
 
 # Define the function for linear regression analysis ----------------------
@@ -2491,7 +2493,7 @@ pooled.contrast <- function(x) {
   
   # convert the contrast object to numeric and return it to a matrix structure
   # note: the estimate is in col 3, the std err in col 4
-  #  the matrix has m rows
+  #  the matrix has m rows, where m is the number of imputations
   x.numeric <-  matrix(as.numeric(x), ncol=6)
   
   pool.est <- apply(x.numeric, 2, mean)[3]
@@ -2556,37 +2558,42 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
   
   if (covariates=="Original") {
     covs <- "cohort+age+cogStim13+emoSupp13+
-              momEdu+kidsInHouse+momAge+income+Rosen87+CESD92+
+              momEdu+kidsInHouse+momAge+Rosen87+CESD92+
               alcohol+fatherAbsent+female+gestationalAge+
-              race+smoking+rural"
+              race+smoking+SMSA"
     
-    ncovs <- 17
+    ncovs <- 16
     
-    cov.labels <- c("TV category (age ~1.5)", 
-                    "TV category (age ~3)", 
+    cov.labels <- c(ifelse(TVage==1, 
+                           "TV category (age ~1.5)", 
+                           "TV category (age ~3)"), 
                     "Cohort = 1998", "Cohort = 2000", 
                     "Age at index", "Cognitive stimulation of home",
                     "Emotional support of home", "Maternal years of education",
                     "Children in the household", "Maternal age at birth",
-                    "Family income ($k)", "Maternal self-esteem (1987)", 
+                    "Maternal self-esteem (1987)", 
                     "Maternal depression (1992)", "Alcohol use in pregnancy",
                     "Father absent from household",
                     "Sex = female", "Gestational age at birth", "Race = Black", 
-                    "Race = White", "Smoking in pregnancy", "Rural",
+                    "Race = White", "Smoking in pregnancy", 
+                    "SMSA; not central city", "SMSA; central city unknown", 
+                    "SMSA; in central city",
                     "Intercept")
     
   } # closes if covariates==original
   
   if (covariates=="Expanded") {
     
-    covs <- "age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
+    covs <- "cohort+age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
               momAge+income+Rosen87+CESD92+alcohol+fatherAbsent+female+lowBirthWt+
               poorHealth+preterm+race+smoking+SMSA"
     
-    ncovs <- 20
+    ncovs <- 21
     
-    cov.labels <- c("TV category (age ~1.5)", 
-                    "TV category (age ~3)", 
+    cov.labels <- c(ifelse(TVage==1, 
+                           "TV category (age ~1.5)", 
+                           "TV category (age ~3)"),  
+                    "Cohort = 1998", "Cohort = 2000", 
                     "Age at index", "Temperament", 
                     "Cognitive stimulation of home",
                     "Emotional support of home", 
@@ -2600,6 +2607,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                     "Race = Black", "Race = White", "Smoking in pregnancy", 
                     "SMSA; not central city", "SMSA; central city unknown", 
                     "SMSA; in central city", "Intercept")
+    
   } # closes if covariates==expanded
   
   if (missing=="listwise") { 
@@ -2619,7 +2627,6 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                       "Mother's years of schooling" = momEdu,
                       "Number of children in household" = kidsInHouse,
                       "Mother's age at birth" = momAge,
-                      "Annual family income (thousands)" = income,
                       "Rosenberg self-esteem score (1987)" = Rosen87,
                       "CES-D Depression score (1992)" = CESD92,
                       "Gestational age (in weeks relative to term)" = gestationalAge) %>%
@@ -2667,8 +2674,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                                                   "Race",
                                                   ifelse(ctable$variable=="smoking",
                                                          "Maternal smoking during pregnancy",
-                                                         ifelse(ctable$variable=="rural",
-                                                                "Rural",
+                                                         ifelse(ctable$variable=="SMSA",
+                                                                "Standard metropolitan statistical area",
                                                                 ctable$variable))))))))
       
       for (i in seq(nrow(ctable), 2, by=-1)) {
@@ -2783,7 +2790,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
       
       ctable <- 
         df %>%
-        dplyr::select(race, female, poorHealth, lowBirthWt, fatherAbsent,
+        dplyr::select(cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                       alcohol, smoking, preterm, SMSA) %>% 
         transmute_all(as.character) %>% 
         gather(key="variable", value="value", race, female, poorHealth, lowBirthWt, fatherAbsent,
@@ -4763,16 +4770,16 @@ write.csv(all.results, file=here("Results", "results_all.csv"), row.names=FALSE)
 # import the results CSVs. Commented out
 #  you can uncomment these to load the analysis results without recalculating
 #  them all.
-# result1 <- read.csv(file=here("Results", "results_stratification.csv"),
-#                     stringsAsFactors=F, header=T)
-# result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
-#                     stringsAsFactors=F, header=T)
-# result3 <- read.csv(file=here("Results", "results_regression.csv"),
-#                     stringsAsFactors=F, header=T)
-# result4 <- read.csv(file=here("Results", "results_logistic.csv"),
-#                     stringsAsFactors=F, header=T)
-# all.results <- read.csv(file=here("Results", "results_all.csv"),
-#                     stringsAsFactors=F, header=T)
+result1 <- read.csv(file=here("Results", "results_stratification.csv"),
+                    stringsAsFactors=F, header=T)
+result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
+                    stringsAsFactors=F, header=T)
+result3 <- read.csv(file=here("Results", "results_regression.csv"),
+                    stringsAsFactors=F, header=T)
+result4 <- read.csv(file=here("Results", "results_logistic.csv"),
+                    stringsAsFactors=F, header=T)
+all.results <- read.csv(file=here("Results", "results_all.csv"),
+                    stringsAsFactors=F, header=T)
 
 
 # Define the summary plot function for estimates and CIs ------------------
@@ -4905,7 +4912,6 @@ plot_ps <- function(data, ...) {
 sd.std <- sd(analysis$att_sex_ss, na.rm=T)
 sd.raw <- sd(analysis$attention, na.rm=T)
 
-
 # Make the regression results summary figure ------------------------------
 
 # make regression results figure
@@ -5019,6 +5025,42 @@ ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
        plot=ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, 
                                 binwidth=.025, yparams=list(size=.5)),
          width=10, height=7, scale=1.0, dpi=200)
+
+
+# calculate summary statistics
+
+# how many models were significant?
+nrow(all.results[all.results$p < .05,]) 
+
+# what proportion is this?
+nrow(all.results[all.results$p < .05,]) / nrow(all.results)
+# average effect size (d) for propensity models
+
+case_when(
+  result2$Outcome == "Raw" ~ (-1*result2$Estimate / sd.raw),
+  result2$Outcome == "Within-sex SS" ~ (result2$Estimate / sd.std)
+) %>% quantile(probs=c(.025, .5, .975))
+
+case_when(
+  result1$Outcome == "Raw" ~ (-1*result1$Estimate / sd.raw),
+  result1$Outcome == "Within-sex SS" ~ (result1$Estimate / sd.std)
+) %>% quantile(probs=c(.025, .5, .975))
+
+case_when(
+  result3$Outcome == "Raw" ~ (-1*result3$Estimate / sd.raw) * 
+    mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T))),
+  result3$Outcome == "Within-sex SS" ~ (result3$Estimate / sd.std) *
+    mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T)))
+) %>% quantile(probs=c(.025, .5, .975))
+
+quantile(exp(result4$Estimate), probs=c(.025, .5, .975))
+
+case_when(
+  result3$Outcome == "Raw" ~ (-1*result4$Estimate / sd.raw) * 
+    mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T))),
+  result3$Outcome == "Within-sex SS" ~ (result3$Estimate / sd.std) *
+    mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T)))
+) %>% mean(na.rm=T)
 
 # understanding logistic regression results -------------------------------
 
