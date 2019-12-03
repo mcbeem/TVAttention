@@ -268,6 +268,9 @@ NLSY.factors <- categories
 #    4 point scale :: factor
 #  sampleWt :: child revised sample weight from index year :: continuous
 #  gestationalAge :: gestational age of child, centered at 40 weeks :: continuous
+#  deaf :: child has a severe hearing problem (exclusion criteria)
+#  blind :: child has a severe vision problem (exclusion criteria)
+#  emoDisturb :: child has a severe emotional disturbance (exclusion criteria)
 
 
 # remove all discrete missing value flags (negative numbers) and replace with NA
@@ -296,6 +299,53 @@ NLSY$momID <- NLSY$R0000100
 # merge (inner join) the raw versions
 NLSY.merged <- merge(NLSY.cya, NLSY, by="momID")
 
+# apply exclusion criteria as per Christakis et al. (2004)
+#  "In addition, children with any of the following 4 health conditions were excluded: 
+#  serious hearing difficulty or deafness, serious difficulty in seeing or blindness, 
+#  serious emotional disturbance, or crippled/orthopedic handicap."
+
+# These items are NA if the child does not have the condition.
+# This code excludes from the dataset all children that have ever had a 
+#   positive response (e.g., non-missing) to any of these questions. 
+
+NLSY.merged <- filter(NLSY.merged,
+                       # child has serious difficulty hearing
+                         #  88
+                       is.na(C0594300) &
+                         #  90
+                       is.na(C0813300) &
+                         #  92
+                       is.na(C1003300) &
+                         #  94
+                       is.na(C1207000) &
+                       # child has serious difficulty seeing
+                         #  88
+                       is.na(C0594400) &
+                         #  90
+                       is.na(C0813400) &
+                         #  92
+                       is.na(C1003400) &
+                         #  94
+                       # child is crippled or has serious orthopedic handicap
+                         #  88
+                       is.na(C1207100) &
+                         #  90
+                       is.na(C0594700) &
+                         #  92
+                       is.na(C0813700) &
+                         #  94
+                       is.na(C1003700) &
+                       # child has serious emotional disturbance
+                         #  88
+                       is.na(C1207400) &
+                         #  90
+                       is.na(C0594500) &
+                         #  92
+                       is.na(C0813500) &
+                         #  94
+                       is.na(C1207200)
+                    )
+                 
 ### Begin creation of analysis variables ###
 
 ##################################################################################

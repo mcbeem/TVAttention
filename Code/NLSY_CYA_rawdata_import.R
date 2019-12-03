@@ -21,7 +21,6 @@ library(here)
 
 new_data <- read.table(here("Data", "NLSY_CYA_raw.dat"))
 
-new_data <- read.table('NLSY_CYA_raw.dat', sep=' ')
 names(new_data) <- c('C0000100',
                      'C0000200',
                      'C0004700',
@@ -87,6 +86,7 @@ names(new_data) <- c('C0000100',
                      'C0594300',
                      'C0594400',
                      'C0594500',
+                     'C0594700',
                      'C0606300',
                      'C0606400',
                      'C0606600',
@@ -123,6 +123,7 @@ names(new_data) <- c('C0000100',
                      'C0813300',
                      'C0813400',
                      'C0813500',
+                     'C0813700',
                      'C0826400',
                      'C0826500',
                      'C0826700',
@@ -166,6 +167,7 @@ names(new_data) <- c('C0000100',
                      'C1003300',
                      'C1003400',
                      'C1003500',
+                     'C1003700',
                      'C1016700',
                      'C1016800',
                      'C1017000',
@@ -210,6 +212,7 @@ names(new_data) <- c('C0000100',
                      'C1207000',
                      'C1207100',
                      'C1207200',
+                     'C1207400',
                      'C1220200',
                      'C1220300',
                      'C1220500',
@@ -1427,6 +1430,9 @@ vallabels = function(data) {
   data$C0594500 <- factor(data$C0594500, 
                           levels=c(9.0), 
                           labels=c("SERIOUS EMOTIONAL DISTURBANCE"))
+  data$C0594700 <- factor(data$C0594700, 
+                          levels=c(11.0), 
+                          labels=c("CRIPPLED, ORTHOPEDIC HANDICAP"))
   data$C0606300[17.0 <= data$C0606300 & data$C0606300 <= 99999.0] <- 17.0
   data$C0606300 <- factor(data$C0606300, 
                           levels=c(0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0), 
@@ -1896,6 +1902,9 @@ vallabels = function(data) {
   data$C0813500 <- factor(data$C0813500, 
                           levels=c(9.0), 
                           labels=c("SERIOUS EMOTIONAL DISTURBANCE"))
+  data$C0813700 <- factor(data$C0813700, 
+                          levels=c(11.0), 
+                          labels=c("CRIPPLED, ORTHOPEDIC HANDICAP"))
   data$C0826400[17.0 <= data$C0826400 & data$C0826400 <= 99999.0] <- 17.0
   data$C0826400 <- factor(data$C0826400, 
                           levels=c(0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0), 
@@ -2507,6 +2516,9 @@ vallabels = function(data) {
   data$C1003500 <- factor(data$C1003500, 
                           levels=c(9.0), 
                           labels=c("Serious emotional disturbance"))
+  data$C1003700 <- factor(data$C1003700, 
+                          levels=c(11.0), 
+                          labels=c("Crippled, orthopedic handicap"))
   data$C1016700[17.0 <= data$C1016700 & data$C1016700 <= 99999.0] <- 17.0
   data$C1016700 <- factor(data$C1016700, 
                           levels=c(0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0,17.0), 
@@ -3129,6 +3141,9 @@ vallabels = function(data) {
   data$C1207200 <- factor(data$C1207200, 
                           levels=c(9.0), 
                           labels=c("Serious emotional disturbance"))
+  data$C1207400 <- factor(data$C1207400, 
+                          levels=c(11.0), 
+                          labels=c("Crippled, orthopedic handicap"))
   data$C1220200[16.0 <= data$C1220200 & data$C1220200 <= 99999.0] <- 16.0
   data$C1220200 <- factor(data$C1220200, 
                           levels=c(0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0,16.0), 
@@ -5258,6 +5273,7 @@ varlabels <- c("ID CODE OF CHILD",
                "CHILD HAS SERIOUS HEARING DIFFICULTY",
                "CHILD HAS SERIOUS DIFFICULTY SEEING",
                "CHLD HAS SERIOUS EMOTIONAL DISTURBANCE",
+               "CHILD HAS CRIPPLED ORTHOPEDIC HANDICAP",
                "CHILDS HEIGHT - FEET",
                "CHILDS HEIGHT - INCHES",
                "CHILDS WEIGHT - POUNDS",
@@ -5294,6 +5310,7 @@ varlabels <- c("ID CODE OF CHILD",
                "CHILD HAS SERIOUS HEARING DIFFICULTY",
                "CHILD HAS SERIOUS DIFFICULTY IN SEEING",
                "CHILD HAS AN EMOTIONAL DISTURBANCE",
+               "CHILD IS CRIPPLED, ORTHOPEDIC CONDITION",
                "CHILD'S HEIGHT - FEET",
                "CHILD'S HEIGHT - INCHES",
                "CHILD'S WEIGHT: POUNDS",
@@ -5337,6 +5354,7 @@ varlabels <- c("ID CODE OF CHILD",
                "CHILD HAS SERIOUS HEARING DIFFICULTY-92",
                "CHILD HAS SERIOUS DIFF IN SEEING - 92",
                "CHILD HAS AN EMOTIONAL DISTURBANCE-92",
+               "CHILD IS CRIPPLED, ORTHOPEDIC CONDIT-92",
                "CHILD'S HEIGHT - FEET - 92",
                "CHILD'S HEIGHT - INCHES - 92",
                "CHILD'S WEIGHT: POUNDS - 92",
@@ -5381,6 +5399,7 @@ varlabels <- c("ID CODE OF CHILD",
                "CHILD HAS SERIOUS HEARING DIFFICULTY 94",
                "CHILD HAS SERIOUS DIFF IN SEEING 94",
                "CHILD HAS AN EMOTIONAL DISTURBANCE 94",
+               "CHILD IS CRIPPLED, ORTHOPEDIC CONDIT 94",
                "CHILD*S HEIGHT - FEET 94",
                "CHILD*S HEIGHT - INCHES 94",
                "CHILD*S WEIGHT: POUNDS 94",
@@ -5600,6 +5619,7 @@ qnames = function(data) {
                    "CS881161_1988",
                    "CS881163_1988",
                    "CS881165_1988",
+                   "CS881169_1988",
                    "CS881515_1988",
                    "CS881517_1988",
                    "CS881520_1988",
@@ -5636,6 +5656,7 @@ qnames = function(data) {
                    "CS901657_1990",
                    "CS901659_1990",
                    "CS901661_1990",
+                   "CS901711_1990",
                    "CS902145_1990",
                    "CS902147_1990",
                    "CS902151_1990",
@@ -5679,6 +5700,7 @@ qnames = function(data) {
                    "CS921821_1992",
                    "CS921823_1992",
                    "CS921825_1992",
+                   "CS921829_1992",
                    "CS922653_1992",
                    "CS922655_1992",
                    "CS922659_1992",
@@ -5723,6 +5745,7 @@ qnames = function(data) {
                    "CS94H-5_G_1994",
                    "CS94H-5_H_1994",
                    "CS94H-5_I_1994",
+                   "CS94H-5_K_1994",
                    "CS94H-22_1994",
                    "CS94H-22A_1994",
                    "CS94H-23_1994",
@@ -5885,7 +5908,7 @@ categories <- vallabels(new_data)
 #categories <- qnames(categories)
 
 # Produce summaries for the raw (uncategorized) data file
-#summary(new_data)
+# summary(new_data)
 
 # Remove the '#' before the following lines to produce summaries for the "categories" data file.
 #categories <- vallabels(new_data)
