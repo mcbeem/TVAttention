@@ -1,241 +1,241 @@
 "Analysis","Method","Effect","Strata","Cutpoint","TV.age","Outcome","Doubly.robust","Covariates","Missing","Order","Sample.weights","Attention.cutpoint","Estimate","StdErr","p"
-"PSA","stratification","ATE","4","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0100276533652016,0.0481789399778789,0.835163368594436
-"PSA","stratification","ATE","4","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.146768056569388,1.44900903038264,0.919339913324218
-"PSA","stratification","ATE","4","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.00210076462429393,0.0403563855682526,0.958497033534831
-"PSA","stratification","ATE","4","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.592144415783766,1.27908883474128,0.643526013053645
-"PSA","stratification","ATE","4","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00370554033149371,0.0486792529791829,0.939336285576514
-"PSA","stratification","ATE","4","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.428211564334753,1.46003337714209,0.769356869877324
-"PSA","stratification","ATE","4","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0194747673316486,0.0422589088306669,0.645030200485465
-"PSA","stratification","ATE","4","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.02547691105513,1.30270206841369,0.431392201569214
-"PSA","stratification","ATE","4","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00193992919755645,0.0317250609383883,0.95125065505216
-"PSA","stratification","ATE","4","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.352878433638964,1.07257840978338,0.742208830156648
-"PSA","stratification","ATE","4","30/70","~3","Raw","No","Original","trees",NA,NA,NA,-0.00769530066053169,0.0260389747305907,0.767633522258049
-"PSA","stratification","ATE","4","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.0488402321181944,0.912338155277703,0.957314973885195
-"PSA","stratification","ATE","4","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0164150600075313,0.0326704474074061,0.615440947394348
-"PSA","stratification","ATE","4","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.970891300110376,1.07521065545842,0.366705759332698
-"PSA","stratification","ATE","4","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00292226168320155,0.0263783666259019,0.911804958368334
-"PSA","stratification","ATE","4","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.14949408363772,0.910756976623315,0.869642919237811
-"PSA","stratification","ATE","4","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00937986805367373,0.024923479478173,0.70670726663778
-"PSA","stratification","ATE","4","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.709184161746804,0.855535685785008,0.407259834794519
-"PSA","stratification","ATE","4","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.021899859598332,0.0223436712793944,0.327162693505303
-"PSA","stratification","ATE","4","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.712568813312507,0.776978650105042,0.359223613437443
-"PSA","stratification","ATE","4","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0157870474276268,0.025744115932462,0.539808660400338
-"PSA","stratification","ATE","4","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.95255461991954,0.868181805845594,0.272720285516745
-"PSA","stratification","ATE","4","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.013885696651811,0.0225972368082978,0.538978930265977
-"PSA","stratification","ATE","4","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.429168104629089,0.777891337714393,0.58122408714638
-"PSA","stratification","ATE","4","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0132819962280304,0.021266422606361,0.532336471980225
-"PSA","stratification","ATE","4","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.724620260483063,0.723091295997125,0.316410199679226
-"PSA","stratification","ATE","4","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0218880674844247,0.018790921445435,0.244228969136917
-"PSA","stratification","ATE","4","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.579427798428882,0.678850126676978,0.393459533741959
-"PSA","stratification","ATE","4","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.012269967347083,0.0218578176674264,0.574619662941663
-"PSA","stratification","ATE","4","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.671080523718367,0.735232746178883,0.361486923102974
-"PSA","stratification","ATE","4","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0111385866458329,0.0192976790650709,0.563869922085931
-"PSA","stratification","ATE","4","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.158904095548908,0.677451413771942,0.814572803464342
-"PSA","stratification","ATE","4","60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00427650177663628,0.0239185294463971,0.858117264820266
-"PSA","stratification","ATE","4","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.0425919421375453,0.793752759455254,0.957212274989163
-"PSA","stratification","ATE","4","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.022336617766157,0.0210531594027224,0.288833791791371
-"PSA","stratification","ATE","4","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.661650472866968,0.736467847884866,0.369073900773806
-"PSA","stratification","ATE","4","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.0000752790280973512,0.0245639712067634,0.997555104967868
-"PSA","stratification","ATE","4","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.130843138867496,0.813023702376509,0.872161743834458
-"PSA","stratification","ATE","4","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.030944627213749,0.0218070183407908,0.156047187600447
-"PSA","stratification","ATE","4","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.964345468427615,0.753452188652175,0.200726483803685
-"PSA","stratification","ATE","4","70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00723739665075274,0.0298340476896135,0.80834920835461
-"PSA","stratification","ATE","4","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.416446333338457,0.943904984435338,0.659119652598643
-"PSA","stratification","ATE","4","70","~3","Raw","No","Original","trees",NA,NA,NA,-0.000773057553229449,0.0217954204556138,0.971709427366445
-"PSA","stratification","ATE","4","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.181049290082258,0.847791224026242,0.830916370744986
-"PSA","stratification","ATE","4","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0115364152260754,0.0295210451906195,0.695997174221223
-"PSA","stratification","ATE","4","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.657592431298097,0.949157849717719,0.488505458227425
-"PSA","stratification","ATE","4","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0081902018923744,0.0220826458252915,0.71075942560526
-"PSA","stratification","ATE","4","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.198703716448777,0.87581678531276,0.820541450827435
-"PSA","stratification","ATE","5","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0434688563539484,0.078138709705606,0.578116995820815
-"PSA","stratification","ATE","5","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,0.0849718622078128,1.87638466270824,0.963888500108239
-"PSA","stratification","ATE","5","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0281792342694839,0.0360232979332751,0.434289278487842
-"PSA","stratification","ATE","5","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.25808027569383,1.30415871812634,0.334990384890847
-"PSA","stratification","ATE","5","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.0137925816093219,0.0599651010185182,0.818126885171319
-"PSA","stratification","ATE","5","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.280070690338371,1.62387018022268,0.86309907355399
-"PSA","stratification","ATE","5","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.018576365652421,0.0475242891241592,0.695984535118052
-"PSA","stratification","ATE","5","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.2176385035045,1.31286310820311,0.353951608412549
-"PSA","stratification","ATE","5","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0116838961048209,0.0330441648483909,0.723708169522656
-"PSA","stratification","ATE","5","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.819034863343794,1.06773374728881,0.443175400563761
-"PSA","stratification","ATE","5","30/70","~3","Raw","No","Original","trees",NA,NA,NA,0.00429512973656582,0.0243082944831561,0.859774777022293
-"PSA","stratification","ATE","5","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.362282739049981,0.889556164470048,0.683878700373785
-"PSA","stratification","ATE","5","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00164123753227574,0.0349360723191255,0.962537777147947
-"PSA","stratification","ATE","5","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.562027356351738,1.11452675978953,0.614154520093799
-"PSA","stratification","ATE","5","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00205308034126569,0.0249790423412371,0.934505905476855
-"PSA","stratification","ATE","5","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.287810551680046,0.915186767741782,0.75320204323988
-"PSA","stratification","ATE","5","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00788204499345964,0.0258206697074009,0.760205625132172
-"PSA","stratification","ATE","5","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.763011232232336,0.873663893583667,0.382600679647357
-"PSA","stratification","ATE","5","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.00696071660082644,0.0233390439312847,0.765555108194119
-"PSA","stratification","ATE","5","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.121457917266202,0.788015392351703,0.877525069833517
-"PSA","stratification","ATE","5","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0129947826400273,0.0259291719491936,0.616321786736908
-"PSA","stratification","ATE","5","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.978958406314586,0.878047933817385,0.265043647374117
-"PSA","stratification","ATE","5","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00120295531381557,0.023658902702353,0.959454596757364
-"PSA","stratification","ATE","5","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0582466351901961,0.789910092154637,0.941227596177417
-"PSA","stratification","ATE","5","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0163736955217131,0.020951629396896,0.434601661319391
-"PSA","stratification","ATE","5","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.715966773876101,0.714403133158107,0.316374474163028
-"PSA","stratification","ATE","5","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0178433499365471,0.0185722513951313,0.336791488641888
-"PSA","stratification","ATE","5","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.387015631183674,0.677824515666803,0.56808544989687
-"PSA","stratification","ATE","5","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.019153314054622,0.0220540875065561,0.385241952499145
-"PSA","stratification","ATE","5","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.877057283965478,0.738285581236192,0.234989254964392
-"PSA","stratification","ATE","5","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0137470716224038,0.0194908207052672,0.480698792863547
-"PSA","stratification","ATE","5","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.202723042790901,0.675927779634826,0.764270471550735
-"PSA","stratification","ATE","5","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.004367318236089,0.0248276923140581,0.860386406167282
-"PSA","stratification","ATE","5","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,0.220678228548155,0.79802823933162,0.782170281929561
-"PSA","stratification","ATE","5","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0130621038219479,0.020326646498554,0.520550344547564
-"PSA","stratification","ATE","5","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.496296038338788,0.747508324182378,0.506808606171507
-"PSA","stratification","ATE","5","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00110535472919306,0.0246039001544239,0.964170809943137
-"PSA","stratification","ATE","5","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.118686559876162,0.801222729798644,0.882253788916069
-"PSA","stratification","ATE","5","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00977748466440562,0.0201455374478508,0.627486179688418
-"PSA","stratification","ATE","5","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.21385003483928,0.748240362540194,0.775057661747643
-"PSA","stratification","ATE","5","70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00312915304722259,0.0310563659205357,0.919753353762903
-"PSA","stratification","ATE","5","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.126651182704146,0.966345604168693,0.895739533169763
-"PSA","stratification","ATE","5","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0124065789745315,0.0216013129934003,0.565799290671393
-"PSA","stratification","ATE","5","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.420701214574753,0.833601100615342,0.613839264239592
-"PSA","stratification","ATE","5","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.000774368911610282,0.0331600373297356,0.981371459662132
-"PSA","stratification","ATE","5","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.25431959472476,1.01675889750221,0.802514429577348
-"PSA","stratification","ATE","5","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00774683194622182,0.0219348906653222,0.723994961433672
-"PSA","stratification","ATE","5","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.231376247370089,0.856510713262013,0.787081597982837
-"PSA","stratification","ATE","6","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0267035086681299,0.067137316623882,0.690896157694433
-"PSA","stratification","ATE","6","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.0055951047701189,1.70661274454462,0.997384750696354
-"PSA","stratification","ATE","6","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0345274709609528,0.0349721399835265,0.323789596876064
-"PSA","stratification","ATE","6","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.66548407191922,1.22679339920555,0.174961055906548
-"PSA","stratification","ATE","6","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.031178689594953,0.0671480659729652,0.642505721236257
-"PSA","stratification","ATE","6","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0728247255875385,1.71400318021709,0.966117371254061
-"PSA","stratification","ATE","6","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0397804050190366,0.034851885295832,0.254025993054309
-"PSA","stratification","ATE","6","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.71523366158435,1.17506365170353,0.144751127515958
-"PSA","stratification","ATE","6","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00882555506115925,0.032756834927447,0.787644685467942
-"PSA","stratification","ATE","6","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.733597170800427,1.06393705869233,0.490625249412896
-"PSA","stratification","ATE","6","30/70","~3","Raw","No","Original","trees",NA,NA,NA,0.00731383194115742,0.0250002421314178,0.769909999520178
-"PSA","stratification","ATE","6","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.432025078563961,0.921457697127051,0.639251570803755
-"PSA","stratification","ATE","6","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00150737894477923,0.0384031512896171,0.968695996413404
-"PSA","stratification","ATE","6","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.653965909927699,1.1325688753929,0.563757725753729
-"PSA","stratification","ATE","6","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00384406617086993,0.0254360023150653,0.879897751595972
-"PSA","stratification","ATE","6","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.300674003604783,0.930516976303781,0.746649206936288
-"PSA","stratification","ATE","6","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0194761612285427,0.0261408915452432,0.456349697429022
-"PSA","stratification","ATE","6","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-1.17091830945317,0.868961351218468,0.178006103206762
-"PSA","stratification","ATE","6","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.00952305973900829,0.0222604033021635,0.668850968527578
-"PSA","stratification","ATE","6","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.235379899702832,0.783278241542062,0.763829222707609
-"PSA","stratification","ATE","6","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0254735784717381,0.0263558462203343,0.333922695482036
-"PSA","stratification","ATE","6","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.3528978100873,0.876536243055096,0.122910379073186
-"PSA","stratification","ATE","6","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00502375289849135,0.0228395349930399,0.825930746820552
-"PSA","stratification","ATE","6","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.176545686034914,0.784528010028211,0.821980651778978
-"PSA","stratification","ATE","6","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0173415123224084,0.0213948579579308,0.417723715795959
-"PSA","stratification","ATE","6","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.829426752605918,0.72825203795361,0.254870547421188
-"PSA","stratification","ATE","6","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0178085131821109,0.0190676463188116,0.350433936216279
-"PSA","stratification","ATE","6","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.46810228459963,0.684573622913743,0.494188578479478
-"PSA","stratification","ATE","6","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0101483816271837,0.0225669482492117,0.652975072877478
-"PSA","stratification","ATE","6","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.584529986364955,0.751284753952356,0.436637846299098
-"PSA","stratification","ATE","6","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0042194236710259,0.019113245440751,0.825302354973009
-"PSA","stratification","ATE","6","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0100094652193035,0.676518533122311,0.988196753539861
-"PSA","stratification","ATE","6","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00084126880809117,0.0235307812221214,0.971483826543733
-"PSA","stratification","ATE","6","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,0.123018851546142,0.785580392031897,0.875579074995563
-"PSA","stratification","ATE","6","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0117713050079371,0.0203365804947526,0.562772523032176
-"PSA","stratification","ATE","6","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.323964595330591,0.747403427698417,0.66473179617881
-"PSA","stratification","ATE","6","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00150687167116926,0.0241654189569441,0.950285189533348
-"PSA","stratification","ATE","6","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0209148766907424,0.796856577708312,0.979063184566608
-"PSA","stratification","ATE","6","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0100991590043265,0.0203989090354086,0.620595335136259
-"PSA","stratification","ATE","6","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.267219857628143,0.746137817866537,0.720278023886538
-"PSA","stratification","ATE","6","70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0014643142355806,0.034415759821502,0.966066301122274
-"PSA","stratification","ATE","6","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.165404986089746,0.999408449433344,0.8685650290771
-"PSA","stratification","ATE","6","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0246631203551419,0.0198742670239428,0.214765982858127
-"PSA","stratification","ATE","6","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.08352452840262,0.719565530152064,0.132274355142397
-"PSA","stratification","ATE","6","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0019975507947889,0.0314739363673793,0.94940116633877
-"PSA","stratification","ATE","6","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.2841811260626,0.968333597184378,0.76919023951381
-"PSA","stratification","ATE","6","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0135430607869319,0.0221857625604765,0.541639734112555
-"PSA","stratification","ATE","6","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.507608670037443,0.862843118556387,0.556398415317767
-"PSA","stratification","ATE","7","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0120316225100025,0.0561800374905901,0.830460876224372
-"PSA","stratification","ATE","7","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-1.0518872285236,2.17400951003701,0.628591890820021
-"PSA","stratification","ATE","7","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0342652187817952,0.0392878809163616,0.383374394454989
-"PSA","stratification","ATE","7","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.66640392322484,1.47977373665734,0.260439511805215
-"PSA","stratification","ATE","7","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.000937498789094846,0.0478077884333244,0.984358274672176
-"PSA","stratification","ATE","7","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.404152927855633,1.60860145262716,0.801672120384351
-"PSA","stratification","ATE","7","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0364534534694798,0.0374131365981013,0.330166801175594
-"PSA","stratification","ATE","7","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.43948724002843,1.15724026778444,0.213888381003148
-"PSA","stratification","ATE","7","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00236034351942453,0.0421544175239964,0.95535623380649
-"PSA","stratification","ATE","7","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.787454521076666,1.16988787392387,0.501002796230977
-"PSA","stratification","ATE","7","30/70","~3","Raw","No","Original","trees",NA,NA,NA,0.00124170955985576,0.0250821568478026,0.960523511197247
-"PSA","stratification","ATE","7","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.186187747010904,0.928453275403299,0.841091619586798
-"PSA","stratification","ATE","7","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00847512648673599,0.0431739700493378,0.844404947589288
-"PSA","stratification","ATE","7","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.02151656780475,1.20747033218119,0.39771142483294
-"PSA","stratification","ATE","7","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00391485335514615,0.0253709043924383,0.877392091598537
-"PSA","stratification","ATE","7","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.334183514007647,0.91693346402728,0.715572416412755
-"PSA","stratification","ATE","7","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0240511048761793,0.0240684702862311,0.317805876044167
-"PSA","stratification","ATE","7","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-1.06059785923347,0.852462330564191,0.213617580444995
-"PSA","stratification","ATE","7","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.00922587282497553,0.0220291280795516,0.675414758113302
-"PSA","stratification","ATE","7","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.262299069641473,0.7830606298324,0.737693254928949
-"PSA","stratification","ATE","7","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0246395299727932,0.0248593897239769,0.321754362230785
-"PSA","stratification","ATE","7","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.11119037427348,0.861220303133491,0.197143755621506
-"PSA","stratification","ATE","7","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0000817995398768557,0.0230253721187134,0.997165887626032
-"PSA","stratification","ATE","7","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0641402843374279,0.79635470879997,0.935815749670516
-"PSA","stratification","ATE","7","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0178892788989268,0.0212985299680637,0.401048766735351
-"PSA","stratification","ATE","7","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.826068277689795,0.722159081786489,0.252808627351105
-"PSA","stratification","ATE","7","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0176517267499023,0.0189239607602787,0.351050000488877
-"PSA","stratification","ATE","7","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.3484302252652,0.681442419836708,0.609188155052966
-"PSA","stratification","ATE","7","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00813382750440494,0.0233268547637021,0.727359503048279
-"PSA","stratification","ATE","7","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.548512963919997,0.760160139867083,0.470640550283144
-"PSA","stratification","ATE","7","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00645037262471918,0.0196053710067711,0.742182005266072
-"PSA","stratification","ATE","7","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0220129753368262,0.690071005885308,0.974555297449338
-"PSA","stratification","ATE","7","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00282861334421553,0.02382585901468,0.905508970745507
-"PSA","stratification","ATE","7","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,0.091766162947679,0.794629260547547,0.90807399472962
-"PSA","stratification","ATE","7","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0187111856092824,0.0213150291018274,0.380135352666188
-"PSA","stratification","ATE","7","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.593983464443178,0.801955707254692,0.458980788218371
-"PSA","stratification","ATE","7","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00180599766240089,0.025232225684815,0.942947318855715
-"PSA","stratification","ATE","7","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.119533322751584,0.808411099073602,0.882466670758147
-"PSA","stratification","ATE","7","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00992182802717621,0.0211155643639029,0.638490097770095
-"PSA","stratification","ATE","7","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.22820821443692,0.777243650885594,0.769084538428987
-"PSA","stratification","ATE","7","70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00900752421466859,0.0384082563985267,0.814605116994264
-"PSA","stratification","ATE","7","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.156258873495043,1.04590345008512,0.881252526517633
-"PSA","stratification","ATE","7","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0233635140202409,0.020576941213532,0.256333735120462
-"PSA","stratification","ATE","7","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.02129812114375,0.761182518104037,0.179836366610399
-"PSA","stratification","ATE","7","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00491281151217934,0.0384601556243594,0.898369512476512
-"PSA","stratification","ATE","7","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.308647213529761,1.02540918194828,0.763446757402249
-"PSA","stratification","ATE","7","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00788943025229467,0.0235512787614006,0.737667954039506
-"PSA","stratification","ATE","7","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.404773352724631,0.891107079972188,0.649707617919514
-"PSA","stratification","ATE","8","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,0.011324980964418,0.0517469852165836,0.826805635314156
-"PSA","stratification","ATE","8","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.780772530260079,1.98421214138597,0.694032882305137
-"PSA","stratification","ATE","8","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0683720030015047,0.0347760112193926,0.0496240942429467
-"PSA","stratification","ATE","8","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-3.125001313707,1.32295324328602,0.0183999666361452
-"PSA","stratification","ATE","8","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00844826590500608,0.0521956329141057,0.871447953947668
-"PSA","stratification","ATE","8","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.539321586198217,1.84633440681563,0.770262829991241
-"PSA","stratification","ATE","8","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0342150152462733,0.0368730169107017,0.353721887002107
-"PSA","stratification","ATE","8","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.35560129222455,1.12683167874419,0.22931195110262
-"PSA","stratification","ATE","8","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.017036133599767,0.0325424407026188,0.600712999973698
-"PSA","stratification","ATE","8","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.926347079631905,1.11684779406631,0.407015053078269
-"PSA","stratification","ATE","8","30/70","~3","Raw","No","Original","trees",NA,NA,NA,0.00104047871311524,0.0259203975728716,0.967986320735014
-"PSA","stratification","ATE","8","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.157618892276563,0.960826595376691,0.869719857423786
-"PSA","stratification","ATE","8","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.0124659842644365,0.0508493116194417,0.806375208220482
-"PSA","stratification","ATE","8","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.362639448224208,1.32209799341233,0.783905130018173
-"PSA","stratification","ATE","8","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00579117770387962,0.0261527788320363,0.824785661304902
-"PSA","stratification","ATE","8","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.447661446343754,0.955450771130152,0.639477149067329
-"PSA","stratification","ATE","8","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0155639660199461,0.0243424382900424,0.522667078822787
-"PSA","stratification","ATE","8","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.829644376919586,0.85964517237906,0.334635416955249
-"PSA","stratification","ATE","8","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.00924577507366809,0.0223233491614166,0.678800179623881
-"PSA","stratification","ATE","8","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.246640401410115,0.794484722349658,0.756265383151298
-"PSA","stratification","ATE","8","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0304214173940123,0.024874521158263,0.221505875974448
-"PSA","stratification","ATE","8","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.42500166222773,0.876473735098998,0.104175380090992
-"PSA","stratification","ATE","8","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00220060643147733,0.0229359816053323,0.92357553184263
-"PSA","stratification","ATE","8","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.080256345823503,0.796805043783333,0.919782942138833
-"PSA","stratification","ATE","8","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.015089322304184,0.0218026506443499,0.488964056591452
-"PSA","stratification","ATE","8","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.80006218723125,0.728832471263214,0.272455262639881
-"PSA","stratification","ATE","8","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0177364301437102,0.0192454759711067,0.356853295052724
-"PSA","stratification","ATE","8","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.349961729069867,0.693546697131393,0.613897080866361
-"PSA","stratification","ATE","8","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0164048940122911,0.023213688336193,0.479841918780892
-"PSA","stratification","ATE","8","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.874276161290165,0.753888658807389,0.246315324382161
-"PSA","stratification","ATE","8","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00894120672614653,0.0198337737411352,0.652177183167484
-"PSA","stratification","ATE","8","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0620902537078952,0.698641540136867,0.92919182708573
-"PSA","stratification","ATE","8","60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00055238631040926,0.0255954184998601,0.982784002241673
-"PSA","stratification","ATE","8","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.0684006950772091,0.809609037043695,0.932678505380337
-"PSA","stratification","ATE","8","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0129424446105102,0.0217111266187701,0.551161946697721
-"PSA","stratification","ATE","8","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.358740200474295,0.809128055850924,0.657548445127895
-"PSA","stratification","ATE","8","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.000178219610573133,0.0265321058765643,0.994641222130636
-"PSA","stratification","ATE","8","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0324287179087366,0.835506659144077,0.969043202133557
-"PSA","stratification","ATE","8","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0176513376785896,0.0214733722679747,0.411168411143602
-"PSA","stratification","ATE","8","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.58194757504834,0.786524444006816,0.459448517946707
-"PSA","stratification","ATE","8","70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00108572961596043,0.0351980341249734,0.975395211935757
-"PSA","stratification","ATE","8","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.421416489197092,1.00074266749701,0.673725005915085
-"PSA","stratification","ATE","8","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0191392487422903,0.0209805150765949,0.361752198041685
-"PSA","stratification","ATE","8","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.836384190754416,0.780424327387101,0.283981480957962
-"PSA","stratification","ATE","8","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.017361102482039,0.0283559790298063,0.540439031524663
-"PSA","stratification","ATE","8","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.779561057078057,1.00428377627326,0.437702414743449
-"PSA","stratification","ATE","8","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.02021937730203,0.020688506685466,0.328526307855856
-"PSA","stratification","ATE","8","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.776939463976855,0.783571334875603,0.32154309577848
+"PSA","stratification","ATE","4","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00163919875696592,0.0472050520557239,0.972305292692882
+"PSA","stratification","ATE","4","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.889062656934128,1.42898502778833,0.533963617668578
+"PSA","stratification","ATE","4","20/80","~3","Raw","No","Original","trees",NA,NA,NA,-0.0069631857916612,0.0381194382622086,0.855103084157384
+"PSA","stratification","ATE","4","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.156715401258176,1.24735288495752,0.900048348021825
+"PSA","stratification","ATE","4","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00327419519974474,0.0466975582713298,0.944114988311886
+"PSA","stratification","ATE","4","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.671627225744756,1.41894796687387,0.636073736875523
+"PSA","stratification","ATE","4","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0129322336699835,0.0418108411987866,0.757167754614386
+"PSA","stratification","ATE","4","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.70464045277882,1.32939985811731,0.596221981483395
+"PSA","stratification","ATE","4","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00222027344254015,0.0339489308220714,0.94786531263487
+"PSA","stratification","ATE","4","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.645843140805544,1.08006351011071,0.549966092271803
+"PSA","stratification","ATE","4","30/70","~3","Raw","No","Original","trees",NA,NA,NA,-0.0195856201473934,0.0260740505004936,0.452688494884828
+"PSA","stratification","ATE","4","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.465896998846289,0.914604896961074,0.610555593111735
+"PSA","stratification","ATE","4","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0186160648748085,0.0323218671497496,0.56474316055148
+"PSA","stratification","ATE","4","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.0522681789369,1.06874040083759,0.325010907231279
+"PSA","stratification","ATE","4","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.000122846627923768,0.0265281295741975,0.996305835165131
+"PSA","stratification","ATE","4","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.237897486587194,0.914425398845194,0.794778767403363
+"PSA","stratification","ATE","4","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0146878840664541,0.0260907671018346,0.573542644779783
+"PSA","stratification","ATE","4","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.940968705296243,0.869311836564906,0.279218874935055
+"PSA","stratification","ATE","4","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0230494042064793,0.0216392473951867,0.286956943443893
+"PSA","stratification","ATE","4","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.655637931364621,0.758637872642979,0.387587396566571
+"PSA","stratification","ATE","4","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0151063422321792,0.0255954945882049,0.555139962443675
+"PSA","stratification","ATE","4","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.934924823354208,0.865059881570512,0.27995938686196
+"PSA","stratification","ATE","4","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0125971036259651,0.0226251440946426,0.577757280980683
+"PSA","stratification","ATE","4","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.388152362935954,0.777954122630246,0.617888467304344
+"PSA","stratification","ATE","4","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0143414701838872,0.0217892332110907,0.510491786361215
+"PSA","stratification","ATE","4","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.684243840814514,0.732467390590062,0.350333275831992
+"PSA","stratification","ATE","4","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0208897621221038,0.0188297505697065,0.267389005304574
+"PSA","stratification","ATE","4","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.512521644420294,0.680217761945496,0.451257223366849
+"PSA","stratification","ATE","4","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0117817216093547,0.0219611576155035,0.591686857385363
+"PSA","stratification","ATE","4","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.661961888097707,0.737174102390183,0.369309026797167
+"PSA","stratification","ATE","4","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.012058535510651,0.0192533620516648,0.531183747341038
+"PSA","stratification","ATE","4","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.171761708717398,0.678206317168649,0.800094038715497
+"PSA","stratification","ATE","4","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00537806134944978,0.0241071312434084,0.823488322410397
+"PSA","stratification","ATE","4","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,0.206960125133726,0.79467091108047,0.794555199868562
+"PSA","stratification","ATE","4","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0266052677898305,0.0201657270640946,0.187208165707044
+"PSA","stratification","ATE","4","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.79033039729092,0.714311976041582,0.268675836752936
+"PSA","stratification","ATE","4","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.000733993472889806,0.0243024048083404,0.97590858183545
+"PSA","stratification","ATE","4","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.180469292850331,0.807198827840321,0.823111156643061
+"PSA","stratification","ATE","4","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0256548047209211,0.0212438649053645,0.227329749915927
+"PSA","stratification","ATE","4","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.827088399472785,0.745762039068807,0.267540178710087
+"PSA","stratification","ATE","4","70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00540974321819294,0.0292400680952302,0.853239029402666
+"PSA","stratification","ATE","4","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.589464512487818,0.931659556326386,0.52699983695178
+"PSA","stratification","ATE","4","70","~3","Raw","No","Original","trees",NA,NA,NA,0.00701540988396703,0.0259650091104804,0.787043962713706
+"PSA","stratification","ATE","4","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.497070280199448,0.860209035854708,0.563431050649733
+"PSA","stratification","ATE","4","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0114104968443182,0.029523966449769,0.699180688482865
+"PSA","stratification","ATE","4","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.651543133623728,0.949380895402413,0.492615212952328
+"PSA","stratification","ATE","4","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00895302259172517,0.0220968760425159,0.68539446019839
+"PSA","stratification","ATE","4","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.225315621519611,0.876306946646372,0.797112721915909
+"PSA","stratification","ATE","5","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0228206117361087,0.0688310382508859,0.740296080154049
+"PSA","stratification","ATE","5","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.521168474081481,1.72022886644971,0.761974427197592
+"PSA","stratification","ATE","5","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.00131994031563426,0.0395118532416017,0.973358660337095
+"PSA","stratification","ATE","5","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.319272796692817,1.28322006250003,0.803572065149477
+"PSA","stratification","ATE","5","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.0110079680243478,0.0597999773316695,0.85398496485769
+"PSA","stratification","ATE","5","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.368408371371431,1.61509975917175,0.819609144481279
+"PSA","stratification","ATE","5","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0204978263698937,0.0454289070820917,0.651957750234899
+"PSA","stratification","ATE","5","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.21225840923033,1.27830842436659,0.343235783755372
+"PSA","stratification","ATE","5","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0111004245235837,0.0323621000345248,0.731649047934701
+"PSA","stratification","ATE","5","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.790374996459384,1.04704236509047,0.450467927270895
+"PSA","stratification","ATE","5","30/70","~3","Raw","No","Original","trees",NA,NA,NA,-0.0111014602549606,0.0264868548935967,0.6751859102937
+"PSA","stratification","ATE","5","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.114338619811296,0.916546813783256,0.900740221289973
+"PSA","stratification","ATE","5","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00219225611619588,0.0348374459039673,0.949833450313267
+"PSA","stratification","ATE","5","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.54187395653166,1.11000811641317,0.625511442324791
+"PSA","stratification","ATE","5","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00157902695115824,0.0249154854502659,0.949476848137314
+"PSA","stratification","ATE","5","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.2767062761291,0.909659457642606,0.761031711385051
+"PSA","stratification","ATE","5","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00997559942715358,0.0266211095248253,0.707912775432325
+"PSA","stratification","ATE","5","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.842143436552931,0.875170909845039,0.336058398929996
+"PSA","stratification","ATE","5","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0223163786393099,0.0225346376217841,0.32216632322537
+"PSA","stratification","ATE","5","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.607239423499927,0.779351358560592,0.435997732394205
+"PSA","stratification","ATE","5","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0162389386785548,0.0257777932700995,0.52880852063742
+"PSA","stratification","ATE","5","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.07089913286135,0.8750948016761,0.221219517947941
+"PSA","stratification","ATE","5","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.000224126889183661,0.0235945952992767,0.992422100623159
+"PSA","stratification","ATE","5","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0753244088228208,0.788843217844578,0.923939529625215
+"PSA","stratification","ATE","5","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0090968402047096,0.0227332902424232,0.689085356407218
+"PSA","stratification","ATE","5","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.569052175373481,0.742442819666695,0.443494129596718
+"PSA","stratification","ATE","5","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0199730532172211,0.0190811118916097,0.295342810511808
+"PSA","stratification","ATE","5","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.468095218082971,0.68639300439838,0.495340147159851
+"PSA","stratification","ATE","5","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.016912829289296,0.0220693558420803,0.443559687756014
+"PSA","stratification","ATE","5","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.806790106825807,0.741568423098273,0.276748684582449
+"PSA","stratification","ATE","5","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.0141080917022717,0.0195272260236533,0.470081282234287
+"PSA","stratification","ATE","5","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.196894290182835,0.676282282753556,0.770972540320193
+"PSA","stratification","ATE","5","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00624349592156182,0.0258022886227745,0.808824891354971
+"PSA","stratification","ATE","5","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,0.180478448491798,0.811008125500799,0.823919576658328
+"PSA","stratification","ATE","5","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0237581821035717,0.0208326085405722,0.254241657216683
+"PSA","stratification","ATE","5","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.570659062784924,0.723733766386223,0.430501055024179
+"PSA","stratification","ATE","5","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00151603901403403,0.0245887600559946,0.950843161616099
+"PSA","stratification","ATE","5","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.14162377439234,0.800521676261304,0.859593694817081
+"PSA","stratification","ATE","5","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00573227010312703,0.0201444206943907,0.776011484232742
+"PSA","stratification","ATE","5","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0650166398815293,0.749513216692521,0.930882697947497
+"PSA","stratification","ATE","5","70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00496653476226624,0.0302729529577699,0.869701789689014
+"PSA","stratification","ATE","5","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.624097543161473,0.949436793648585,0.511042002007982
+"PSA","stratification","ATE","5","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0143623501651276,0.0211512277002698,0.49719584007136
+"PSA","stratification","ATE","5","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.624442142285543,0.819134008032244,0.445958287488219
+"PSA","stratification","ATE","5","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.000456567115192083,0.0331672611092048,0.98901837233303
+"PSA","stratification","ATE","5","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.257966611315045,1.01702115583422,0.799792818479112
+"PSA","stratification","ATE","5","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00719290637006551,0.0219208551041086,0.742846888772946
+"PSA","stratification","ATE","5","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.203308135423354,0.856309023137425,0.812352158618341
+"PSA","stratification","ATE","6","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0240646361400502,0.0681470771272902,0.724060690686924
+"PSA","stratification","ATE","6","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.53708861311498,1.70895767381993,0.753369575668152
+"PSA","stratification","ATE","6","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0271785356862121,0.0362449519901617,0.453552480667949
+"PSA","stratification","ATE","6","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.18745612667705,1.32570596391338,0.37066318803411
+"PSA","stratification","ATE","6","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.0319664509497356,0.0670860200635306,0.633813934278644
+"PSA","stratification","ATE","6","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0271208220017681,1.70958165309496,0.987345779364209
+"PSA","stratification","ATE","6","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0440976174408762,0.0366793393474326,0.229609575625558
+"PSA","stratification","ATE","6","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.74955356597544,1.20959062149209,0.148440806441122
+"PSA","stratification","ATE","6","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00791256920852027,0.0345498482608463,0.818890506658781
+"PSA","stratification","ATE","6","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.295893234897771,1.07964683458746,0.784078672318781
+"PSA","stratification","ATE","6","30/70","~3","Raw","No","Original","trees",NA,NA,NA,0.00237033464494788,0.023869440737054,0.920911275749538
+"PSA","stratification","ATE","6","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.293061362627355,0.884858260391998,0.740547112569157
+"PSA","stratification","ATE","6","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00133892525578715,0.0384043720615366,0.972193679775155
+"PSA","stratification","ATE","6","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.653447164197882,1.13303895776571,0.564228679492901
+"PSA","stratification","ATE","6","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00435737960830152,0.0254608801129024,0.864138760031396
+"PSA","stratification","ATE","6","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.303151945646555,0.931503945129426,0.744894990429266
+"PSA","stratification","ATE","6","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0101085489804628,0.0259672077101929,0.697118072174543
+"PSA","stratification","ATE","6","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.783836433321906,0.872816446828462,0.369287149915686
+"PSA","stratification","ATE","6","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0220932443864016,0.0227481828134251,0.331587329495065
+"PSA","stratification","ATE","6","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.63186782645932,0.782661345155404,0.419592100239732
+"PSA","stratification","ATE","6","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0245235827207583,0.0264458073837621,0.353898275176293
+"PSA","stratification","ATE","6","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.3051975915212,0.878465938804815,0.137530417942426
+"PSA","stratification","ATE","6","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00413290129923263,0.0226993085719818,0.855548972907228
+"PSA","stratification","ATE","6","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.161961619855328,0.780095688555742,0.835553312846059
+"PSA","stratification","ATE","6","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00772237771172294,0.0235187196525375,0.742681479133294
+"PSA","stratification","ATE","6","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.535934752092448,0.75067726368667,0.475351325959696
+"PSA","stratification","ATE","6","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0161032369061413,0.0194488788488888,0.407781260235619
+"PSA","stratification","ATE","6","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.306630736976998,0.693801692012173,0.658567540744537
+"PSA","stratification","ATE","6","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00958130170792677,0.0225278674612063,0.670657635209023
+"PSA","stratification","ATE","6","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.572433424820312,0.749831560345496,0.445306050722777
+"PSA","stratification","ATE","6","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00331199296963437,0.0191499103926682,0.8627074528962
+"PSA","stratification","ATE","6","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.0346755897248536,0.676137126126544,0.959103627496826
+"PSA","stratification","ATE","6","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.000837347398725952,0.0250027453298324,0.973287033218605
+"PSA","stratification","ATE","6","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.124372438284179,0.797591100717236,0.876100043407596
+"PSA","stratification","ATE","6","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0152782812069869,0.0199735433698289,0.44440527238979
+"PSA","stratification","ATE","6","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.379941465384426,0.748066443991516,0.611580481655688
+"PSA","stratification","ATE","6","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00132074978159698,0.0241185444877783,0.956334574678204
+"PSA","stratification","ATE","6","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.00975915130244172,0.79475791775425,0.990203935568953
+"PSA","stratification","ATE","6","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00875470325217239,0.0204875172341646,0.669192751517926
+"PSA","stratification","ATE","6","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.21550274151226,0.745514312197513,0.772560723424666
+"PSA","stratification","ATE","6","70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.000608688972355297,0.0343507417926964,0.985864149621072
+"PSA","stratification","ATE","6","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.497765990871477,1.01665988434346,0.624464595005849
+"PSA","stratification","ATE","6","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0192173202917476,0.021668485212098,0.375250043097676
+"PSA","stratification","ATE","6","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.722382081152315,0.856116909607994,0.398887498444663
+"PSA","stratification","ATE","6","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00192892841279412,0.0330253056029701,0.953429850425488
+"PSA","stratification","ATE","6","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.343216377452173,0.989623298250283,0.728766937564476
+"PSA","stratification","ATE","6","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0147496251773049,0.0221884412485143,0.506290581754113
+"PSA","stratification","ATE","6","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.548725100963951,0.863408734131538,0.525152783266049
+"PSA","stratification","ATE","7","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.0424541583469581,0.0891765868145742,0.634121025829876
+"PSA","stratification","ATE","7","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.145884774701025,2.06392028778075,0.943662748071286
+"PSA","stratification","ATE","7","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0108440849291319,0.0384750483244079,0.778130844473375
+"PSA","stratification","ATE","7","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.533401542691327,1.32693625729164,0.687802273104924
+"PSA","stratification","ATE","7","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00497857864368631,0.0478882900050188,0.91721836061354
+"PSA","stratification","ATE","7","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.272236527585698,1.61101473213704,0.865840181900927
+"PSA","stratification","ATE","7","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0371045228483532,0.0373659652501998,0.320997447033569
+"PSA","stratification","ATE","7","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.48296274780678,1.15776533133771,0.200591870184055
+"PSA","stratification","ATE","7","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00989477897816723,0.0431852855450068,0.818809030999709
+"PSA","stratification","ATE","7","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.489437317364281,1.19289389550142,0.681658463596785
+"PSA","stratification","ATE","7","30/70","~3","Raw","No","Original","trees",NA,NA,NA,-0.00267933449479702,0.0248453781137101,0.91413810674175
+"PSA","stratification","ATE","7","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.132844277505226,0.912420738044723,0.884262188549923
+"PSA","stratification","ATE","7","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00846897109716905,0.0431708116157014,0.844505280803817
+"PSA","stratification","ATE","7","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.0031752720749,1.20806287073437,0.406466621152405
+"PSA","stratification","ATE","7","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00798987592545538,0.0254745980741117,0.753841501596366
+"PSA","stratification","ATE","7","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.448341425485012,0.91628625442682,0.624705613379714
+"PSA","stratification","ATE","7","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0166163786929447,0.023800795445352,0.485185321766005
+"PSA","stratification","ATE","7","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.816713437860315,0.840334638602744,0.331246935928502
+"PSA","stratification","ATE","7","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0104218418411144,0.0218113092176998,0.632843318568369
+"PSA","stratification","ATE","7","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.284089877450426,0.774949579280633,0.713971145697412
+"PSA","stratification","ATE","7","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0259906231134071,0.0248406333379278,0.295577774067009
+"PSA","stratification","ATE","7","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.17658998142949,0.859050974299579,0.170985324608048
+"PSA","stratification","ATE","7","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00112421544632715,0.0228897880505749,0.960834211549096
+"PSA","stratification","ATE","7","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0364912430474015,0.791638640771639,0.963239485743418
+"PSA","stratification","ATE","7","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0177333554711701,0.0228264409633116,0.43732352307763
+"PSA","stratification","ATE","7","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.766373704336893,0.752785012091729,0.308777801602567
+"PSA","stratification","ATE","7","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0187435375572388,0.0195786702910967,0.338508283358704
+"PSA","stratification","ATE","7","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.347910290965413,0.687921350958016,0.613093618545345
+"PSA","stratification","ATE","7","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.00693356960385275,0.0233683175767332,0.766720429340156
+"PSA","stratification","ATE","7","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.495616731659244,0.761721059888134,0.515345346706235
+"PSA","stratification","ATE","7","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00895829097874733,0.0195802351841187,0.647348865740768
+"PSA","stratification","ATE","7","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.101625300118774,0.691323487127202,0.883145894651292
+"PSA","stratification","ATE","7","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00263865314993289,0.0266205519562332,0.921052294185741
+"PSA","stratification","ATE","7","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.111731614756237,0.80587037915891,0.889743076871548
+"PSA","stratification","ATE","7","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0121417188353479,0.02015615023741,0.54698721662975
+"PSA","stratification","ATE","7","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.225097650017333,0.747040079601191,0.763202104853372
+"PSA","stratification","ATE","7","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00430937462867273,0.0253916198620247,0.865250477432498
+"PSA","stratification","ATE","7","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.200396043238981,0.808303014613007,0.804220480595499
+"PSA","stratification","ATE","7","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.010323575555152,0.0210472490431349,0.623836980192849
+"PSA","stratification","ATE","7","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.260230979408219,0.774390107565068,0.73687094472164
+"PSA","stratification","ATE","7","70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.00131716405297089,0.0364201200299534,0.971153767939953
+"PSA","stratification","ATE","7","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.666998837985419,1.04616146070876,0.523828682372687
+"PSA","stratification","ATE","7","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0157548513125034,0.0219971436868427,0.47393703275785
+"PSA","stratification","ATE","7","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.650099941397695,0.867496491045482,0.453705098273773
+"PSA","stratification","ATE","7","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.00484222756509181,0.0384590736706677,0.899819108120562
+"PSA","stratification","ATE","7","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.308849136342722,1.02512135955819,0.763232152197812
+"PSA","stratification","ATE","7","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00827016060482091,0.0233305262684501,0.723017761839422
+"PSA","stratification","ATE","7","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.411170567270494,0.886889253667633,0.64297746536289
+"PSA","stratification","ATE","8","20/80","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0121160828223955,0.0521945717498507,0.816478364534897
+"PSA","stratification","ATE","8","20/80","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-1.08541538161449,1.98971951945963,0.585513416595093
+"PSA","stratification","ATE","8","20/80","~3","Raw","No","Original","trees",NA,NA,NA,0.0221849387327143,0.0372868364119393,0.552018902013793
+"PSA","stratification","ATE","8","20/80","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-1.56142011509069,1.37172153734859,0.255327281663286
+"PSA","stratification","ATE","8","20/80","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.011903443763936,0.051690050569832,0.817913598938775
+"PSA","stratification","ATE","8","20/80","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.566327828354577,1.83938031362495,0.758224542617832
+"PSA","stratification","ATE","8","20/80","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0400854757592711,0.0377173051762862,0.288187875448861
+"PSA","stratification","ATE","8","20/80","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.51003543669955,1.19397546041827,0.206329902243161
+"PSA","stratification","ATE","8","30/70","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0154202346652418,0.0323327321064353,0.633497740429518
+"PSA","stratification","ATE","8","30/70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-1.03168131841478,1.09220040317286,0.345045787328677
+"PSA","stratification","ATE","8","30/70","~3","Raw","No","Original","trees",NA,NA,NA,-0.00687545419796375,0.0256633562972695,0.78880942267289
+"PSA","stratification","ATE","8","30/70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.059291406107135,0.920687905334374,0.948661905884057
+"PSA","stratification","ATE","8","30/70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.0121975019794021,0.0508526591845528,0.810477273483465
+"PSA","stratification","ATE","8","30/70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.383276256054989,1.32127823361072,0.771801879237825
+"PSA","stratification","ATE","8","30/70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.00665700230984152,0.0261295842236586,0.798939953957604
+"PSA","stratification","ATE","8","30/70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.476609335716971,0.950841207902358,0.616275643530363
+"PSA","stratification","ATE","8","40/60","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0234015541542832,0.0248846810904855,0.347149820306371
+"PSA","stratification","ATE","8","40/60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-1.07339398471943,0.861171344398712,0.212781393140019
+"PSA","stratification","ATE","8","40/60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0124236803172487,0.0216449957231705,0.566063809831972
+"PSA","stratification","ATE","8","40/60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.323423135951433,0.774264565648705,0.676209173360051
+"PSA","stratification","ATE","8","40/60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0301714725764493,0.0247569922148222,0.223130038279202
+"PSA","stratification","ATE","8","40/60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-1.42016729216426,0.873874932648772,0.104323806112756
+"PSA","stratification","ATE","8","40/60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.000802616987013715,0.0230107668911017,0.972179633819451
+"PSA","stratification","ATE","8","40/60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0510197085302729,0.802822810390231,0.949335992560388
+"PSA","stratification","ATE","8","50","~1.5","Raw","No","Original","trees",NA,NA,NA,0.0196667573021672,0.0237944031357253,0.408603776521845
+"PSA","stratification","ATE","8","50","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.84391394252439,0.777439043608689,0.277830141099111
+"PSA","stratification","ATE","8","50","~3","Raw","No","Original","trees",NA,NA,NA,-0.0181888642905385,0.0189684754493561,0.3377246315025
+"PSA","stratification","ATE","8","50","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.349847264273893,0.687138330214511,0.610712373275143
+"PSA","stratification","ATE","8","50","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.01600572601062,0.0233106049652605,0.492397217842927
+"PSA","stratification","ATE","8","50","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.873730608166566,0.756450722205175,0.248213475033984
+"PSA","stratification","ATE","8","50","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.00952095755375824,0.0197016706029469,0.62896635872382
+"PSA","stratification","ATE","8","50","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.0788517404143212,0.695982528976991,0.909807539882499
+"PSA","stratification","ATE","8","60","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.000233602008439371,0.0275126972435894,0.993226339332535
+"PSA","stratification","ATE","8","60","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.184609408110156,0.81902576980126,0.821690411767619
+"PSA","stratification","ATE","8","60","~3","Raw","No","Original","trees",NA,NA,NA,-0.0134780231488505,0.0205431617048303,0.511845690977302
+"PSA","stratification","ATE","8","60","~3","Within-sex SS","No","Original","trees",NA,NA,NA,0.245524014196411,0.757730866146263,0.745952549862723
+"PSA","stratification","ATE","8","60","~1.5","Raw","No","Expanded","trees",NA,NA,NA,-0.000832002069051377,0.0264777051300045,0.974935570838912
+"PSA","stratification","ATE","8","60","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.00354547901585887,0.833551485873587,0.996606667371131
+"PSA","stratification","ATE","8","60","~3","Raw","No","Expanded","trees",NA,NA,NA,-0.01407354700915,0.0215695602924509,0.514170955486892
+"PSA","stratification","ATE","8","60","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,0.455768353231187,0.80005649096152,0.568965054665787
+"PSA","stratification","ATE","8","70","~1.5","Raw","No","Original","trees",NA,NA,NA,-0.00408997395097311,0.0343225486729851,0.905158392139896
+"PSA","stratification","ATE","8","70","~1.5","Within-sex SS","No","Original","trees",NA,NA,NA,-0.4073471044629,1.00849556804389,0.686318373217148
+"PSA","stratification","ATE","8","70","~3","Raw","No","Original","trees",NA,NA,NA,0.0138312998817674,0.0232231442621989,0.551521177376086
+"PSA","stratification","ATE","8","70","~3","Within-sex SS","No","Original","trees",NA,NA,NA,-0.619377832068113,0.922292873869776,0.501939069355993
+"PSA","stratification","ATE","8","70","~1.5","Raw","No","Expanded","trees",NA,NA,NA,0.0173740156723023,0.0283562840292507,0.54014224026048
+"PSA","stratification","ATE","8","70","~1.5","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.779918605340795,1.00432522662614,0.437511230853161
+"PSA","stratification","ATE","8","70","~3","Raw","No","Expanded","trees",NA,NA,NA,0.0210171524837187,0.0206974573442518,0.310015437002102
+"PSA","stratification","ATE","8","70","~3","Within-sex SS","No","Expanded","trees",NA,NA,NA,-0.816532526817687,0.78461769297479,0.298151267686742
