@@ -268,10 +268,6 @@ NLSY.factors <- categories
 #    4 point scale :: factor
 #  sampleWt :: child revised sample weight from index year :: continuous
 #  gestationalAge :: gestational age of child, centered at 40 weeks :: continuous
-#  deaf :: child has a severe hearing problem (exclusion criteria)
-#  blind :: child has a severe vision problem (exclusion criteria)
-#  emoDisturb :: child has a severe emotional disturbance (exclusion criteria)
-
 
 # remove all discrete missing value flags (negative numbers) and replace with NA
 NLSY.cya.raw[NLSY.cya.raw<0] <- NA
@@ -2283,10 +2279,6 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
   
   if (method == "stratification") {
     
-    ### form the strata ###
-    
-    # number of strata
-    
     # make strata with boundaries such that all strata have equal n
     bounds <- quantile(df$pscores, seq(0, 1, 1/strata)) 
     
@@ -2319,7 +2311,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
       names() %>% append("strat")
     
     df_names_continuous <- df_subset[,sapply(df_subset, is.notcategorical)] %>%
-      names() %>% append("strat") %>% append("TVcat")
+      names() %>% append("TVcat")
     
     # set margins for each panel
     par(mar=rep(1, 4))
@@ -2335,7 +2327,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     
     for (i in 1:(length(df_names_continuous)-2)) {
       
-      df_target_subset_continuous <-  df_subset_continuous[!is.na(df_subset_continuous[,i]),]# & analysis$strat != 1,]
+      df_target_subset_continuous <-  df_subset_continuous[!is.na(df_subset_continuous[,i]),]
       
       plot.new()
       

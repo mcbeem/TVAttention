@@ -1,3 +1,3 @@
-"The correlation between temperament and raw attention is -0.098.
-The correlation between temperament and within-sex standardized attention is 0.118.
+"The correlation between temperament and raw attention is -0.1.
+The correlation between temperament and within-sex standardized attention is 0.12.
 "
