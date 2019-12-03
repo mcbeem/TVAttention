@@ -2464,20 +2464,20 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
 # Test the propensity score analysis function -----------------------------
 
 # test the function
-psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
-    method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
-
-psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
-   method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
-
-psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
-    method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
-
-psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
-    method="stratification", TVpercentiles=c(.4, .6), strata=4, title=TRUE, order=1)
-
-psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
-    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+# psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
+#     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+# 
+# psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
+#    method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+# 
+# psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
+#     method="IPTW", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+# 
+# psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Original",
+#     method="stratification", TVpercentiles=c(.4, .6), strata=4, title=TRUE, order=1)
+# 
+# psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
+#     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
 
 
 # Define the function for linear regression analysis ----------------------
@@ -2643,10 +2643,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
       ctable <- 
         df %>%
         dplyr::select(cohort, race, female, fatherAbsent,
-                      alcohol, smoking, rural) %>%
+                      alcohol, smoking, SMSA) %>%
         transmute_all(as.character) %>% 
         gather(key="variable", value="value", cohort, race, female, fatherAbsent,
-               alcohol, smoking, rural) %>%
+               alcohol, smoking, SMSA) %>%
         group_by(variable, value) %>%
         summarise (n = n()) %>%
         mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
@@ -2793,7 +2793,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
         dplyr::select(cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                       alcohol, smoking, preterm, SMSA) %>% 
         transmute_all(as.character) %>% 
-        gather(key="variable", value="value", race, female, poorHealth, lowBirthWt, fatherAbsent,
+        gather(key="variable", value="value", cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                alcohol, smoking, preterm, SMSA) %>%
         group_by(variable, value) %>%
         summarise (n = n()) %>%
@@ -2824,13 +2824,11 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                                                          "Preterm birth",
                                                          ifelse(ctable$variable=="race",
                                                                 "Race",
-                                                                ifelse(ctable$variable=="rural",
-                                                                       "Rural",
-                                                                       ifelse(ctable$variable=="smoking",
-                                                                              "Maternal smoking during pregnancy",
-                                                                              ifelse(ctable$variable=="SMSA",
-                                                                                     "Standard metropolitan statistical area",
-                                                                                     ctable$variable)))))))))))
+                                                                 ifelse(ctable$variable=="smoking",
+                                                                       "Maternal smoking during pregnancy",
+                                                                         ifelse(ctable$variable=="SMSA",
+                                                                                "Standard metropolitan statistical area",
+                                                                                 ctable$variable))))))))))
       
       for (i in seq(nrow(ctable), 2, by=-1)) {
         if (ctable$variable[i] == ctable$variable[i-1]) {ctable$variable[i] <- ""}
@@ -3050,7 +3048,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                              if(order==5) {c("TV hours per day age ~1.5", "TV age ~1.5 (squared)", "TV age ~1.5 (cubed)", "TV age ~1.5 (4th power)", "TV age ~1.5 (5th power)",
                                              "TV hours per day age ~3", "TV age ~3 (squared)", "TV age ~3 (cubed)", "TV age ~3 (4th power)", "TV age ~3 (5th power)")},
                              
-                             cov.labels[3:length(cov.labels)])
+                             cov.labels[2:length(cov.labels)])
     
     
     # make the stargazer table
@@ -3273,12 +3271,12 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                                    TV1, TV3, att_sex_ss, attention, TV1_2,
                                    TV1_3, TV1_4, TV1_5, TV3_2, TV3_3, TV3_4,
                                    TV3_5), method=c("polyreg",
-                                                    rep("pmm", 9), 
+                                                    rep("pmm", 8), 
                                                     rep("logreg", 3),
                                                     "pmm",
                                                     "polyreg",
                                                     "logreg",
-                                                    "logreg",
+                                                    "polyreg",
                                                     rep("pmm", 4),
                                                     "~I(TV1^2)", "~I(TV1^3)",  "~I(TV1^4)",
                                                     "~I(TV1^5)",  "~I(TV3^2)",
@@ -3298,8 +3296,6 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                       "Emotional support of home age 1-3" = emoSupp13,
                       "Mother's years of schooling" = momEdu,
                       "Number of children in household" = kidsInHouse,
-                      "Mother's age at birth" = momAge,
-                      "Annual family income (thousands)" = income,
                       "Rosenberg self-esteem score (1987)" = Rosen87,
                       "CES-D Depression score (1992)" = CESD92,
                       "Gestational age (in weeks relative to term)" = gestationalAge) %>%
@@ -3316,10 +3312,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
       ctable <- 
         complete(df.mi) %>%
         dplyr::select(cohort, race, female, fatherAbsent,
-                      alcohol, smoking, rural) %>%
+                      alcohol, smoking, SMSA) %>%
         transmute_all(as.character) %>% 
         gather(key="variable", value="value", cohort, race, female, fatherAbsent,
-               alcohol, smoking, rural) %>%
+               alcohol, smoking, SMSA) %>%
         group_by(variable, value) %>%
         summarise (n = n()) %>%
         mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
@@ -3347,8 +3343,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                                                   "Race",
                                                   ifelse(ctable$variable=="smoking",
                                                          "Maternal smoking during pregnancy",
-                                                         ifelse(ctable$variable=="rural",
-                                                                "Rural",
+                                                         ifelse(ctable$variable=="SMSA",
+                                                                "Standard metropolitan statistical area",
                                                                 ctable$variable))))))))
       
       for (i in seq(nrow(ctable), 2, by=-1)) {
@@ -3441,7 +3437,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                                                              fixed=T), split=",", fixed=T)),
                                    TV1, TV3, att_sex_ss, attention, TV1_2,
                                    TV1_3, TV1_4, TV1_5, TV3_2, TV3_3, TV3_4,
-                                   TV3_5), method=c(rep("pmm", 11), 
+                                   TV3_5), method=c("polyreg",
+                                                    rep("pmm", 11), 
                                                     rep("logreg" ,6),
                                                     "polyreg",
                                                     "logreg",
@@ -3483,10 +3480,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
       
       ctable <-
         complete(df.mi) %>%
-        dplyr::select(race, female, poorHealth, lowBirthWt, fatherAbsent,
+        dplyr::select(cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                       alcohol, smoking, preterm, SMSA) %>%
         transmute_all(as.character) %>% 
-        gather(key="variable", value="value", race, female, poorHealth, lowBirthWt, fatherAbsent,
+        gather(key="variable", value="value", cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                alcohol, smoking, preterm, SMSA) %>%
         group_by(variable, value) %>%
         summarise (n = n()) %>%
@@ -3517,13 +3514,11 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                                                          "Preterm birth",
                                                          ifelse(ctable$variable=="race",
                                                                 "Race",
-                                                                ifelse(ctable$variable=="rural",
-                                                                       "Rural",
-                                                                       ifelse(ctable$variable=="smoking",
-                                                                              "Maternal smoking during pregnancy",
-                                                                              ifelse(ctable$variable=="SMSA",
-                                                                                     "Standard metropolitan statistical area",
-                                                                                     ctable$variable)))))))))))
+                                                                 ifelse(ctable$variable=="smoking",
+                                                                        "Maternal smoking during pregnancy",
+                                                                        ifelse(ctable$variable=="SMSA",
+                                                                               "Standard metropolitan statistical area",
+                                                                                ctable$variable))))))))))
       
       for (i in seq(nrow(ctable), 2, by=-1)) {
         if (ctable$variable[i] == ctable$variable[i-1]) {ctable$variable[i] <- ""}
@@ -3668,7 +3663,6 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     # create covariate labels for the stargazer table
     #  depending on the order of the model
     
-    
     dummymodel_raw1 <- lm(data=complete(df.mi), as.formula(c("attention~", TV1vars, covs)))
     dummymodel_raw3 <- lm(data=complete(df.mi), as.formula(c("attention~", TV3vars, covs)))
     dummymodel_std1 <- lm(data=complete(df.mi), as.formula(c("att_sex_ss~", TV1vars, covs)))
@@ -3688,7 +3682,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                              if(order==5) {c("TV hours per day age ~1.5", "TV age ~1.5 (squared)", "TV age ~1.5 (cubed)", "TV age ~1.5 (4th power)", "TV age ~1.5 (5th power)",
                                              "TV hours per day age ~3", "TV age ~3 (squared)", "TV age ~3 (cubed)", "TV age ~3 (4th power)", "TV age ~3 (5th power)")},
                              
-                             cov.labels[3:length(cov.labels)])
+                             cov.labels[2:length(cov.labels)])
     
     if (title==T) { 
       stargazer(dummymodel_raw1, dummymodel_raw3, dummymodel_std1, dummymodel_std3, 
@@ -3905,17 +3899,21 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
 # Test the regression analysis function -----------------------------------
 
 # test it
-# regression(data=analysis, subdirectory="Results", missing="listwise", 
+# regression(data=analysis, subdirectory="Results", missing="listwise",
 #            covariates="Original", order=1, title=TRUE,
 #            m=2, maxit=3, seed=1)
 # 
 # regression(data=analysis, subdirectory="Results", missing="listwise",
 #            covariates="Expanded", order=1, title=TRUE,
-#            m=10, maxit=50, seed=1)
+#            m=3, maxit=3, seed=1)
 # 
-# regression(data=analysis, subdirectory="Results", missing="MI", 
+# regression(data=analysis, subdirectory="Results", missing="MI",
+#            covariates="Original", order=2, title=TRUE,
+#            m=3, maxit=3, seed=1)
+# 
+# regression(data=analysis, subdirectory="Results", missing="MI",
 #            covariates="Expanded", order=2, title=TRUE,
-#            m=3, maxit=5, seed=1)
+#            m=3, maxit=3, seed=1)
 
 
 # Define the logistic regression function ---------------------------------
@@ -3952,11 +3950,11 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
   
   if (covariates=="Original") {
     covs <- "cohort+age+cogStim13+emoSupp13+
-                momEdu+kidsInHouse+momAge+income+Rosen87+CESD92+
-                alcohol+fatherAbsent+female+gestationalAge+
-                race+smoking+rural"
+              momEdu+kidsInHouse+momAge+Rosen87+CESD92+
+              alcohol+fatherAbsent+female+gestationalAge+
+              race+smoking+SMSA"
     
-    ncovs <- 17
+    ncovs <- 16
     
     cov.labels <- c("TV hour per day (age ~1.5)", 
                     "TV hours per day (age ~3)", 
@@ -3964,25 +3962,29 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                     "Age at index", "Cognitive stimulation of home",
                     "Emotional support of home", "Maternal years of education",
                     "Children in the household", "Maternal age at birth",
-                    "Family income ($k)", "Maternal self-esteem (1987)", 
+                    "Maternal self-esteem (1987)", 
                     "Maternal depression (1992)", "Alcohol use in pregnancy",
                     "Father absent from household",
                     "Sex = female", "Gestational age at birth", "Race = Black", 
-                    "Race = White", "Smoking in pregnancy", "Rural",
+                    "Race = White", "Smoking in pregnancy", 
+                    "SMSA; not central city", "SMSA; central city unknown", 
+                    "SMSA; in central city",
                     "Intercept")
     
   } # closes if covariates==original
   
   if (covariates=="Expanded") {
     
-    covs <- "age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
-                momAge+income+Rosen87+CESD92+alcohol+fatherAbsent+female+lowBirthWt+
-                poorHealth+preterm+race+smoking+SMSA"
+    covs <- "cohort+age+temperament+cogStim13+emoSupp13+momEdu+partnerEdu+kidsInHouse+
+              momAge+income+Rosen87+CESD92+alcohol+fatherAbsent+female+lowBirthWt+
+              poorHealth+preterm+race+smoking+SMSA"
     
-    ncovs <- 20
+    ncovs <- 21
+    
     
     cov.labels <- c("TV hours per day (age ~1.5)", 
                     "TV hours per day (age ~3)", 
+                    "Cohort = 1998", "Cohort = 2000", 
                     "Age at index", "Temperament", 
                     "Cognitive stimulation of home",
                     "Emotional support of home", 
@@ -3998,8 +4000,6 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                     "SMSA; in central city", "Intercept")
   } # closes if covariates==expanded
   
-  
-  
   if (missing=="MI") {
     att_cats_empty_df <- matrix(ncol=length(att_cutpoints)*2, nrow=nrow(df)) %>% as.data.frame()
     df.expanded <- cbind(df, att_cats_empty_df)
@@ -4014,8 +4014,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                                                      fixed=T), split=",", fixed=T)),
                                   TV1, TV3, att_sex_ss, attention, sampleWt, 
                                   names(df.expanded)[(ncol(df.expanded)-(2*length(att_cutpoints))+1):ncol(df.expanded)]), 
-                    method=c("polyreg", rep("cart", 2), rep("cart", 7), rep("logreg", 3), "cart", "polyreg",
-                             "logreg", "logreg", rep("cart", 4), "",
+                    method=c("polyreg", rep("cart", 8), rep("logreg", 3), "cart", "polyreg",
+                             "logreg", "polyreg", rep("cart", 4), "",
                              c(paste0("~I(ifelse(att_sex_ss >", att_cutpoints, ", 1, 0))")),
                              c(paste0("~I(ifelse(attention <", raw_attn_cutpoints, ", 1, 0))"))),
                     
@@ -4029,7 +4029,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                                                      fixed=T), split=",", fixed=T)),
                                   TV1, TV3, att_sex_ss, attention, sampleWt, 
                                   names(df.expanded)[(ncol(df.expanded)-(2*length(att_cutpoints))+1):ncol(df.expanded)]), 
-                    method=c(rep("cart", 11), 
+                    method=c("polyreg",
+                             rep("cart", 11), 
                              rep("logreg" ,6),
                              "polyreg",
                              "logreg",
@@ -4216,10 +4217,7 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
     } # closes missing=listwise
     
     if (missing=="MI") {
-      # make descriptives tables by level
-      # ugh boring, skipping  
-      
-      
+
       # fit models without weights
       
       
@@ -4360,7 +4358,6 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                         "Mother's years of schooling" = momEdu,
                         "Number of children in household" = kidsInHouse,
                         "Mother's age at birth" = momAge,
-                        "Annual family income (thousands)" = income,
                         "Rosenberg self-esteem score (1987)" = Rosen87,
                         "CES-D Depression score (1992)" = CESD92,
                         "Gestational age (in weeks relative to term)" = gestationalAge,
@@ -4373,22 +4370,23 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                   .(AttentionGroup, variable)] %>%
         # reorder the variables
         dplyr::select(variable, AttentionGroup, n, mean, sd, min, max) 
+      # label the levels of TVgroup
+      dtable$AttentionGroup <- factor(dtable$AttentionGroup, labels=c("Normal", "Impaired"))
       # give names
       names(dtable) <- c("Variable", "Attention Group", "Valid n", "Mean", "Std Dev", "Min", "Max")
       # convert Variable to character (somehow it became a factor)
       dtable$Variable <- as.character(dtable$Variable)
-      # label the levels of TVgroup
-      dtable$AttentionGroup <- factor(dtable$"Attention Group", labels=c("Normal", "Impaired"))
+     
       # replace the Variable field with blanks for every other row
       dtable$Variable[seq(2, nrow(dtable), by=2)] <- ""
       
       #   make descriptives table for categorical variables
       ctable <- 
         descr_data %>% dplyr::select(att_sex_ss_cat, cohort, race, female, fatherAbsent,
-                                     alcohol, smoking, rural) %>%
+                                     alcohol, smoking, SMSA) %>%
         transmute_all(factor) %>% 
         gather(variable, value, cohort, race, female, fatherAbsent,
-               alcohol, smoking, rural) %>% 
+               alcohol, smoking, SMSA) %>% 
         group_by(att_sex_ss_cat, variable, value) %>%
         summarise (n = n()) %>%
         mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
@@ -4414,7 +4412,7 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
         if (ctable2$Variable[i] == ctable2$Variable[i-1]) {ctable2$Variable[i] <- ""}
       }
       
-      # convert factors in the Value variable  to character and label
+      # convert factors in the Value variable to character and label
       #  1=Yes, 0=No
       ctable2$Value <- as.character(ctable2$Value)
       ctable2$Value <- ifelse(ctable2$Value=="1", "Impaired", 
@@ -4443,8 +4441,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                                   "Race",
                                                   ifelse(ctable2$Variable=="smoking",
                                                          "Maternal smoking during pregnancy",
-                                                         ifelse(ctable2$Variable=="rural",
-                                                                "Rural",
+                                                         ifelse(ctable2$Variable=="SMSA",
+                                                                "Standard metropolitan statistical area",
                                                                 ctable2$Variable))))))))
       
       # make the table and write it to a file
@@ -4454,7 +4452,7 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                   out=here(subdirectory, output_string,
                            paste0("descriptives_categorical_", output_string, ".html")),
                   title=paste0("Descriptive statistics for categorical variables by attention group<br>",
-                               substr(title_string, 16, nchar(title_string))))
+                               title_string))
       } else {
         stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                   notes=" ", 
@@ -4494,21 +4492,21 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                   .(AttentionGroup, variable)] %>%
         # reorder the variables
         dplyr::select(variable, AttentionGroup, n, mean, sd, min, max) 
+      # label the levels of TVgroup
+      dtable$AttentionGroup <- factor(dtable$AttentionGroup, labels=c("Normal", "Impaired"))
       # give names
       names(dtable) <- c("Variable", "Attention Group", "Valid n", "Mean", "Std Dev", "Min", "Max")
       # convert Variable to character (somehow it became a factor)
       dtable$Variable <- as.character(dtable$Variable)
-      # label the levels of TVgroup
-      dtable$AttentionGroup <- factor(dtable$"Attention Group", labels=c("Normal", "Impaired"))
       # replace the Variable field with blanks for every other row
       dtable$Variable[seq(2, nrow(dtable), by=2)] <- ""
       
       #   make descriptives table for categorical variables
       ctable <- 
-        descr_data %>% dplyr::select(att_sex_ss_cat, race, female, poorHealth, lowBirthWt, fatherAbsent,
+        descr_data %>% dplyr::select(att_sex_ss_cat, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                                      alcohol, smoking, preterm, SMSA) %>%
         transmute_all(factor) %>% 
-        gather(variable, value, race, female, poorHealth, lowBirthWt, fatherAbsent,
+        gather(variable, value, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
                alcohol, smoking, preterm, SMSA) %>% 
         group_by(att_sex_ss_cat, variable, value) %>%
         summarise (n = n()) %>%
@@ -4566,13 +4564,11 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                                          "Preterm birth",
                                                          ifelse(ctable2$Variable=="race",
                                                                 "Race",
-                                                                ifelse(ctable2$Variable=="rural",
-                                                                       "Rural",
-                                                                       ifelse(ctable2$Variable=="smoking",
-                                                                              "Maternal smoking during pregnancy",
-                                                                              ifelse(ctable2$Variable=="SMSA",
-                                                                                     "Standard metropolitan statistical area",
-                                                                                     ctable2$Variable)))))))))))
+                                                                 ifelse(ctable2$Variable=="smoking",
+                                                                        "Maternal smoking during pregnancy",
+                                                                        ifelse(ctable2$Variable=="SMSA",
+                                                                               "Standard metropolitan statistical area",
+                                                                               ctable2$Variable))))))))))
       
     } # close if covariates=Expanded
     
@@ -4583,14 +4579,14 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                 out=here(subdirectory, output_string,
                          paste0("descriptives_continuous_", output_string, ".html")),
                 title=paste0("Descriptive statistics for continuous variables by attention group<br>",
-                             substr(title_string, 16, nchar(title_string))))
+                             title_string))
       
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
                 out=here(subdirectory, output_string,
                          paste0("descriptives_categorical_", output_string, ".html")),
                 title=paste0("Descriptive statistics for categorical variables by attention group<br>",
-                             substr(title_string, 16, nchar(title_string))))
+                             title_string))
     } else {
       stargazer(ctable2, summary=F, rownames=F, header=F, type="text",
                 notes=" ", 
@@ -4616,17 +4612,17 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
 
 # test it
 
-# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original", 
-#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original",
+#          att_cutpoints=c(115, 116), title=TRUE, m=2, maxit=3, seed=1)
 # 
-# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded", 
-#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded",
+#          att_cutpoints=c(115, 116), title=TRUE, m=2, maxit=3, seed=1)
 # 
-# logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Original", 
-#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Original",
+#          att_cutpoints=c(115), title=TRUE, m=2, maxit=3, seed=1)
 # 
-# logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Expanded", 
-#          att_cutpoints=c(115, 116), title=TRUE, m=5, maxit=5, seed=1)
+# logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Expanded",
+#          att_cutpoints=c(115, 116), title=TRUE, m=2, maxit=3, seed=1)
 
 
 # ** Perform the multiverse analysis ** -------------------
