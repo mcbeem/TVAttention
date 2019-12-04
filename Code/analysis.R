@@ -4808,16 +4808,16 @@ write.csv(all.results, file=here("Results", "results_all.csv"), row.names=FALSE)
 # import the results CSVs. Commented out
 #  you can uncomment these to load the analysis results without recalculating
 #  them all.
-result1 <- read.csv(file=here("Results", "results_stratification.csv"),
-                    stringsAsFactors=F, header=T)
-result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
-                    stringsAsFactors=F, header=T)
-result3 <- read.csv(file=here("Results", "results_regression.csv"),
-                    stringsAsFactors=F, header=T)
-result4 <- read.csv(file=here("Results", "results_logistic.csv"),
-                    stringsAsFactors=F, header=T)
-all.results <- read.csv(file=here("Results", "results_all.csv"),
-                    stringsAsFactors=F, header=T)
+# result1 <- read.csv(file=here("Results", "results_stratification.csv"),
+#                     stringsAsFactors=F, header=T)
+# result2 <- read.csv(file=here("Results", "results_IPTW.csv"),
+#                     stringsAsFactors=F, header=T)
+# result3 <- read.csv(file=here("Results", "results_regression.csv"),
+#                     stringsAsFactors=F, header=T)
+# result4 <- read.csv(file=here("Results", "results_logistic.csv"),
+#                     stringsAsFactors=F, header=T)
+# all.results <- read.csv(file=here("Results", "results_all.csv"),
+#                     stringsAsFactors=F, header=T)
 
 
 # Define the summary plot function for estimates and CIs ------------------
@@ -5072,18 +5072,21 @@ nrow(all.results[all.results$p < .05,])
 
 # what proportion is this?
 nrow(all.results[all.results$p < .05,]) / nrow(all.results)
-# average effect size (d) for propensity models
 
+
+# median, 2.5th, and 97.5th percentiles for IPTW models (Cohen's d)
 case_when(
   result2$Outcome == "Raw" ~ (-1*result2$Estimate / sd.raw),
   result2$Outcome == "Within-sex SS" ~ (result2$Estimate / sd.std)
 ) %>% quantile(probs=c(.025, .5, .975))
 
+# median, 2.5th, and 97.5th percentiles for stratification models (Cohen's d)
 case_when(
   result1$Outcome == "Raw" ~ (-1*result1$Estimate / sd.raw),
   result1$Outcome == "Within-sex SS" ~ (result1$Estimate / sd.std)
 ) %>% quantile(probs=c(.025, .5, .975))
 
+# median, 2.5th, and 97.5th percentiles beta coefficients for regression models
 case_when(
   result3$Outcome == "Raw" ~ (-1*result3$Estimate / sd.raw) * 
     mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T))),
@@ -5091,14 +5094,9 @@ case_when(
     mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T)))
 ) %>% quantile(probs=c(.025, .5, .975))
 
+# median, 2.5th, and 97.5th odds ratios for logistic models
 quantile(exp(result4$Estimate), probs=c(.025, .5, .975))
 
-case_when(
-  result3$Outcome == "Raw" ~ (-1*result4$Estimate / sd.raw) * 
-    mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T))),
-  result3$Outcome == "Within-sex SS" ~ (result3$Estimate / sd.std) *
-    mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T)))
-) %>% mean(na.rm=T)
 
 # understanding logistic regression results -------------------------------
 
