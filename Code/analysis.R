@@ -4838,32 +4838,33 @@ plot_estCIs <- function(data, stddev, lower, upper,  ...) {
   data <- mutate(data, rank = row_number((Estimate/StdErr)))
   
   p <- ggplot(data=data,
-               aes(x=rank, y=Estimate / stddev))+
-         geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-         geom_errorbar(aes(ymin=CI.lower/stddev,
-                           ymax=CI.upper/stddev),
-                       width=0,#nrow(data)/60,
-                       alpha=.6)+
-         geom_hline(yintercept=0, linetype="dotted", color="gray20")+
-         theme_classic()+
-         labs(x="", y="")+
-         facet_wrap(~TV.age)+
-         scale_fill_manual(values = c("gray20", "white"))+
-         coord_cartesian(ylim=c(lower, upper))+
-         theme(legend.position="none", 
-               axis.text.x = element_blank(),
-               axis.ticks.x = element_blank(),
-               axis.title.x=element_blank(),
-               plot.title= element_text(family="Times New Roman", size=11),
-               axis.title.y = element_text(family = "Times New Roman", size=10),
-               axis.text.y = element_text(family = "Times New Roman", size=10),
-               legend.text = element_text(family = "Times New Roman", size=10),
-               legend.title = element_text(family = "Times New Roman", size=10),
-               strip.text.x = element_text(family = "Times New Roman", size=10),
-               strip.background = element_rect(fill="gray90"))
-
-       return(p)
+                aes(x=rank, y=Estimate / stddev))+
+      geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p>.05, 0, 1))))+
+      geom_errorbar(aes(ymin=CI.lower/stddev,
+                        ymax=CI.upper/stddev),
+                    width=0,#nrow(data)/60,
+                    alpha=.6)+
+      geom_hline(yintercept=0, linetype="dotted", color="gray20")+
+      theme_classic()+
+      labs(x="", y="")+
+      facet_wrap(~TV.age)+
+      scale_fill_manual(values = c("white", "gray20"))+
+      coord_cartesian(ylim=c(lower, upper))+
+      theme(legend.position="none", 
+            axis.text.x = element_blank(),
+            axis.ticks.x = element_blank(),
+            axis.title.x=element_blank(),
+            plot.title= element_text(family="Times New Roman", size=11),
+            axis.title.y = element_text(family = "Times New Roman", size=10),
+            axis.text.y = element_text(family = "Times New Roman", size=10),
+            legend.text = element_text(family = "Times New Roman", size=10),
+            legend.title = element_text(family = "Times New Roman", size=10),
+            strip.text.x = element_text(family = "Times New Roman", size=10),
+            strip.background = element_rect(fill="gray90"))
+  
+  return(p)
 }
+
 
 plot_estCIs_logistic <- function(data, stddev, lower, upper,  ...) {
   
@@ -4881,7 +4882,6 @@ plot_estCIs_logistic <- function(data, stddev, lower, upper,  ...) {
   
   data <- mutate(data, rank = row_number((Estimate/StdErr)))
   
-
   p <- ggplot(data=data,
               aes(x=rank, y=exp(Estimate)))+
         geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
@@ -4906,7 +4906,7 @@ plot_estCIs_logistic <- function(data, stddev, lower, upper,  ...) {
               legend.title = element_text(family = "Times New Roman", size=10),
               strip.text.x = element_text(family = "Times New Roman", size=10),
               strip.background = element_rect(fill="gray90"))  
-    
+  
   return(p)
 }
 
@@ -5015,7 +5015,7 @@ est_std <- plot_estCIs_logistic(data=all.results, stddev=1, Analysis=="Logistic"
                 labs(y="TV slope (OR)")
 
 est_raw <- plot_estCIs_logistic(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
-                       lower=.8, upper=1.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
+                       lower=.8, upper=1.5)+ggtitle("Raw attention: point estimate and 95% CI")+
                        labs(y="TV slope (OR)")
 
 pvals <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test for TV effect")+
@@ -5096,6 +5096,28 @@ case_when(
 quantile(exp(result4$Estimate), probs=c(.025, .5, .975))
 
 
+###############################################################
+# investigate linear regression results                       #
+###############################################################
+
+# Make tables of significance by attention cutpoint for linear regression  --------
+
+regression_table <- with(filter(result3, TV.age=="~3"), 
+                       table(as.character(Missing) , p<.05)) %>% data.frame()
+names(regression_table) <- c("Missing", "Sig", "Freq")
+regression_table$Sig <- as.numeric(regression_table$Sig) - 1
+regression_table <- pivot_wider(data=regression_table, names_from=Sig, 
+                              values_from=Freq, names_prefix="Sig=")
+regression_table$Proportion <- format(round(regression_table$"Sig=1" / 
+                                            (regression_table$"Sig=0" + regression_table$"Sig=1"),3), nsmall=3)
+
+regression_table$Missing <- as.character(regression_table$Missing)
+
+names(regression_table) <- c("Missing data", "Non-sig", "Sig", "Proportion sig")
+
+stargazer(regression_table, summary=F, type="text", rownames=F,
+          out=here("Manuscript", "Tables", "linear_regression_results_by_missing.html"))
+
 # understanding logistic regression results -------------------------------
 
 ###############################################################
@@ -5105,8 +5127,8 @@ quantile(exp(result4$Estimate), probs=c(.025, .5, .975))
 # Make tables of significance by attention cutpoint for logistic  --------
 
 logistic_table <- with(dplyr::filter(result4, Outcome=="Within-sex SS"),
-     table(as.character(Attention.cutpoint), p<.05)) %>% data.frame()
-names(logistic_table) <- c("Cutpoint", "Sig", "Freq")
+     table(as.character(Missing), as.character(Attention.cutpoint), p<.05)) %>% data.frame()
+names(logistic_table) <- c("Missing", "Cutpoint", "Sig", "Freq")
 logistic_table$Sig <- as.numeric(logistic_table$Sig) - 1
 logistic_table <- pivot_wider(data=logistic_table, names_from=Sig, 
                           values_from=Freq, names_prefix="Sig=")
