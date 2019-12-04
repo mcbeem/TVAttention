@@ -2606,9 +2606,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     
     ncovs <- 16
     
-    cov.labels <- c(ifelse(TVage==1, 
-                           "TV category (age ~1.5)", 
-                           "TV category (age ~3)"), 
+    cov.labels <- c("TV category (age ~1.5)", 
+                    "TV category (age ~3)", 
                     "Cohort = 1998", "Cohort = 2000", 
                     "Age at index", "Cognitive stimulation of home",
                     "Emotional support of home", "Maternal years of education",
@@ -2632,9 +2631,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     
     ncovs <- 21
     
-    cov.labels <- c(ifelse(TVage==1, 
-                           "TV category (age ~1.5)", 
-                           "TV category (age ~3)"),  
+    cov.labels <- c("TV category (age ~1.5)", 
+                    "TV category (age ~3)",  
                     "Cohort = 1998", "Cohort = 2000", 
                     "Age at index", "Temperament", 
                     "Cognitive stimulation of home",
