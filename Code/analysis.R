@@ -1184,7 +1184,7 @@ stargazer(dtable, summary=F, rownames=F, header=F,
 ctable <- 
   analysis.factors %>%
   gather(variable, value, cohort, race, female, poorHealth, lowBirthWt, fatherAbsent,
-         alcohol, smoking, preterm, SMSA, rural) %>%
+         alcohol, smoking, preterm, SMSA) %>%
   group_by(variable, value) %>%
   summarise (n = n()) %>%
   mutate(Percent = paste(formatC((n / sum(n))*100, digits=2, format="f"), "%", sep=""))
@@ -1193,6 +1193,28 @@ for (i in seq(nrow(ctable), 2, by=-1)) {
   if (ctable$variable[i] == ctable$variable[i-1]) {ctable$variable[i] <- ""}
 }
 
+ctable$variable <- 
+  ifelse(ctable$variable=="alcohol", 
+         "Maternal alcohol use during pregnancy", 
+         ifelse(ctable$variable=="cohort",
+                "Cohort", 
+                ifelse(ctable$variable=="fatherAbsent", 
+                       "Father is absent from household", 
+                       ifelse(ctable$variable=="female",
+                              "Female", 
+                              ifelse(ctable$variable=="lowBirthWt",
+                                     "Low Birth Weight", 
+                                     ifelse(ctable$variable=="race",
+                                            "Race",
+                                            ifelse(ctable$variable=="smoking",
+                                                   "Maternal smoking during pregnancy",
+                                                   ifelse(ctable$variable=="SMSA",
+                                                          "Standard metropolitan statistical area",
+                                                          ifelse(ctable$variable=="poorHealth",
+                                                                 "Health condition limiting school or play",
+                                                                 ifelse(ctable$variable=="preterm",
+                                                                        "Premature birth",
+                                                          ctable$variable))))))))))
 stargazer(ctable, summary=F, rownames=F, header=F,
           notes=" ", column.sep.width="20pt",
           out=here("Manuscript", "Tables", "table_descr_factor.html"))
@@ -2281,18 +2303,18 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     #  part 1: continuous variables
     
     # define functions to pick out categorical or continuous variables
-    is.categorical <- function(x, levels=4) {length(table(x))<=levels}
+    is.categorical <- function(x, levels=4) {length(table(x)) <= levels}
     is.notcategorical <- function(...) {!is.categorical(...)}
     
     df_subset <- dplyr::select(df,  unlist(strsplit(gsub(" ", "", gsub("\n", "", gsub("+", ", ", covs, fixed=T)), fixed=T), split=",", fixed=T)),
-                               TVcat, pscores, strat)
+                               TVcat, pscores)
     
     # need to identify continuous variables vs factors
     df_names_categorical <- df_subset[,sapply(df_subset, is.categorical)] %>% 
       names() %>% append("strat")
     
     df_names_continuous <- df_subset[,sapply(df_subset, is.notcategorical)] %>%
-      names() %>% append("TVcat")
+      names() %>% append("TVcat") %>% append("strat")
     
     # set margins for each panel
     par(mar=rep(1, 4))
@@ -2500,7 +2522,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
 #     method="stratification", TVpercentiles=c(.4, .6), strata=4, title=TRUE, order=1)
 # 
 # psa(data=analysis, subdirectory="Results", iterations=4000, estimand="ATE", TVage=3, covariates="Expanded",
-#     method="stratification", TVpercentiles=c(.2, .8), strata=5, title=TRUE, order=1)
+#     method="stratification", TVpercentiles=c(.2, .8), strata=4, title=TRUE, order=1)
 
 
 # Define the function for linear regression analysis ----------------------
