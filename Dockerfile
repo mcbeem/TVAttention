@@ -19,6 +19,7 @@ ADD --chown=rstudio /Manuscript/Tables/readme.txt  /home/rstudio/Manuscript/Tabl
 ADD --chown=rstudio /Results/readme.txt  /home/rstudio/Results/readme.txt
 
 # install the necessary packages
+RUN R -e "install.packages('mice', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('PSAgraphics', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('here', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('tidyr', repos = 'http://cran.us.r-project.org')"
@@ -29,7 +30,6 @@ RUN R -e "install.packages('stargazer', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('broom', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('reshape2', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('data.table', repos = 'http://cran.us.r-project.org')"
-RUN R -e "install.packages('mice', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('stringr', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('cowplot', repos = 'http://cran.us.r-project.org')"
 RUN R -e "install.packages('psych', repos = 'http://cran.us.r-project.org')"
