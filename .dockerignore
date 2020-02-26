@@ -1,0 +1,15 @@
+*/*/IPTW*
+*/*/stratification*
+*/*/regression*
+*/*/logistic*
+*/Results*
+.git
+**/*.html
+**/*.png
+Dockerfile
+Dockerfile_master
+gitclean
+largefiles
+**.docx
+.dockerignore
+

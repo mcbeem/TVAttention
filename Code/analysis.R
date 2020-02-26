@@ -1,4 +1,4 @@
-################################################################################
+ ################################################################################
 #                                                                              #
 #   Script for creating the analysis dataset from raw NLSY data.               #
 #     and for performing the data analysis.                                    #
@@ -156,6 +156,9 @@
 # install.packages("ggExtra")
 # install.packages("gridGraphics")
 # install.packages("GPArotation")
+
+# benchmarking
+startTime <- Sys.time()
 
 # load the required packages
 library(here)
@@ -1098,7 +1101,7 @@ d1 <- ggplot_build(p1)$data[[1]]
 p1 <- p1 + geom_area(data = d1, aes(x=x, y=y), fill="gray", alpha=.4)
 p1
 
-ggsave(filename=here("Manuscript", "Figures", "fig_TV1_density.png"), 
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "fig_TV1_density.png"), 
        plot=p1, width=6, height=4, scale=1.2, dpi=200)
 
 # Figure: Density plot of TV consumption at age ~3
@@ -1116,7 +1119,7 @@ d3 <- ggplot_build(p3)$data[[1]]
 p3 <- p3 + geom_area(data = d3, aes(x=x, y=y), fill="gray", alpha=.4)
 p3
 
-ggsave(filename=here("Manuscript", "Figures", "fig_TV3_density.png"), 
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "fig_TV3_density.png"), 
        plot=p3, width=6, height=4, scale=1.2, dpi=200)
 
 
@@ -1266,6 +1269,7 @@ write.table(
 #  and there are four columns correponding to the 4 different sets of possible
 #  items. The numbers in each row are the number of missing values in each item.
 #  set.
+
 missing.temp.items.1996 <- cbind(
   # these are the "TMP A (0-11mo) items from birth year 
   NLSY.1996 %>% dplyr::select(C0764600, C0764700, C0764900, C0765400, C0765500, C0765600) %>% 
@@ -1630,7 +1634,7 @@ att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj,
                                      labels=c("A", "B", "C", "D"),
                                      label_x=c(.83, .83, .83, .83))
 
-ggsave(filename=here("Manuscript", "Figures", "scatterplots_std.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "scatterplots_std.png"),
        plot=att_TV_scatterplots_std, width=7, height=6, scale=1.0, dpi=200)
 
 # define functions for multiverse analysis --------------------------------
@@ -2052,7 +2056,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     theme(plot.title=element_text(size=10, hjust=.5, 
                                   family="Times New Roman"))}
   
-  ggsave(filename=here(subdirectory, output_string, 
+  ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
                        paste0("pscore_var_contribution_", output_string, ".png")),
          plot=p, width=5.5, height=4, scale=1.1, dpi=200)
   
@@ -2075,7 +2079,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                                     family="Times New Roman"))
   } 
   
-  ggsave(filename=here(subdirectory, output_string, 
+  ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
                        paste0("pscore_var_relationships_", output_string, ".png")), 
          plot=plots, width=10, height=7, scale=1.5, dpi=200)
   
@@ -2101,7 +2105,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     theme(plot.title=element_text(size=10, hjust=0.5, 
                                   family="Times New Roman"))}
   
-  ggsave(filename=here(subdirectory, output_string, paste0("pscore_density_", output_string, ".png")),
+  ggsave(type="cairo-png", filename=here(subdirectory, output_string, paste0("pscore_density_", output_string, ".png")),
          plot=p, width=5, height=4, scale=1.2, dpi=200)
   
   if (method=="IPTW") {
@@ -2159,7 +2163,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                                     family="Times New Roman"))}
     
     # export it
-    ggsave(filename=here(subdirectory, output_string, 
+    ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
                          paste0("/balanceplot_", output_string, ".png")), 
            plot=p, width=5, height=4, scale=1.2, dpi=200)
     dev.off()
@@ -2371,7 +2375,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                                       family="Times New Roman"))
     }
     
-    ggsave(filename=here(subdirectory, output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
+    ggsave(type="cairo-png", filename=here(subdirectory, output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
            plot=p, 
            width=16, height=12, 
            dpi=200, scale=1.4)   
@@ -2398,7 +2402,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     
     p_raw <- recordPlot()
     
-    ggsave(filename=here(subdirectory, output_string, 
+    ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
                          paste0("result_raw_", output_string, "_k=", strata, ".png")),
            plot=cowplot::plot_grid(p_raw),
            width=5, height=4, 
@@ -2417,7 +2421,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     
     p_std <- recordPlot()
     
-    ggsave(filename=here(subdirectory, output_string, 
+    ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
                          paste0("result_std_", output_string, "_k=", strata, ".png")),
            plot=plot_grid(p_std),
            width=5, height=4, 
@@ -2552,8 +2556,8 @@ pooled.contrast <- function(x) {
   return(c(pool.est, se.pool))
 }
 
-regression <- function(data, subdirectory, missing, covariates, order=1, title=TRUE,
-                       m=10, maxit=50, seed=1) {
+regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt, TV3.pt,
+                       title=TRUE, m=10, maxit=50, seed=1) {
   
   # some of these function calls produce meaningless warnings
   # this suppresses them. You can comment this out for safety
@@ -2568,12 +2572,6 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
   df$poorHealth <- factor(df$poorHealth, levels=c(0,1), labels=c("No", "Yes"))
   df$preterm <- factor(df$preterm, levels=c(0,1), labels=c("No", "Yes"))
   df$lowBirthWt <- factor(df$lowBirthWt, levels=c(0,1), labels=c("No", "Yes"))
-  
-  # calculate the median TV for the age 1 and age 3 groups
-  #  this will be the linearization point for the quadratic models
-  TV1.median <- median(df$TV1, na.rm=T)
-  TV3.median <- median(df$TV3, na.rm=T)
-  
   
   output_string <- paste0("regression", "_", covariates, "_", ifelse(missing=="MI", "MI", "listwise"), "_order=", order)
   
@@ -3095,7 +3093,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                              if(order==5) {c("TV hours per day age ~1.5", "TV age ~1.5 (squared)", "TV age ~1.5 (cubed)", "TV age ~1.5 (4th power)", "TV age ~1.5 (5th power)",
                                              "TV hours per day age ~3", "TV age ~3 (squared)", "TV age ~3 (cubed)", "TV age ~3 (4th power)", "TV age ~3 (5th power)")},
                              
-                             cov.labels[2:length(cov.labels)])
+                             cov.labels[3:length(cov.labels)])
     
     
     # make the stargazer table
@@ -3194,8 +3192,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==2) {   #f(TV) = b1(TV) + b2(TV^2), f'(TV) = b1 + b2*2*TV
       
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, rep(0,  (length(m1_TV1_raw$coef)-3))), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, rep(0,  (length(m1_TV3_raw$coef)-3))), nrow=1)
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, rep(0,  (length(m1_TV1_raw$coef)-3))), nrow=1)
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, rep(0,  (length(m1_TV3_raw$coef)-3))), nrow=1)
       
       reg_results <- rbind(
         c(tidy(summary(glht(m1_TV1_raw, contrasts.TV1)))[3:4], TV1_raw_result$p.value[2]),
@@ -3210,8 +3208,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
       )
     } else if (order==3) {   #f(TV) = b1(TV) + b2(TV^2) + b3(TV^3), f'(TV) = b1 + b2*2*TV + b3*3*TV^2
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, 3*TV1.median^2, rep(0,  (length(m1_TV1_raw$coef)-4))), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, 3*TV3.median^2, rep(0,  (length(m1_TV3_raw$coef)-4))), nrow=1)
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, 3*TV1.pt^2, rep(0,  (length(m1_TV1_raw$coef)-4))), nrow=1)
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, 3*TV3.pt^2, rep(0,  (length(m1_TV3_raw$coef)-4))), nrow=1)
       
       reg_results <- rbind(
         c(tidy(summary(glht(m1_TV1_raw, contrasts.TV1)))[3:4], TV1_raw_result$p.value[2]),
@@ -3227,9 +3225,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==4) {   #f(TV) = b1(TV) + b2(TV^2) + b3(TV^3) + b4(TV^4) 
       #f'(TV) = b1 + b2*2*TV + b3*3*TV^2 + b4*4*TV^3
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, 3*TV1.median^2, 4*TV1.median^3, 
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, 3*TV1.pt^2, 4*TV1.pt^3, 
                                 rep(0,  (length(m1_TV1_raw$coef)-5))), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, 3*TV3.median^2, 4*TV3.median^3,
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, 3*TV3.pt^2, 4*TV3.pt^3,
                                 rep(0,  (length(m1_TV3_raw$coef)-5))), nrow=1)
       
       reg_results <- rbind(
@@ -3246,9 +3244,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==5) {   #f(TV) = b1(TV) + b2(TV^2) + b3(TV^3) + b4(TV^4) + b5(TV^5)
       #f'(TV) = b1 + b2*2*TV + b3*3*TV^2 + b4*4*TV^3 + b5*5*TV^4
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, 3*TV1.median^2, 4*TV1.median^3, 5*TV1.median^4,
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, 3*TV1.pt^2, 4*TV1.pt^3, 5*TV1.pt^4,
                                 rep(0,  (length(m1_TV1_raw$coef)-6))), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, 3*TV3.median^2, 4*TV3.median^3, 5*TV1.median^4,
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, 3*TV3.pt^2, 4*TV3.pt^3, 5*TV1.pt^4,
                                 rep(0,  (length(m1_TV3_raw$coef)-6))), nrow=1)
       
       reg_results <- rbind(
@@ -3729,7 +3727,7 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
                              if(order==5) {c("TV hours per day age ~1.5", "TV age ~1.5 (squared)", "TV age ~1.5 (cubed)", "TV age ~1.5 (4th power)", "TV age ~1.5 (5th power)",
                                              "TV hours per day age ~3", "TV age ~3 (squared)", "TV age ~3 (cubed)", "TV age ~3 (4th power)", "TV age ~3 (5th power)")},
                              
-                             cov.labels[2:length(cov.labels)])
+                             cov.labels[3:length(cov.labels)])
     
     if (title==T) { 
       stargazer(dummymodel_raw1, dummymodel_raw3, dummymodel_std1, dummymodel_std3, 
@@ -3814,8 +3812,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==2) {  #f(TV) = b1(TV) + b2(TV^2)
       #f'(TV) = b1 + b2*2*TV 
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, rep(0,  nrow(m1_TV1_raw_pooled)-3)), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, rep(0,  nrow(m1_TV3_raw_pooled)-3)), nrow=1)
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, rep(0,  nrow(m1_TV1_raw_pooled)-3)), nrow=1)
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, rep(0,  nrow(m1_TV3_raw_pooled)-3)), nrow=1)
       
       TV1_raw_derivative <- t(sapply(m1_TV1_raw$analyses, 
                                      function(x){tidy(summary(glht(x, linfct=contrasts.TV1)))}))
@@ -3838,9 +3836,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==3) {   #f(TV) = b1(TV) + b2(TV^2) + b3(TV^3)
       #f'(TV) = b1 + b2*2*TV + b3*3*TV^2 
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, 3*TV1.median^2, 
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, 3*TV1.pt^2, 
                                 rep(0,  nrow(m1_TV1_raw_pooled)-4)), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, 3*TV3.median^2, 
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, 3*TV3.pt^2, 
                                 rep(0,  nrow(m1_TV3_raw_pooled)-4)), nrow=1)
       
       TV1_raw_derivative <- t(sapply(m1_TV1_raw$analyses, 
@@ -3865,9 +3863,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==4) {   #f(TV) = b1(TV) + b2(TV^2) + b3(TV^3)
       #f'(TV) = b1 + b2*2*TV + b3*3*TV^2 
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, 3*TV1.median^2, 4*TV1.median^3,
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, 3*TV1.pt^2, 4*TV1.pt^3,
                                 rep(0,  nrow(m1_TV1_raw_pooled)-5)), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, 3*TV3.median^2, 4*TV3.median^3,
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, 3*TV3.pt^2, 4*TV3.pt^3,
                                 rep(0,  nrow(m1_TV3_raw_pooled)-5)), nrow=1)
       
       TV1_raw_derivative <- t(sapply(m1_TV1_raw$analyses, 
@@ -3891,9 +3889,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
     } else if (order==5) {   #f(TV) = b1(TV) + b2(TV^2) + b3(TV^3)
       #f'(TV) = b1 + b2*2*TV + b3*3*TV^2 
       
-      contrasts.TV1 <- matrix(c(0,1, 2*TV1.median, 3*TV1.median^2, 4*TV1.median^3, 5*TV1.median^4,
+      contrasts.TV1 <- matrix(c(0,1, 2*TV1.pt, 3*TV1.pt^2, 4*TV1.pt^3, 5*TV1.pt^4,
                                 rep(0,  nrow(m1_TV1_raw_pooled)-6)), nrow=1)
-      contrasts.TV3 <- matrix(c(0,1, 2*TV3.median, 3*TV3.median^2, 4*TV3.median^3, 5*TV3.median^4,
+      contrasts.TV3 <- matrix(c(0,1, 2*TV3.pt, 3*TV3.pt^2, 4*TV3.pt^3, 5*TV3.pt^4,
                                 rep(0,  nrow(m1_TV3_raw_pooled)-6)), nrow=1)
       
       TV1_raw_derivative <- t(sapply(m1_TV1_raw$analyses, 
@@ -3946,9 +3944,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, title=T
 # Test the regression analysis function -----------------------------------
 
 # test it
-# regression(data=analysis, subdirectory="Results", missing="listwise",
-#            covariates="Original", order=1, title=TRUE,
-#            m=2, maxit=3, seed=1)
+regression(data=analysis, subdirectory="Results", missing="MI",
+           covariates="Original", order=3, title=TRUE, TV1.pt=2, TV3.pt=4,
+           m=5, maxit=5, seed=1)
 # 
 # regression(data=analysis, subdirectory="Results", missing="listwise",
 #            covariates="Expanded", order=1, title=TRUE,
@@ -4971,7 +4969,7 @@ pvals <- plot_ps(data=all.results, Analysis=="Regression")+ggtitle("Hypothesis t
 
 upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
-ggsave(filename=here("Manuscript", "Figures", "regression_results_summary.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "regression_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
 
@@ -4990,7 +4988,7 @@ pvals <- plot_ps(data=all.results, Method=="IPTW")+ggtitle("Hypothesis test for 
 
 upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
-ggsave(filename=here("Manuscript", "Figures", "IPTW_results_summary.png"), 
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "IPTW_results_summary.png"), 
        plot=plot_grid(upper_panel, pvals, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
 
 
@@ -5010,7 +5008,7 @@ pvals <- plot_ps(data=all.results, Method=="stratification")+ggtitle("Hypothesis
 
 upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
-ggsave(filename=here("Manuscript", "Figures", "stratification_results_summary.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "stratification_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
 
 
@@ -5030,8 +5028,39 @@ pvals <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis tes
 
 upper_panel <- plot_grid(est_std, est_raw, nrow=2)
 
-ggsave(filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
        plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
+
+
+# Plot logistic results by cutpoint ---------------------------------------
+
+logistic_by_cutpoint <- ggplot(data=filter(result4, TV.age=="~3", 
+                                           Outcome=="Within-sex SS", Missing=="listwise",
+                                           Covariates=="Expanded", is.na(Sample.weights)), 
+                                aes(x=Attention.cutpoint, y=exp(Estimate)))+
+                              geom_point()+
+                              geom_errorbar(aes(ymin=exp(Estimate-(1.96*StdErr)), 
+                                            ymax=exp(Estimate+(1.96*StdErr))),
+                                            alpha=.5)+
+                              geom_hline(yintercept=1, col="red", linetype="dashed", alpha=.5)+
+                              coord_cartesian(xlim=c(.9, 1.3))+
+                              coord_flip()+
+                              theme_bw()+
+  theme(legend.position="none", 
+        axis.title.x = element_text(family = "Times New Roman", size=10),
+        axis.text.x = element_text(family = "Times New Roman", size=10),
+        plot.title= element_text(family="Times New Roman", size=11),
+        axis.title.y = element_text(family = "Times New Roman", size=10),
+        axis.text.y = element_text(family = "Times New Roman", size=10),
+        legend.text = element_text(family = "Times New Roman", size=10),
+        legend.title = element_text(family = "Times New Roman", size=10),
+        strip.text.x = element_text(family = "Times New Roman", size=10),
+        strip.background = element_rect(fill="gray90"))
+
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_by_cutpoint.png"),
+       plot=logistic_by_cutpoint,
+       width=10, height=7, scale=1.0, dpi=200)
+
 
 # Summarize and plot overall results --------------------------------------
 
@@ -5064,7 +5093,7 @@ p_value_summary <- ggplot(data=all.results,
   coord_cartesian(ylim=c(0,1))+
   scale_y_continuous(breaks=seq(0,1,.1))
 
-ggsave(filename=here("Manuscript", "Figures", "p_value_summary.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "p_value_summary.png"),
        plot=ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, 
                                 binwidth=.025, yparams=list(size=.5)),
          width=10, height=7, scale=1.0, dpi=200)
@@ -5263,7 +5292,7 @@ logistic_postmortem_categorized <- ggplot(data=logistic_postmortem_1,
   scale_size_continuous(guide = FALSE)+
   coord_cartesian(ylim=c(0, .5))
 
-ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_categorized.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_postmortem_categorized.png"),
        plot=logistic_postmortem_categorized, width=8, height=6, scale=1.0, dpi=200)
 
 
@@ -5386,7 +5415,7 @@ logistic_postmortem_residualized <-
        x="TV consumption at age ~3 (hours per day)", 
        y="Attention category (0 = \"normal\", 1=\"problematic\")")
 
-ggsave(filename=here("Manuscript", "Figures", "logistic_postmortem_residualized.png"),
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_postmortem_residualized.png"),
        plot=logistic_postmortem_residualized, width=8, height=6, scale=1.0, dpi=200)
 
 
@@ -5506,7 +5535,10 @@ IPTW_plots <- plot_grid(p20_80, p30_70, p40_60, p50, p60, p70, nrow=2,
           labels=c("A: 20/80", "B: 30/70", "C: 40/60", "D: 50", "E: 60", "F: 70"),
           label_x=c(.48, .48, .48, .63, .63, .63), label_y=.97)
 
-ggsave(filename=here("Manuscript", "Figures", "IPTW_postmortem.png"), 
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "IPTW_postmortem.png"), 
        plot=IPTW_plots, width=7, height=4, scale=1.2, dpi=200)
 
-  
+# benchmarking
+endTime <- Sys.time()
+
+endTime - startTime
