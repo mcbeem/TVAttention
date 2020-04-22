@@ -1,0 +1,36 @@
+
+<table style="text-align:center"><caption><strong>IPTW Propensity Score Analayis Results Summary<br>Estimand: ATE, TV age: ~3, TV cutpoint percentiles: 20/80, Original covariate set</strong></caption>
+<tr><td colspan="9" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="8"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="8" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td colspan="4">Raw attention</td><td colspan="4">Within-sex standardized attention</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td><td>(4)</td><td>(5)</td><td>(6)</td><td>(7)</td><td>(8)</td></tr>
+<tr><td colspan="9" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">TVcat</td><td>-0.060</td><td>-0.108<sup>**</sup></td><td>-0.057</td><td>-0.092<sup>*</sup></td><td>1.139</td><td>2.771<sup>*</sup></td><td>1.056</td><td>2.174</td></tr>
+<tr><td style="text-align:left"></td><td>(-0.122, 0.003)</td><td>(-0.185, -0.030)</td><td>(-0.125, 0.011)</td><td>(-0.178, -0.005)</td><td>(-1.004, 3.281)</td><td>(0.187, 5.355)</td><td>(-1.237, 3.348)</td><td>(-0.615, 4.963)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">momEdu</td><td></td><td></td><td>0.029<sup>***</sup></td><td>0.029<sup>***</sup></td><td></td><td></td><td>-0.969<sup>***</sup></td><td>-1.071<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(0.018, 0.041)</td><td>(0.016, 0.043)</td><td></td><td></td><td>(-1.383, -0.556)</td><td>(-1.575, -0.567)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">raceBlack</td><td></td><td></td><td>-0.078</td><td>-0.074</td><td></td><td></td><td>1.639</td><td>2.045</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(-0.171, 0.014)</td><td>(-0.178, 0.029)</td><td></td><td></td><td>(-1.689, 4.968)</td><td>(-1.665, 5.755)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">raceWhite</td><td></td><td></td><td>-0.053</td><td>-0.069</td><td></td><td></td><td>1.645</td><td>2.986</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(-0.131, 0.025)</td><td>(-0.160, 0.023)</td><td></td><td></td><td>(-1.219, 4.509)</td><td>(-0.357, 6.329)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">gestationalAge</td><td></td><td></td><td>-0.002</td><td>-0.014</td><td></td><td></td><td>0.129</td><td>0.492</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(-0.018, 0.014)</td><td>(-0.034, 0.006)</td><td></td><td></td><td>(-0.449, 0.707)</td><td>(-0.179, 1.163)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">fatherAbsentYes</td><td></td><td></td><td>-0.047</td><td>-0.083</td><td></td><td></td><td>1.925</td><td>3.480<sup>*</sup></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td>(-0.129, 0.034)</td><td>(-0.176, 0.009)</td><td></td><td></td><td>(-0.960, 4.810)</td><td>(0.258, 6.703)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>2.642<sup>***</sup></td><td>2.675<sup>***</sup></td><td>2.331<sup>***</sup></td><td>2.343<sup>***</sup></td><td>101.630<sup>***</sup></td><td>100.468<sup>***</sup></td><td>112.382<sup>***</sup></td><td>112.326<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(2.600, 2.684)</td><td>(2.638, 2.712)</td><td>(2.178, 2.484)</td><td>(2.159, 2.526)</td><td>(100.156, 103.104)</td><td>(99.094, 101.841)</td><td>(106.720, 118.044)</td><td>(105.392, 119.259)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td colspan="9" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>838</td><td>838</td><td>775</td><td>775</td><td>824</td><td>824</td><td>761</td><td>761</td></tr>
+<tr><td style="text-align:left">Log Likelihood</td><td>-468.404</td><td>-559.083</td><td>-404.196</td><td>-493.992</td><td>-3,382.287</td><td>-3,472.846</td><td>-3,099.899</td><td>-3,186.628</td></tr>
+<tr><td style="text-align:left">Akaike Inf. Crit.</td><td>940.808</td><td>1,122.165</td><td>822.393</td><td>1,001.983</td><td>6,768.575</td><td>6,949.692</td><td>6,213.797</td><td>6,387.256</td></tr>
+<tr><td colspan="9" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="8" style="text-align:left"><sup>*</sup>p<0.05; <sup>**</sup>p<0.01; <sup>***</sup>p<0.001</td></tr>
+<tr><td style="text-align:left"></td><td colspan="8" style="text-align:left">(1) (2) (5) (6) Propensity score adjustment only; (3) (4) (7) (8) Doubly-robust model.</td></tr>
+<tr><td style="text-align:left"></td><td colspan="8" style="text-align:left">(1) (3) (5) (7) No sample weights; (2) (4) (6) (8) Sample weights applied.</td></tr>
+<tr><td style="text-align:left"></td><td colspan="8" style="text-align:left">Raw attention: lower is more impaired.</td></tr>
+<tr><td style="text-align:left"></td><td colspan="8" style="text-align:left">Standardized attention: higher is more impaired.</td></tr>
+</table>

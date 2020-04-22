@@ -76,5 +76,8 @@ vignettes/*.pdf
 # R package: bookdown caching files
 /*_files/
 
+/Backup/
+*_Backup/
+
 # End of https://www.gitignore.io/api/r,osx
 packrat/lib*/

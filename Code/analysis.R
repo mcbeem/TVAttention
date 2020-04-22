@@ -1,4 +1,4 @@
- ################################################################################
+################################################################################
 #                                                                              #
 #   Script for creating the analysis dataset from raw NLSY data.               #
 #     and for performing the data analysis.                                    #
@@ -182,6 +182,7 @@ library(extrafont)
 library(ggExtra)
 library(gridGraphics)
 library(GPArotation)
+library(gridExtra)
 
 # Make your system fonts available to R; only needs to be run once
 #  this can take a few minutes, so I've commented it out
@@ -293,43 +294,43 @@ NLSY.merged <- merge(NLSY.cya, NLSY, by="momID")
 #   positive response (e.g., non-missing) to any of these questions. 
 
 NLSY.merged <- filter(NLSY.merged,
-                       # child has serious difficulty hearing
-                         #  88
-                       is.na(C0594300) &
-                         #  90
-                       is.na(C0813300) &
-                         #  92
-                       is.na(C1003300) &
-                         #  94
-                       is.na(C1207000) &
-                       # child has serious difficulty seeing
-                         #  88
-                       is.na(C0594400) &
-                         #  90
-                       is.na(C0813400) &
-                         #  92
-                       is.na(C1003400) &
-                         #  94
-                       # child is crippled or has serious orthopedic handicap
-                         #  88
-                       is.na(C1207100) &
-                         #  90
-                       is.na(C0594700) &
-                         #  92
-                       is.na(C0813700) &
-                         #  94
-                       is.na(C1003700) &
-                       # child has serious emotional disturbance
-                         #  88
-                       is.na(C1207400) &
-                         #  90
-                       is.na(C0594500) &
-                         #  92
-                       is.na(C0813500) &
-                         #  94
-                       is.na(C1207200)
-                    )
-                 
+                      # child has serious difficulty hearing
+                      #  88
+                      is.na(C0594300) &
+                        #  90
+                        is.na(C0813300) &
+                        #  92
+                        is.na(C1003300) &
+                        #  94
+                        is.na(C1207000) &
+                        # child has serious difficulty seeing
+                        #  88
+                        is.na(C0594400) &
+                        #  90
+                        is.na(C0813400) &
+                        #  92
+                        is.na(C1003400) &
+                        #  94
+                        # child is crippled or has serious orthopedic handicap
+                        #  88
+                        is.na(C1207100) &
+                        #  90
+                        is.na(C0594700) &
+                        #  92
+                        is.na(C0813700) &
+                        #  94
+                        is.na(C1003700) &
+                        # child has serious emotional disturbance
+                        #  88
+                        is.na(C1207400) &
+                        #  90
+                        is.na(C0594500) &
+                        #  92
+                        is.na(C0813500) &
+                        #  94
+                        is.na(C1207200)
+)
+
 ### Begin creation of analysis variables ###
 
 ##################################################################################
@@ -340,7 +341,7 @@ NLSY.merged <- filter(NLSY.merged,
 
 # select cases where child's age at the last assessment is approximately 8 years
 NLSY.1996 <- filter(NLSY.merged, (C0004743/12) >= 6.75, (C0004743/12) <= 8.75)
- 
+
 # Child ID
 childID <- NLSY.1996$C0000100
 
@@ -378,17 +379,17 @@ att_sex_ss <- NLSY.1996$C1561900
 #    fewest missing values
 
 which.temperament <- cbind(
-    # these are the "TMP A (0-11mo) items from birth year 
-   NLSY.1996 %>% dplyr::select(C0764600, C0764700, C0764900, C0765400, C0765500, C0765600) %>% 
-     apply(c(1,2), is.na) %>% apply(1, sum),
-    # these are the "TMP B (12-23mo) items from birth year
-   NLSY.1996 %>% dplyr::select(C0765700, C0765800, C0766000, C0766500, C0766600, C0766700) %>% 
-     apply(c(1,2), is.na) %>% apply(1, sum),
-    # these are the "TMP A (0-11mo) items from birth year + 2
-   NLSY.1996 %>% dplyr::select(C0967600, C0967700, C0967900, C0968400, C0968500, C0968600) %>% 
+  # these are the "TMP A (0-11mo) items from birth year 
+  NLSY.1996 %>% dplyr::select(C0764600, C0764700, C0764900, C0765400, C0765500, C0765600) %>% 
     apply(c(1,2), is.na) %>% apply(1, sum),
-    # these are the "TMP B (12-23mo) items from birth year + 2
-   NLSY.1996 %>% dplyr::select(C0968700, C0968800, C0969000, C0969500, C0969600, C0969700) %>% 
+  # these are the "TMP B (12-23mo) items from birth year
+  NLSY.1996 %>% dplyr::select(C0765700, C0765800, C0766000, C0766500, C0766600, C0766700) %>% 
+    apply(c(1,2), is.na) %>% apply(1, sum),
+  # these are the "TMP A (0-11mo) items from birth year + 2
+  NLSY.1996 %>% dplyr::select(C0967600, C0967700, C0967900, C0968400, C0968500, C0968600) %>% 
+    apply(c(1,2), is.na) %>% apply(1, sum),
+  # these are the "TMP B (12-23mo) items from birth year + 2
+  NLSY.1996 %>% dplyr::select(C0968700, C0968800, C0969000, C0969500, C0969600, C0969700) %>% 
     apply(c(1,2), is.na) %>% apply(1, sum)
 ) %>% apply(1, which.min)
 
@@ -428,8 +429,8 @@ week1 <- ifelse(!is.na(NLSY.1996$C0953000), NLSY.1996$C0953000, #1990
                 ifelse(!is.na(NLSY.1996$C1151100), NLSY.1996$C1151100, NA)) #1992
 
 weekend1 <- ifelse(!is.na(NLSY.1996$C0953100), NLSY.1996$C0953100, #1990
-                  ifelse(!is.na(NLSY.1996$C1151200), NLSY.1996$C1151200, NA)) #1992
-  
+                   ifelse(!is.na(NLSY.1996$C1151200), NLSY.1996$C1151200, NA)) #1992
+
 # calculate the average hours per day 
 TV1 <- ((week1*5) + (weekend1*2)) / 7
 # cap > 16 hours per day at 16 as per Christakis et al.
@@ -444,12 +445,12 @@ TV1 <- ifelse(TV1>16, 16, TV1)
 #   missing, use 1994.
 
 week3 <-  ifelse(!is.na(NLSY.1996$C1154300), NLSY.1996$C1154300, #1992
-              ifelse(!is.na(NLSY.1996$C0956200), NLSY.1996$C0956200, #1990
-                   ifelse(!is.na(NLSY.1996$C1405500), NLSY.1996$C1405500, NA))) #1994
+                 ifelse(!is.na(NLSY.1996$C0956200), NLSY.1996$C0956200, #1990
+                        ifelse(!is.na(NLSY.1996$C1405500), NLSY.1996$C1405500, NA))) #1994
 
 weekend3 <- ifelse(!is.na(NLSY.1996$C115440), NLSY.1996$C115440, #1992
-                ifelse(!is.na(NLSY.1996$C0956300), NLSY.1996$C0956300, #1990
-                       ifelse(!is.na(NLSY.1996$C1405600), NLSY.1996$C1405600, NA))) #1994
+                   ifelse(!is.na(NLSY.1996$C0956300), NLSY.1996$C0956300, #1990
+                          ifelse(!is.na(NLSY.1996$C1405600), NLSY.1996$C1405600, NA))) #1994
 
 # calculate the average hours per day 
 TV3 <- ((week3*5) + (weekend3*2)) / 7
@@ -468,7 +469,7 @@ headStart <- NLSY.1996$C0592000
 # If there was at least one positive response to the question in the birth year or birth year + 2
 #  "usual childhood activities" is the question
 poorHealth <- ifelse(is.na(NLSY.1996$C0593200), NLSY.1996$C0812200, NLSY.1996$C0593200)
-  
+
 # BMI
 #  calculated using forumula from 
 #   https://www.cdc.gov/nccdphp/dnpao/growthcharts/training/bmiage/page5_2.html
@@ -543,10 +544,10 @@ gestationalAge <- NLSY.1996$C0328000 - 40
 sampleWt <- NLSY.1996$C1565801
 
 analysis1996 <- data.frame(cbind(childID, momID, cohort, race, female, age, temperament, attention, 
-                      TV1, TV3, headStart, poorHealth, BMI, lowBirthWt, cogStim13, 
-                      emoSupp13, momEdu, partnerEdu, kidsInHouse, fatherAbsent, alcohol, 
-                      smoking, momAge, preterm, income, Rosen87, CESD92, SMSA, gestationalAge, sampleWt,
-                      att_sex_ss))
+                                 TV1, TV3, headStart, poorHealth, BMI, lowBirthWt, cogStim13, 
+                                 emoSupp13, momEdu, partnerEdu, kidsInHouse, fatherAbsent, alcohol, 
+                                 smoking, momAge, preterm, income, Rosen87, CESD92, SMSA, gestationalAge, sampleWt,
+                                 att_sex_ss))
 
 
 # Create 1998 analysis dataset --------------------------------------------
@@ -559,11 +560,11 @@ analysis1996 <- data.frame(cbind(childID, momID, cohort, race, female, age, temp
 
 # clean up workspace
 rm(childID, momID, cohort, race, female, age, temperament, attention, 
-  TV1, TV3, headStart, poorHealth, BMI, lowBirthWt, cogStim13, 
-  emoSupp13, momEdu, partnerEdu, 
-  kidsInHouse, fatherAbsent, alcohol, smoking, 
-  momAge, preterm, income, Rosen87, CESD92, SMSA, gestationalAge, sampleWt, 
-  att_sex_ss)
+   TV1, TV3, headStart, poorHealth, BMI, lowBirthWt, cogStim13, 
+   emoSupp13, momEdu, partnerEdu, 
+   kidsInHouse, fatherAbsent, alcohol, smoking, 
+   momAge, preterm, income, Rosen87, CESD92, SMSA, gestationalAge, sampleWt, 
+   att_sex_ss)
 
 # select cases where child's age at the last assessment is approximately 8 years
 NLSY.1998 <- filter(NLSY.merged, (C0004744/12) >= 6.75, (C0004744/12) <= 8.75)
@@ -1015,10 +1016,10 @@ data$SMSA <- data$SMSA %>%
 
 # create rurality variable for replicating original covariate set
 data$rural <- ifelse(as.numeric(data$SMSA)==1, 1, 
-                         ifelse(as.numeric(data$SMSA) %in% (2:4), 0, NA))
+                     ifelse(as.numeric(data$SMSA) %in% (2:4), 0, NA))
 
 data$rural <- factor(data$rural, labels=c("Not rural", "Rural"))
-                         
+
 data$smoking <- data$smoking %>%
   factor(labels=c("No", "Yes"))
 
@@ -1089,13 +1090,13 @@ analysis <- analysis[!is.na(analysis$attention),]
 # Figure: Density plot of TV consumption at age 1
 
 p1 <- ggplot(data=analysis, aes(x=TV1))+geom_density()+theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-      axis.title = element_text(family = "Times New Roman",size=11),
-      legend.text=element_text(family="Times New Roman", size=7), 
-      legend.title=element_text(family="Times New Roman", size=10),
-      axis.text.y=element_blank(),
-      axis.ticks.y=element_blank())+
-      labs(x="Television hours per day for age ~1.5 yr", y=NULL)
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times",size=11),
+        legend.text=element_text(family="Times", size=7), 
+        legend.title=element_text(family="Times", size=10),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())+
+  labs(x="Television hours per day for age ~1.5 yr", y=NULL)
 
 d1 <- ggplot_build(p1)$data[[1]]
 p1 <- p1 + geom_area(data = d1, aes(x=x, y=y), fill="gray", alpha=.4)
@@ -1107,10 +1108,10 @@ ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "fig_TV1_density
 # Figure: Density plot of TV consumption at age ~3
 
 p3 <- ggplot(data=analysis, aes(x=TV3))+geom_density()+theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman",size=11),
-        legend.text=element_text(family="Times New Roman", size=7), 
-        legend.title=element_text(family="Times New Roman", size=10),
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times",size=11),
+        legend.text=element_text(family="Times", size=7), 
+        legend.title=element_text(family="Times", size=10),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank())+
   labs(x="Television hours per day for age ~3 yr", y=NULL)
@@ -1158,21 +1159,21 @@ Max <- function(x) {max(x, na.rm=T) %>% formatC(digits=2, format="f")}
 
 dtable <-analysis %>% 
   dplyr::select("Age (yrs) when attention was measured" = age,
-       "Temperament" = temperament,
-       "TV hours per day age 1.5" = TV1,
-       "TV hours per day age 3" = TV3,
-       "Cognitive stimulation of home age 1-3" = cogStim13,
-       "Emotional support of home age 1-3" = emoSupp13,
-       "Mother's years of schooling" = momEdu,
-       "Partner's years of schooling" = partnerEdu,
-       "Number of children in household" = kidsInHouse,
-       "Mother's age at birth" = momAge,
-       "Gestational age at birth" = gestationalAge,
-       "Annual family income (thousands)" = income,
-       "Rosenberg self-esteem score (1987)" = Rosen87,
-       "CES-D Depression score (1992)" = CESD92,
-       "Attention (raw)" = attention,
-       "Attention within-sex SS" = att_sex_ss) %>%
+                "Temperament" = temperament,
+                "TV hours per day age 1.5" = TV1,
+                "TV hours per day age 3" = TV3,
+                "Cognitive stimulation of home age 1-3" = cogStim13,
+                "Emotional support of home age 1-3" = emoSupp13,
+                "Mother's years of schooling" = momEdu,
+                "Partner's years of schooling" = partnerEdu,
+                "Number of children in household" = kidsInHouse,
+                "Mother's age at birth" = momAge,
+                "Gestational age at birth" = gestationalAge,
+                "Annual family income (thousands)" = income,
+                "Rosenberg self-esteem score (1987)" = Rosen87,
+                "CES-D Depression score (1992)" = CESD92,
+                "Attention (raw)" = attention,
+                "Attention within-sex SS" = att_sex_ss) %>%
   summarise_all(lst(Validn, Mean, Sd, Min, Max)) %>%
   gather(key, value, everything()) %>%
   separate(key, into=c("variable", "stat"), sep="_") %>%
@@ -1221,7 +1222,7 @@ ctable$variable <-
                                                                  "Health condition limiting school or play",
                                                                  ifelse(ctable$variable=="preterm",
                                                                         "Premature birth",
-                                                          ctable$variable))))))))))
+                                                                        ctable$variable))))))))))
 stargazer(ctable, summary=F, rownames=F, header=F,
           notes=" ", column.sep.width="20pt",
           out=here("Manuscript", "Tables", "table_descr_factor.html"))
@@ -1249,7 +1250,7 @@ cor(analysis$temperament, analysis$attention, use="complete.obs")
 write.table(
   paste0("The correlation between temperament and raw attention is ", 
          format(round(cor(analysis$temperament, analysis$attention, use="complete.obs"),3), nsmall=3), "<br>",
-        "The correlation between temperament and within-sex standardized attention is ", 
+         "The correlation between temperament and within-sex standardized attention is ", 
          format(round(cor(analysis$temperament, analysis$att_sex_ss, use="complete.obs"),3), nsmall=3), ".<br>"),
   file=here("Manuscript", "Tables", "corr_temp_att.html"), row.names=F, col.names=F)
 
@@ -1488,8 +1489,8 @@ efa_2factor$Structure[1:11,] %>% data.frame() %>%
             out=here("Manuscript", "Tables", "temp_att_EFA_2factor.html"),
             title="EFA results",
             notes=c("Structure coefficients for a 2-factor solution",
-                   "Minimum residual solution",
-                   "Direct oblimin rotation"))
+                    "Minimum residual solution",
+                    "Direct oblimin rotation"))
 
 efa_2factor$Phi %>% data.frame() %>% 
   stargazer(summary=F, rownames=T, header=F, column.sep.width="20pt",
@@ -1499,7 +1500,7 @@ efa_2factor$Phi %>% data.frame() %>%
             notes=c("Factor intercorrelation matrix for a 2-factor solution",
                     "Minimum residual solution",
                     "Direct oblimin rotation"))
-            
+
 
 # Make raw and residualized scatterplots for TV-attention relationship --------
 ##### Unadjusted and adjusted scatterplots of the TV-attention relationship at age 1.5 and 3
@@ -1521,9 +1522,9 @@ analysis.complete$resid.ss <- lm(data=analysis.complete,
 
 # identify rows from analysis dataframe that have missing data
 analysis.missingrows <- !complete.cases(select(analysis, att_sex_ss, TV1, TV3,
-                      age, temperament, cogStim13, emoSupp13, momEdu, partnerEdu, 
-                      kidsInHouse, momAge, income, Rosen87, CESD92, gestationalAge, cohort, race, 
-                      female, alcohol, fatherAbsent, smoking, SMSA, lowBirthWt, poorHealth))
+                                               age, temperament, cogStim13, emoSupp13, momEdu, partnerEdu, 
+                                               kidsInHouse, momAge, income, Rosen87, CESD92, gestationalAge, cohort, race, 
+                                               female, alcohol, fatherAbsent, smoking, SMSA, lowBirthWt, poorHealth))
 
 # make a single multiply-imputed dataset for plotting
 analysis.imputed <- mice(dplyr::select(analysis, att_sex_ss, TV1, TV3,
@@ -1550,11 +1551,11 @@ scatter.1.std.unadj <- ggplot(data=analysis, aes(x=TV1, y=att_sex_ss))+
               fill="gray20")+
   labs(x="", y='Standardized Attention at Age 7')+
   theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times", size=9),
+        axis.text = element_text(family = "Times", size=9),
+        legend.text = element_text(family = "Times", size=9),
+        legend.title = element_text(family = "Times", size=10))
 
 #  unadjusted standardized attention vs TV at age ~3
 scatter.3.std.unadj <- ggplot(data=analysis, aes(x=TV3, y=att_sex_ss))+
@@ -1565,11 +1566,11 @@ scatter.3.std.unadj <- ggplot(data=analysis, aes(x=TV3, y=att_sex_ss))+
               fill="gray20")+
   labs(x="", y="")+
   theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times", size=9),
+        axis.text = element_text(family = "Times", size=9),
+        legend.text = element_text(family = "Times", size=9),
+        legend.title = element_text(family = "Times", size=10))
 
 #  covariate-adjusted standardized attention vs TV at age ~1.5
 scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
@@ -1592,11 +1593,12 @@ scatter.1.std.adj <- ggplot(data=analysis.complete, aes(x=TV1, y=resid.ss))+
               se=T, level=.95, fill="gray20")+
   labs(x="TV consumption at Age ~1.5 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
   theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times", size=9),
+        axis.text = element_text(family = "Times", size=9),
+        legend.text = element_text(family = "Times", size=9),
+        legend.title = element_text(family = "Times", size=10))
+
 
 #  covariate-adjusted standardized attention vs TV at age ~3
 scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
@@ -1619,14 +1621,13 @@ scatter.3.std.adj <- ggplot(data=analysis.complete, aes(x=TV3, y=resid.ss))+
               se=T, level=.95, fill="gray20")+
   labs(x="TV consumption at Age ~3 (hours per day)", y='Covariate-adjusted Attention at Age 7')+
   theme_classic()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times", size=9),
+        axis.text = element_text(family = "Times", size=9),
+        legend.text = element_text(family = "Times", size=9),
+        legend.title = element_text(family = "Times", size=10))
 
-# set font and size for plot_grid panel labels
-theme_set(theme_cowplot(font_size=14, font_family = "Times New Roman"))
+
 
 # arrange panels in a grid
 att_TV_scatterplots_std <- plot_grid(scatter.1.std.unadj, scatter.3.std.unadj, 
@@ -2049,12 +2050,12 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
   p <- ggplot(relative.inf , aes(x=factor(var), y=rel.inf, fill=log(rel.inf)))+
     geom_bar(stat="identity", col="black", cex=.2, show.legend=FALSE) + coord_flip() + theme_classic()+
     ylab("Relative Influence")+xlab("")+
-    theme(text=element_text(family="Times New Roman"))
+    theme(text=element_text(family="Times"))
   if (title==T) {p <- p + ggtitle(
     paste0("Relative influence of each covariate on the propensity score\n", 
            title_string))+
     theme(plot.title=element_text(size=10, hjust=.5, 
-                                  family="Times New Roman"))}
+                                  family="Times"))}
   
   ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
                        paste0("pscore_var_contribution_", output_string, ".png")),
@@ -2076,7 +2077,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
       paste0("Relationship between each covariate and the logit probability of being in the high-TV group\n", 
              title_string)))+
       theme(plot.title=element_text(size=20, hjust=.5, 
-                                    family="Times New Roman"))
+                                    family="Times"))
   } 
   
   ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
@@ -2093,17 +2094,17 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
     geom_density(alpha=.5)+
     scale_fill_brewer(palette="Set1")+
     theme_classic()+labs(fill="TV group", x="Propensity score", y=NULL)+
-    theme(plot.title= element_text(family="Times New Roman", size=11),
-          axis.title = element_text(family = "Times New Roman",size=11),
-          legend.text=element_text(family="Times New Roman", size=7), 
-          legend.title=element_text(family="Times New Roman", size=10),
+    theme(plot.title= element_text(family="Times", size=11),
+          axis.title = element_text(family = "Times",size=11),
+          legend.text=element_text(family="Times", size=7), 
+          legend.title=element_text(family="Times", size=10),
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank())
   if (title==T) {p <- p + ggtitle(
     paste0("Density of propensity scores by TV category \n", 
            title_string))+
     theme(plot.title=element_text(size=10, hjust=0.5, 
-                                  family="Times New Roman"))}
+                                  family="Times"))}
   
   ggsave(type="cairo-png", filename=here(subdirectory, output_string, paste0("pscore_density_", output_string, ".png")),
          plot=p, width=5, height=4, scale=1.2, dpi=200)
@@ -2150,17 +2151,17 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
                  position=position_dodge(.075))+
       geom_line(alpha=.2, col="blue", position=position_dodge(.075))+
       theme_bw()+labs(x="", y="Absolute value of d")+
-      theme(plot.title= element_text(family="Times New Roman", size=11),
-            axis.text = element_text(family = "Times New Roman",size=11),
-            axis.title = element_text(family = "Times New Roman",size=11),
-            legend.text=element_text(family="Times New Roman", size=7), 
-            legend.title=element_text(family="Times New Roman", size=10))
+      theme(plot.title= element_text(family="Times", size=11),
+            axis.text = element_text(family = "Times",size=11),
+            axis.title = element_text(family = "Times",size=11),
+            legend.text=element_text(family="Times", size=7), 
+            legend.title=element_text(family="Times", size=10))
     # add title to plot if argument title==TRUE
     if (title==T) {p <- p + ggtitle(
       paste0("Covariate balance before and after weighting \n", 
              title_string))+
       theme(plot.title=element_text(size=10, hjust=0.5, 
-                                    family="Times New Roman"))}
+                                    family="Times"))}
     
     # export it
     ggsave(type="cairo-png", filename=here(subdirectory, output_string, 
@@ -2372,7 +2373,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
         paste0("Covariate balance within strata defined by the propensity score\n", 
                title_string, ", Strata: ", strata))+
         theme(plot.title=element_text(size=30, hjust=0.5, 
-                                      family="Times New Roman"))
+                                      family="Times"))
     }
     
     ggsave(type="cairo-png", filename=here(subdirectory, output_string, paste0("balanceplot_", output_string, "_k=", strata,".png")),
@@ -3944,9 +3945,9 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
 # Test the regression analysis function -----------------------------------
 
 # test it
-regression(data=analysis, subdirectory="Results", missing="MI",
-           covariates="Original", order=3, title=TRUE, TV1.pt=2, TV3.pt=4,
-           m=5, maxit=5, seed=1)
+# regression(data=analysis, subdirectory="Results", missing="MI",
+#            covariates="Original", order=3, title=TRUE, TV1.pt=2, TV3.pt=4,
+#            m=5, maxit=5, seed=1)
 # 
 # regression(data=analysis, subdirectory="Results", missing="listwise",
 #            covariates="Expanded", order=1, title=TRUE,
@@ -4697,7 +4698,7 @@ conditions_strat <- expand.grid(estimand=c("ATE"),
 
 conditions_reg <- expand.grid(covariates=c("Original", "Expanded"), 
                               missing=c("listwise", "MI"),
-                              order=c(1, 2, 3),
+                              order=1,
                               stringsAsFactors=F)
 
 conditions_logistic <- expand.grid(covariates=c("Original", "Expanded"), 
@@ -4822,316 +4823,439 @@ write.csv(all.results, file=here("Results", "results_all.csv"), row.names=FALSE)
 # all.results <- read.csv(file=here("Results", "results_all.csv"),
 #                     stringsAsFactors=F, header=T)
 
+# First multiverse - logistic models --------------------------------------
+ 
+# define a function to summarize the results of the models
 
-# Define the summary plot function for estimates and CIs ------------------
-# Figure: summarizing the results of all the models
-
-plot_estCIs <- function(data, stddev, lower, upper,  ...) {
+summarize_results <- function(data, sd.std=1, sd.raw=1, ...) {
   
+  # capture the criteria to be passed to filter()
   selection <- enquos(...)
   
-  data <- filter(data,  !!!selection) %>% group_by(TV.age) 
+  data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
   
-  data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
-  data$Estimate <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
-                          -1*data$Estimate, data$Estimate)
-  data$CI.lower <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
-                          -1*data$CI.lower, data$CI.lower)
-  data$CI.upper <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
-                          -1*data$CI.upper, data$CI.upper)
+  data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
   
-  data <- mutate(data, rank = row_number((Estimate/StdErr)))
+  # convert Sample.weights to character if it is already a factor
+  #  so the none condition can be labelled
+  data$Sample.weights <- as.character(data$Sample.weights)
   
-  p <- ggplot(data=data,
-                aes(x=rank, y=Estimate / stddev))+
-      geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p>.05, 0, 1))))+
-      geom_errorbar(aes(ymin=CI.lower/stddev,
-                        ymax=CI.upper/stddev),
-                    width=0,#nrow(data)/60,
-                    alpha=.6)+
-      geom_hline(yintercept=0, linetype="dotted", color="gray20")+
-      theme_classic()+
-      labs(x="", y="")+
-      facet_wrap(~TV.age)+
-      scale_fill_manual(values = c("white", "gray20"))+
-      coord_cartesian(ylim=c(lower, upper))+
-      theme(legend.position="none", 
-            axis.text.x = element_blank(),
-            axis.ticks.x = element_blank(),
-            axis.title.x=element_blank(),
-            plot.title= element_text(family="Times New Roman", size=11),
-            axis.title.y = element_text(family = "Times New Roman", size=10),
-            axis.text.y = element_text(family = "Times New Roman", size=10),
-            legend.text = element_text(family = "Times New Roman", size=10),
-            legend.title = element_text(family = "Times New Roman", size=10),
-            strip.text.x = element_text(family = "Times New Roman", size=10),
-            strip.background = element_rect(fill="gray90"))
+  data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
   
-  return(p)
+  data$Sample.weights <- factor(data$Sample.weights, 
+                                labels=c("No sample wts", "Sample weights"))
+  
+  
+  data$Doubly.robust <- factor(data$Doubly.robust, 
+                               labels=c("No double robust", "Double robust"))
+  
+  # subset the data for the summary
+  data <- filter(data,  !!!selection)
+  
+  # convert logits to odds ratios
+  data$Estimate <- ifelse(data$Analysis == "Logistic", exp(data$Estimate), data$Estimate)
+  data$CI.lower <- ifelse(data$Analysis == "Logistic", exp(data$CI.lower), data$Estimate)
+  data$CI.upper <- ifelse(data$Analysis == "Logistic", exp(data$CI.upper), data$Estimate)
+  
+  
+  # flip the sign of the estimates and CIs for the raw outcome
+  #  so that higher always means worse attention
+  #  also standardize each by the stddev
+  data$Estimate <- ifelse(data$Analysis != "Logistic",
+                          ifelse(data$Outcome == "Raw", #if not logistic
+                                 -1*data$Estimate/sd.raw, # if raw and not logistic
+                                 ifelse(data$Outcome == "Within-sex SS", # if not raw and not logistic
+                                        data$Estimate/sd.std, NA)), data$Estimate)
+  
+  data$CI.lower <- ifelse(data$Analysis != "Logistic",
+                          ifelse(data$Outcome == "Raw", #if not logistic
+                                 -1*data$CI.lower/sd.raw, # if raw
+                                 ifelse(data$Outcome == "Within-sex SS", 
+                                        data$CI.lower/sd.std, NA)), data$CI.lower)
+  
+  data$CI.upper <- ifelse(data$Analysis != "Logistic",
+                          ifelse(data$Outcome == "Raw", #if not logistic
+                                 -1*data$CI.upper/sd.raw, # if raw
+                                 ifelse(data$Outcome == "Within-sex SS", 
+                                        data$CI.upper/sd.std, NA)), data$CI.upper)
+  
+  medianES <- median(data$Estimate, na.rm=T)
+  stddevES <- sd(data$Estimate, na.rm=T)
+  fivenumES <- summary(data$Estimate, na.rm=T)
+  
+  nSig <- nrow(data[(data$p<.05 & !is.na(data$p)),])
+  nResults <- nrow(data)
+  pSig <- nSig / nResults
+  
+  median.p <- median(data$p, na.rm=T)
+  median.pSig <- median(data$p[data$p<.05], na.rm=T)
+  
+  fivenumES.sig <- summary(data$Estimate[data$p<.05], na.rm=T)
+  
+  return(list(medianES=medianES, stddevES=stddevES, fivenumES=fivenumES,
+              nSig=nSig, nResults=nResults, pSig=pSig, median.p=median.p, 
+              median.pSig=median.pSig, fivenumES.sig=fivenumES.sig))
+  
 }
 
 
-plot_estCIs_logistic <- function(data, stddev, lower, upper,  ...) {
-  
-  selection <- enquos(...)
-  
-  data <- filter(data,  !!!selection) %>% group_by(TV.age) 
-  
-  data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
-  data$Estimate <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
-                          -1*data$Estimate, data$Estimate)
-  data$CI.lower <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
-                          -1*data$CI.lower, data$CI.lower)
-  data$CI.upper <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
-                          -1*data$CI.upper, data$CI.upper)
-  
-  data <- mutate(data, rank = row_number((Estimate/StdErr)))
-  
-  p <- ggplot(data=data,
-              aes(x=rank, y=exp(Estimate)))+
-        geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-        geom_errorbar(aes(ymin=exp(CI.lower),
-                          ymax=exp(CI.upper)),
-                      width=0,
-                      alpha=.6)+
-        geom_hline(yintercept=1, linetype="dotted", color="gray20")+
-        theme_classic()+
-        labs(x="", y="")+
-        facet_wrap(~TV.age)+
-        scale_fill_manual(values = c("gray20", "white"))+
-        coord_cartesian(ylim=c(lower, upper))+
-        theme(legend.position="none", 
-              axis.text.x = element_blank(),
-              axis.ticks.x = element_blank(),
-              axis.title.x=element_blank(),
-              plot.title= element_text(family="Times New Roman", size=11),
-              axis.title.y = element_text(family = "Times New Roman", size=10),
-              axis.text.y = element_text(family = "Times New Roman", size=10),
-              legend.text = element_text(family = "Times New Roman", size=10),
-              legend.title = element_text(family = "Times New Roman", size=10),
-              strip.text.x = element_text(family = "Times New Roman", size=10),
-              strip.background = element_rect(fill="gray90"))  
-  
-  return(p)
+# define a function to make the panels for plotting the results of the first (logistic)
+#  multiverse analysis
+
+plot_estCIs_logistic <- function(data, stddev, x, lower, upper, facet,  ...) {
+ 
+ # capture the criteria to be passed to filter()
+ selection <- enquos(...)
+ 
+ # give appropriate labels to the categorical variables for the plot
+ data$Estimate <- ifelse(is.na(data$CI.lower), NA, data$Estimate)
+ 
+ data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
+ 
+ data$sig <- factor(ifelse(data$p<.05, 1, 0), labels=c("Sig", "Non-sig"))
+ 
+ data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
+ 
+ data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
+ 
+ data$Sample.weights <- factor(data$Sample.weights, 
+                               labels=c("No sample wts", "Sample weights"))
+ 
+ data$Missing <- factor(data$Missing, 
+                        labels=c("Listwise deletion", "Multiple imputation", "Trees"))
+ 
+ data$Strata <- factor(data$Strata, 
+                       labels=c("Strata = 4", "Strata = 5", "Strata = 6", "Strata = 7", 
+                                "Strata = 8"))
+ 
+ data$Doubly.robust <- factor(data$Doubly.robust, 
+                              labels=c("No double robust", "Double robust"))
+ 
+ # convert variable to factors that do not require labels
+ data$Strata <- factor(data$Strata)
+ 
+ data$Cutpoint <- factor(data$Cutpoint)
+ 
+ data$Outcome <- factor(data$Outcome)
+ 
+ # subset the data for the plot
+ data <- filter(data,  !!!selection)
+ 
+ # convert logits to odds ratios
+ data$Estimate <- exp(data$Estimate)
+ data$CI.lower <- exp(data$CI.lower)
+ data$CI.upper <- exp(data$CI.upper)
+ 
+ # make the plot
+ p <- ggplot(data=data, aes_string(x=x, y="Estimate"))+
+   geom_errorbar(aes(ymin=CI.lower, ymax=CI.upper),
+                 alpha=.5, width=0)+
+   geom_point(aes(fill=sig), size=2, alpha=.7, shape=21)+
+   scale_fill_manual(values = c("white", "gray20"), guide=FALSE)+
+   theme_classic()+
+   labs(shape="", fill="", y="", x="")+
+   geom_hline(yintercept=1, linetype="dashed", alpha=.4)+
+   coord_flip(ylim=c(lower, upper))+
+   facet_wrap(facet, nrow=2, dir="v")+
+   theme(legend.position="bottom",
+         axis.text.x = element_text(family = "Times", size=10),
+         axis.title.x = element_text(family = "Times", size=10),
+         plot.title= element_text(family="Times", size=10, hjust = 0.5),
+         axis.title.y = element_text(family = "Times", size=10),
+         axis.text.y = element_text(family = "Times", size=10),
+         legend.text = element_text(family = "Times", size=10),
+         legend.title = element_text(family = "Times", size=10),
+         strip.text.x = element_text(family = "Times", size=10),
+         strip.background = element_rect(fill="gray90"))
+ 
+ # the lower panels (raw outcome) need a bit of increased margin to separate them a bit from
+ #  the panels above
+ if (data$Outcome[1]=="Within-sex SS") {
+   p <- p +   scale_x_continuous(breaks=seq(110, 130, by=2))
+ } else {
+   p <- p + scale_x_reverse(breaks=seq(1.8, 2.6, .2), limits=c(2.7, 1.7))}
+ 
+ return(p)
 }
 
-# Define the function for plotting the summary of the p values ------------
-plot_ps <- function(data, ...) {
-  
-  selection <- enquos(...)
-  
-  data <- filter(data,  !!!selection) %>% group_by(TV.age) %>%
-    mutate(rank = row_number(desc(p)))
+# Make the plots for the logistic regression models
 
-  data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
-  
-  p <- ggplot(data=data,
-              aes(x=rank, y=p))+
-    geom_point(alpha=.6, shape=22, size=1.5, aes(fill=factor(ifelse(p<.05, 0, 1))))+
-    geom_line(alpha=.2)+
-    geom_hline(yintercept=.05, linetype="dotted", color="gray20")+
-    theme_classic()+
-    labs(x="", y="", fill="")+
-    facet_wrap(~TV.age)+
-    theme(legend.position="none", 
-          axis.text.x = element_blank(),
-          axis.ticks.x = element_blank(),
-          axis.title.x=element_blank(),
-          plot.title= element_text(family="Times New Roman", size=11),
-          axis.title.y = element_text(family = "Times New Roman", size=10),
-          axis.text.y = element_text(family = "Times New Roman", size=10),
-          legend.text = element_text(family = "Times New Roman", size=10),
-          legend.title = element_text(family = "Times New Roman", size=10),
-          strip.text.x = element_text(family = "Times New Roman", size=10),
-          strip.background = element_rect(fill="gray90"))+
-    coord_cartesian(ylim=c(0,1))+
-    scale_fill_manual(values = c("gray20", "white"))
-  return(p)
+p1 <- plot_estCIs_logistic(data=all.results, stddev=1, x="Attention.cutpoint", lower=.9, upper=1.35,
+                          facet=~Missing+Covariates+Sample.weights, Analysis=="Logistic", Outcome=="Within-sex SS", 
+                          TV.age=="TV age ~3") + labs(x="Attention cutpoint") + 
+ ggtitle("Classification based on within-sex standardized attention\nTV exposure measured at age ~3")
+
+p2 <- plot_estCIs_logistic(data=all.results, stddev=1, lower=.9, upper=1.35, x="Attention.cutpoint", 
+                          facet=~Missing+Covariates+Sample.weights, Analysis=="Logistic", Outcome=="Within-sex SS", 
+                          TV.age=="TV age ~1.5") + labs(y="")+
+ ggtitle("Classification based on within-sex standardized attention\nTV exposure measured at age ~1.5")
+
+p3 <- plot_estCIs_logistic(data=all.results, stddev=1, lower=.9, upper=1.35, x="Attention.cutpoint", 
+                          facet=~Missing+Covariates+Sample.weights, Analysis=="Logistic", Outcome=="Raw", 
+                          TV.age=="TV age ~3") + labs(x="Attention cutpoint", y="TV slope (odds ratio scale)")+
+ ggtitle("Classification based on raw attention\nTV exposure measured at age ~3")
+
+p4 <- plot_estCIs_logistic(data=all.results, stddev=1, lower=.9, upper=1.35, x="Attention.cutpoint", 
+                          facet=~Missing+Covariates+Sample.weights, Analysis=="Logistic", Outcome=="Raw", 
+                          TV.age=="TV age ~1.5") + labs(y="TV slope (odds ratio scale)")+
+ ggtitle("Classification based on raw attention\nTV exposure measured at age ~1.5")
+
+bigplot <- plot_grid(p1, p2, p3, p4, nrow=2, labels=c("A", "C", "B", "D"), label_size=17,
+                    rel_heights=c(1.2, .8))
+
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_multiverse.png"),
+      plot=bigplot,
+      width=10, height=6, scale=1.6, dpi=200)
+
+
+
+# Summarize results of the logistic models
+#  since the ORs don't need to be rescaled into standardized effect sizes, the std.sd and sd.raw
+#  arguments should be set to 1
+
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic")
+
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic", Sample.weights=="Sample weights")
+
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic", Sample.weights=="No sample wts")
+
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic", Sample.weights=="No sample wts", 
+                  Missing=="listwise")
+
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic", Sample.weights=="No sample wts", 
+                  Missing=="multiple imputation")
+
+ 
+# Second multiverse - propensity score and regression models --------------------------------------
+ 
+# define a function for making the panels for the 2nd multiverse analysis
+
+plot_estCIs<- function(data, stddev, x, lower, upper, facet,  ...) {
+ 
+ # capture the criteria to be passed to filter()
+ selection <- enquos(...)
+ 
+ # two of the results for the stratification models with k=8 strata
+ #  did not produce SEs or CI bounds. Set those estimates to NA so they aren't plotted
+ data$Estimate <- ifelse(is.na(data$CI.lower), NA, data$Estimate)
+ 
+ # give appropriate labels to the categorical variables for the plot
+ data$Estimate <- ifelse(is.na(data$CI.lower), NA, data$Estimate)
+ 
+ data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
+ 
+ data$sig <- factor(ifelse(data$p<.05, 1, 0), labels=c("Sig", "Non-sig"))
+ 
+ data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
+ 
+ data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
+ 
+ data$Sample.weights <- factor(data$Sample.weights, 
+                               labels=c("No sample wts", "Sample weights"))
+ 
+ data$Missing <- factor(data$Missing, 
+                        labels=c("Listwise deletion", "Multiple imputation", "Trees"))
+ 
+ data$Strata <- factor(data$Strata, 
+                       labels=c("Strata = 4", "Strata = 5", "Strata = 6", "Strata = 7", 
+                                "Strata = 8"))
+ 
+ data$Doubly.robust <- factor(data$Doubly.robust, 
+                              labels=c("No double robust", "Double robust"))
+ 
+ # convert variable to factors that do not require labels
+ data$Cutpoint <- factor(data$Cutpoint)
+ 
+ data$Outcome <- factor(data$Outcome)
+ 
+ # subset the data for the plot
+ data <- filter(data,  !!!selection)
+ 
+ # flip the sign of the estimates and CIs for the raw outcome
+ #  so that higher always means worse attention
+ #  also standardize each by the stddev
+ data$Estimate <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
+                         -1*data$Estimate/stddev, data$Estimate/stddev)
+ data$CI.lower <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
+                         -1*data$CI.lower/stddev, data$CI.lower/stddev)
+ data$CI.upper <- ifelse(data$Outcome=="Raw" & data$Analysis != "Logistic", 
+                         -1*data$CI.upper/stddev, data$CI.upper/stddev)
+ 
+ 
+ 
+ # make the plot
+ p <- ggplot(data=data, aes_string(x=x, y="Estimate"))+
+   geom_errorbar(aes(ymin=CI.lower, ymax=CI.upper),
+                 alpha=.5, width=0)+
+   geom_point(aes(fill=sig), size=2, alpha=.7, shape=21)+
+   scale_fill_manual(values = c("white", "gray20"), guide=FALSE)+
+   theme_classic()+
+   labs(shape="", fill="", y="", x="")+
+   geom_hline(yintercept=0, linetype="dashed", alpha=.4)+
+   coord_flip(ylim=c(lower, upper))+
+   facet_wrap(facet, nrow=2, dir="v")+
+   theme(legend.position="bottom",
+         axis.text.x = element_text(family = "Times", size=10),
+         axis.title.x = element_text(family = "Times", size=10),
+         plot.title= element_text(family="Times", size=10, hjust = 0.5),
+         axis.title.y = element_text(family = "Times", size=10),
+         axis.text.y = element_text(family = "Times", size=10),
+         legend.text = element_text(family = "Times", size=10),
+         legend.title = element_text(family = "Times", size=10),
+         strip.text.x = element_text(family = "Times", size=9),
+         strip.background = element_rect(fill="gray90"))
+ 
+ return(p)
 }
 
-# calculate standard deviations for standardized effect sizes
+# Calculate the std dev of the response variable for standardization
+
 sd.std <- sd(analysis$att_sex_ss, na.rm=T)
 sd.raw <- sd(analysis$attention, na.rm=T)
 
-# Make the regression results summary figure ------------------------------
+# Make the plots for the IPTW models
 
-# make regression results figure
-est_std <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Within-sex SS",
-                 lower=-.1*sd.std, upper=.1*sd.std)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
-                 labs(y="TV slope coefficient")
+p1 <- plot_estCIs(data=all.results, stddev=sd.std, x="Cutpoint", lower=-.2, upper=.4,
+                 facet=~Doubly.robust+Effect+Covariates+Sample.weights, Analysis=="PSA", Method=="IPTW", Outcome=="Within-sex SS", 
+                 TV.age=="TV age ~3") + labs(x="TV category percentile cutpoint") + 
+ ggtitle("Within-sex standardized attention outcome\nTV exposure measured at age ~3")
 
-est_raw <- plot_estCIs(data=all.results, stddev=1, Analysis=="Regression", Outcome=="Raw", 
-                 lower=-.1*sd.raw, upper=.1*sd.raw)+ggtitle("Raw attention: point estimate and 95% CI")+
-                  labs(y="TV slope coefficient")
+p2 <- plot_estCIs(data=all.results, stddev=sd.std, x="Cutpoint", lower=-.2, upper=.4,
+                 facet=~Doubly.robust+Effect+Covariates+Sample.weights, Analysis=="PSA", Method=="IPTW", Outcome=="Within-sex SS", 
+                 TV.age=="TV age ~1.5") + 
+ ggtitle("Within-sex standardized attention outcome\nTV exposure measured at age ~1.5")
 
-pvals <- plot_ps(data=all.results, Analysis=="Regression")+ggtitle("Hypothesis test for TV effect")+
-  labs(y="p value")
+p3 <- plot_estCIs(data=all.results, stddev=sd.raw, x="Cutpoint", lower=-.2, upper=.4,
+                 facet=~Doubly.robust+Effect+Covariates+Sample.weights, Analysis=="PSA", Method=="IPTW", Outcome=="Raw", 
+                 TV.age=="TV age ~3") + labs(x="TV category percentile cutpoint", y="Cohen's d") + 
+ ggtitle("Raw attention outcome\nTV exposure measured at age ~3")
 
-upper_panel <- plot_grid(est_std, est_raw, nrow=2)
-
-ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "regression_results_summary.png"),
-       plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
-
-
-# Make the propensity score (IPTW) results summary figure -----------------
-
-# make IPTW results figure
-est_std <- plot_estCIs(data=all.results, stddev=sd.std, Method=="IPTW", Outcome=="Within-sex SS",
-                 lower=-.5, upper=.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
-                 labs(y="Cohen's d")
-
-est_raw <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="IPTW", Outcome=="Raw",
-                 lower=-.5, upper=.5)+ggtitle("Raw attention: point estimate and 95% CI")+
-                  labs(y="Cohen's d")
-
-pvals <- plot_ps(data=all.results, Method=="IPTW")+ggtitle("Hypothesis test for TV effect")+labs(y="p value")
-
-upper_panel <- plot_grid(est_std, est_raw, nrow=2)
-
-ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "IPTW_results_summary.png"), 
-       plot=plot_grid(upper_panel, pvals, nrow=2), width=11, height=5.5, scale=1.2, dpi=200)
+p4 <- plot_estCIs(data=all.results, stddev=sd.raw, x="Cutpoint", lower=-.2, upper=.4,
+                 facet=~Doubly.robust+Effect+Covariates+Sample.weights, Analysis=="PSA", Method=="IPTW", Outcome=="Raw", 
+                 TV.age=="TV age ~1.5") + labs(y="Cohen's d") + 
+ ggtitle("Raw attention outcome\nTV exposure measured at age ~1,5")
 
 
-# Make the propensity score (stratification) results summary figure -------
+bigplot <- plot_grid(p1, p2, p3, p4, nrow=2, labels=c("A", "C", "B", "D"), label_size=17)
 
-# make stratification results figure
-est_std <- plot_estCIs(data=all.results, stddev=sd.std, Method=="stratification", Outcome=="Within-sex SS",
-                 lower=-.5, upper=.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
-                  labs(y="Cohen's d")
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "IPTW_multiverse.png"),
+      plot=bigplot,
+      width=10, height=6, scale=1.8, dpi=200)
 
-est_raw <- plot_estCIs(data=all.results, stddev=sd.raw, Method=="stratification", Outcome=="Raw",
-                 lower=-.5, upper=.5)+ggtitle("Raw attention: point estimate and 95% CI")+
-                labs(y="Cohen's d")
+# Calculate summary statistics for the IPTW models
 
-pvals <- plot_ps(data=all.results, Method=="stratification")+ggtitle("Hypothesis test for TV effect")+
-             labs(y="p value")
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="PSA", Method=="IPTW")
 
-upper_panel <- plot_grid(est_std, est_raw, nrow=2)
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="PSA", Method=="IPTW", 
+                  Sample.weights=="Sample weights")
 
-ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "stratification_results_summary.png"),
-       plot=plot_grid(upper_panel, pvals, nrow=2), width=7, height=6, scale=1.2, dpi=200)
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="PSA", Method=="IPTW", 
+                  Sample.weights=="No sample wts")
 
 
-# Make the logistic regression results summary figure ---------------------
+# Make the plots for the stratification models
 
-# logistic
-est_std <- plot_estCIs_logistic(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Within-sex SS",
-                 lower=.8, upper=1.5)+ggtitle("Within-sex standardized attention: point estimate and 95% CI")+
-                labs(y="TV slope (OR)")
+p1 <- plot_estCIs(data=all.results, stddev=sd.std, x="Cutpoint", lower=-.4, upper=.4,
+                 facet=~Strata+Covariates, Analysis=="PSA", Method=="stratification", 
+                 Outcome=="Within-sex SS", 
+                 TV.age=="TV age ~3") + labs(x="TV category percentile cutpoint") + 
+ ggtitle("Within-sex standardized attention outcome\nTV exposure measured at age ~3")
 
-est_raw <- plot_estCIs_logistic(data=all.results, stddev=1, Analysis=="Logistic", Outcome=="Raw",
-                       lower=.8, upper=1.5)+ggtitle("Raw attention: point estimate and 95% CI")+
-                       labs(y="TV slope (OR)")
+p2 <- plot_estCIs(data=all.results, stddev=sd.std, x="Cutpoint", lower=-.4, upper=.4,
+                 facet=~Strata+Covariates, Analysis=="PSA", Method=="stratification", 
+                 Outcome=="Within-sex SS", 
+                 TV.age=="TV age ~1.5") + 
+ ggtitle("Within-sex standardized attention outcome\nTV exposure measured at age ~1.5")
 
-pvals <- plot_ps(data=all.results, Analysis=="Logistic")+ggtitle("Hypothesis test for TV effect")+
-      labs(y="p value")
+p3 <- plot_estCIs(data=all.results, stddev=sd.raw, x="Cutpoint", lower=-.4, upper=.4,
+                 facet=~Strata+Covariates, Analysis=="PSA", Method=="stratification", 
+                 Outcome=="Raw", 
+                 TV.age=="TV age ~3") + labs(x="TV category percentile cutpoint", y="Cohen's d") + 
+ ggtitle("Raw attention outcome\nTV exposure measured at age ~3")
 
-upper_panel <- plot_grid(est_std, est_raw, nrow=2)
+p4 <- plot_estCIs(data=all.results, stddev=sd.raw, x="Cutpoint", lower=-.4, upper=.4,
+                 facet=~Strata+Covariates, Analysis=="PSA", Method=="stratification", 
+                 Outcome=="Raw", 
+                 TV.age=="TV age ~1.5") + labs(y="Cohen's d") + 
+ ggtitle("Raw attention outcome\nTV exposure measured at age ~1.5")
 
-ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_results_summary.png"),
-       plot=plot_grid(upper_panel, pvals, nrow=2), width=8, height=5.5, scale=1.2, dpi=200)
+bigplot <- plot_grid(p1, p2, p3, p4, nrow=2, labels=c("A", "C", "B", "D"), label_size=17)
+
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "stratification_multiverse.png"),
+      plot=bigplot,
+      width=10, height=6, scale=1.8, dpi=200)
+
+# Calculate summary statistics for the stratification models
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="PSA", Method=="stratification")
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="PSA", Method=="stratification", 
+                  Sample.weights=="Sample weights")
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="PSA", Method=="stratification", 
+                  Sample.weights=="No sample wts")
+
+# Make the plots for the regression models
+
+p1 <- plot_estCIs(data=all.results, stddev=sd.std, x="Covariates", lower=-.1, upper=.1,
+                 facet=~Missing+Sample.weights+TV.age, Analysis=="Regression", 
+                 Outcome=="Within-sex SS", Order==1) + labs(x="Covariate set") + 
+ ggtitle("Within-sex standardized attention outcome")  
+
+p2 <- plot_estCIs(data=all.results, stddev=sd.raw, x="Covariates", lower=-.1, upper=.1,
+                 facet=~Missing+Sample.weights+TV.age, Analysis=="Regression", 
+                 Outcome=="Raw", Order==1) + labs(x="Covariate set", y="TV slope estimate in standardized units") + 
+ ggtitle("Raw attention outcome")  
+
+bigplot <- plot_grid(p1, p2, nrow=2, labels=c("A", "B"), label_size=17)
+
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "regression_multiverse.png"),
+      plot=bigplot,
+      width=6, height=6, scale=1.6, dpi=200)
+
+# Calculate summary statistics for the regression models
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="Regression")
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="Regression", 
+                  Sample.weights=="Sample weights")
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="Regression", 
+                  Sample.weights=="No sample wts", Missing=="listwise")
+
+summarize_results(data=all.results, sd.raw=sd.raw, sd.std=sd.std, Analysis=="Regression", 
+                  Sample.weights=="No sample wts", 
+                  Missing=="multiple imputation")
 
 
-# Plot logistic results by cutpoint ---------------------------------------
+# Calculate summary statistics for the models --------
+# NOTE: DO NOT INTERPRET THE EFFECT SIZES HERE; THEY ARE MIXTURES OF DIFFERENT TYPES
 
-logistic_by_cutpoint <- ggplot(data=filter(result4, TV.age=="~3", 
-                                           Outcome=="Within-sex SS", Missing=="listwise",
-                                           Covariates=="Expanded", is.na(Sample.weights)), 
-                                aes(x=Attention.cutpoint, y=exp(Estimate)))+
-                              geom_point()+
-                              geom_errorbar(aes(ymin=exp(Estimate-(1.96*StdErr)), 
-                                            ymax=exp(Estimate+(1.96*StdErr))),
-                                            alpha=.5)+
-                              geom_hline(yintercept=1, col="red", linetype="dashed", alpha=.5)+
-                              coord_cartesian(xlim=c(.9, 1.3))+
-                              coord_flip()+
-                              theme_bw()+
-  theme(legend.position="none", 
-        axis.title.x = element_text(family = "Times New Roman", size=10),
-        axis.text.x = element_text(family = "Times New Roman", size=10),
-        plot.title= element_text(family="Times New Roman", size=11),
-        axis.title.y = element_text(family = "Times New Roman", size=10),
-        axis.text.y = element_text(family = "Times New Roman", size=10),
-        legend.text = element_text(family = "Times New Roman", size=10),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        strip.text.x = element_text(family = "Times New Roman", size=10),
-        strip.background = element_rect(fill="gray90"))
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis!="Logistic")
 
-ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_by_cutpoint.png"),
-       plot=logistic_by_cutpoint,
-       width=10, height=7, scale=1.0, dpi=200)
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis!="Logistic",  
+                  Sample.weights=="No sample wts")
 
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis!="Logistic", TV.age=="~1.5")
 
-# Summarize and plot overall results --------------------------------------
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis!="Logistic", TV.age=="~3")
 
-# sort the results by p-value
-all.results <- all.results[order(all.results$p),]
-all.results$model <- 1:nrow(all.results)
+summarize_results(data=all.results, sd.std=1, sd.raw=1)
 
-# create the plot of p values for all models
-p_value_summary <- ggplot(data=all.results,
-                                      aes(x=as.numeric(model)/nrow(all.results), 
-                                          y=p))+
-  geom_point(shape=1, size=.1, alpha=.6)+
-  scale_x_continuous(breaks=seq(0, 1, length.out=5))+
-  scale_fill_grey(start=.2, end=1)+
-  scale_color_grey(start=.1, end=.7)+
-  geom_hline(yintercept=.05, col="red", linetype="dotted")+
-  geom_abline(slope=1, intercept=0, alpha=.3, linetype="dashed")+
-  theme_bw()+
-  theme(legend.position="bottom", 
-        axis.text.x = element_blank(),
-        axis.title.x=element_text(family="Times New Roman", size=10),
-        plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=10),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10))+
-  labs(y="p value", x="Model")+
-  guides(color="none", fill="none")+
-  theme(plot.margin = unit(c(1, 1, 0, 1), "cm"))+
-  coord_cartesian(ylim=c(0,1))+
-  scale_y_continuous(breaks=seq(0,1,.1))
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis!="Logistic", Missing!="listwise", 
+                  Sample.weights=="No sample wts")
 
-ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "p_value_summary.png"),
-       plot=ggMarginal(p_value_summary, type="histogram", margins="y", alpha=.3, size=7, 
-                                binwidth=.025, yparams=list(size=.5)),
-         width=10, height=7, scale=1.0, dpi=200)
+# Results by TV age
+summarize_results(data=all.results, sd.std=1, sd.raw=1, TV.age=="~1.5")
+summarize_results(data=all.results, sd.std=1, sd.raw=1, TV.age=="~3")
 
-# Calculate sumary statistics for the models --------
+# Results by missing data treatment
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Missing=="listwise", Sample.weights=="No sample wts")
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Missing=="multiple imputation")
 
-# write the results to an html file
-write.table(
-  paste0("The total number of models was ",  nrow(all.results), ".<br>",
-         "Of these, ", nrow(all.results[all.results$p < .05,]), " were statistically significant (",
-         round(100*(nrow(all.results[all.results$p < .05,]) / nrow(all.results)),1), "%).<br><br>",
-         "The 2.5th, 50th, and 97.5th percentile effect sizes for each model family are (higher = more impaired):<br><br>",
-         
-         "Propensity score IPTW: [", case_when(
-           result2$Outcome == "Raw" ~ (-1*result2$Estimate / sd.raw),
-           result2$Outcome == "Within-sex SS" ~ (result2$Estimate / sd.std)
-         ) %>% quantile(probs=c(.025, .5, .975)) %>% round(3) %>% toString()
-         , "] (Cohen's d metric).<br><br>",
-         
-         "Propensity score stratification: [", case_when(
-           result1$Outcome == "Raw" ~ (-1*result1$Estimate / sd.raw),
-           result1$Outcome == "Within-sex SS" ~ (result1$Estimate / sd.std)
-         ) %>% quantile(probs=c(.025, .5, .975)) %>% round(3) %>% toString()
-         , "] (Cohen's d metric).<br><br>",
-         
-         "Linear regression: [", case_when(
-           result3$Outcome == "Raw" ~ (-1*result3$Estimate / sd.raw) * 
-             mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T))),
-           result3$Outcome == "Within-sex SS" ~ (result3$Estimate / sd.std) *
-             mean(c(sd(analysis$TV1, na.rm=T), sd(analysis$TV3, na.rm=T)))
-         ) %>% quantile(probs=c(.025, .5, .975)) %>% round(3) %>% toString()
-         , "] (beta coefficient metric).<br><br>",
-         
-         "Logistic regression: [", quantile(exp(result4$Estimate), 
-                                            probs=c(.025, .5, .975)) %>% round(3) %>% 
-           toString(),
-         "] (odds ratio metric)."),
-  file=here("Manuscript", "Tables", "model_results_summary.html"), row.names=F, col.names=F)
+# Results by covariate set
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Covariates=="Original")
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Covariates=="Expanded")
 
 
 ###############################################################
@@ -5277,15 +5401,15 @@ logistic_postmortem_categorized <- ggplot(data=logistic_postmortem_1,
   theme_bw()+facet_wrap(~cutpoint)+
   geom_text(data=logistic_postmortem_1_pvals, x=3, y=.45,
             label=paste0("p", logistic_postmortem_1_pvals$pval), 
-            family="Times New Roman", size=4, alpha=.85)+
+            family="Times", size=4, alpha=.85)+
   theme(legend.position="bottom", 
         axis.text.x = element_text(angle = 90, hjust=1),
-        plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=10),
-        axis.text = element_text(family = "Times New Roman", size=10),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        strip.text = element_text(family = "Times New Roman", size = 11))+
+        plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times", size=10),
+        axis.text = element_text(family = "Times", size=10),
+        legend.text = element_text(family = "Times", size=9),
+        legend.title = element_text(family = "Times", size=10),
+        strip.text = element_text(family = "Times", size = 11))+
   labs(color="Density by attention category", 
        x="TV consumption at age ~3 category (hours per day)", 
        y="Probability of \"problematic\" attention")+
@@ -5306,6 +5430,8 @@ ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_postmo
 #  produce NA as the residual for a missing case. With missing data, the residual
 #  would not properly match up with the TV3 vector as they would have different
 #  length
+
+# This figure was cut from the paper for space reasons
 
 data.complete <- dplyr::select(analysis, att_sex_ss, factor(cohort), age, cogStim13, emoSupp13, 
                         momEdu, kidsInHouse ,momAge, income, Rosen87, CESD92, alcohol, 
@@ -5401,14 +5527,14 @@ logistic_postmortem_residualized <-
   scale_color_brewer(palette="Set1")+
   geom_text(data=logistic_postmortem_2_pvals, x=12.5, y=.7, 
             label=paste0("p", logistic_postmortem_2_pvals$p), 
-            family="Times New Roman", size=4, alpha=.85)+
+            family="Times", size=4, alpha=.85)+
   theme_bw()+
-  theme(plot.title= element_text(family="Times New Roman", size=11),
-        axis.title = element_text(family = "Times New Roman", size=9),
-        axis.text = element_text(family = "Times New Roman", size=9),
-        legend.text = element_text(family = "Times New Roman", size=9),
-        legend.title = element_text(family = "Times New Roman", size=10),
-        strip.text = element_text(family = "Times New Roman", size = 11),
+  theme(plot.title= element_text(family="Times", size=11),
+        axis.title = element_text(family = "Times", size=9),
+        axis.text = element_text(family = "Times", size=9),
+        legend.text = element_text(family = "Times", size=9),
+        legend.title = element_text(family = "Times", size=10),
+        strip.text = element_text(family = "Times", size = 11),
         legend.position="bottom")+
   scale_y_continuous(breaks=c(0,1))+
   labs(color="Density by attention category", 
@@ -5424,7 +5550,7 @@ ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_postmo
 ###############################################################
 # Make tables of significance by TV cutpoints for IPTW  --------
 
-IPTW_table <- with(filter(result2, TV.age=="~3", Outcome=="Within-sex SS"), 
+IPTW_table <- with(filter(result2, TV.age=="~3"), 
                    table(Cutpoint, p<.05)) %>% data.frame()
 names(IPTW_table) <- c("Cutpoint", "Sig", "Freq")
 IPTW_table$Sig <- as.numeric(IPTW_table$Sig) - 1
@@ -5439,9 +5565,11 @@ names(IPTW_table) <- c("TV cutpoint percentiles", "Non-sig", "Sig", "Proportion 
 
 stargazer(IPTW_table, summary=F, type="text", rownames=F,
           title="IPTW propensity score models: significance by TV category cutoffs",
-          notes=c("Table includes only models measuring TV use at age ~3", 
-          "and using the standardized attention outcome."),
+          notes="Table includes only models in which TV was measured at age ~3",
           out=here("Manuscript", "Tables", "IPTW_results_by_TVcutpoint.html"))
+
+# where are the 50th and 60th percentiles?
+quantile(analysis$TV3, probs=c(.5, .6), na.rm=T)
 
 
 # Make IPTW postmortem figure  --------
@@ -5505,8 +5633,8 @@ IPTW_postmortem <- function(data, outcome, TVpercentiles, ...) {
     coord_cartesian(ylim=c(-5, 5))+
     labs(...)+
     theme_classic()+
-    theme(axis.title = element_text(family = "Times New Roman", size=9),
-          axis.text = element_text(family = "Times New Roman", size=9))
+    theme(axis.title = element_text(family = "Times", size=9),
+          axis.text = element_text(family = "Times", size=9))
 
     return(p)
 }
@@ -5541,4 +5669,5 @@ ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "IPTW_postmortem
 # benchmarking
 endTime <- Sys.time()
 
+# calculate elapsed time
 endTime - startTime
