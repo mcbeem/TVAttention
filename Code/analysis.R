@@ -5,7 +5,7 @@
 #   Project: Challenging the Link Between Early Childhood Television Exposure  #
 #     and Later Attention Problems: A Multiverse Analysis                      #
 #   Investigators: Matt McBee, Wallace Dixon, & Rebecca Brand                  #
-#   Programmers: Matthew McBee     mcbeem@etsu.edu    @TunnelofFire            #                                                     #
+#   Programmers: Matthew McBee     mmcbee@gmail.com    @TunnelofFire           #                                                     #
 ################################################################################
 
 # This work is copyrighted by the authors and             
@@ -37,10 +37,10 @@
 #  reproduce all of our analyses.
 #
 # One more thing: this code requires several hours to run -- about 12 hours on 
-#  a mid-2014 Macbook Pro (Core i5-2600ghz). Plan accordingly!
+#  a mid-2014 Macbook Pro (Core i5-2600ghz). About 4 hours on a 2019 Core i9-9700K. Plan accordingly!
 #
 # sessionInfo() -----------------------------------------------------------
-# R version 3.6.1 (2019-07-05)
+# R version 3.6.3 (2020-02-29)
 # Platform: x86_64-apple-darwin15.6.0 (64-bit)
 # Running under: macOS Catalina 10.15.2
 # 
@@ -52,75 +52,67 @@
 #   [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 # 
 # attached base packages:
-# [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+#   [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] GPArotation_2014.11-1 gridGraphics_0.4-1    ggExtra_0.9          
-# [4] extrafont_0.17        tibble_2.1.3          dplyr_0.8.3          
-# [7] multcomp_1.4-10       TH.data_1.0-10        MASS_7.3-51.4        
-# [10] mvtnorm_1.0-11        psych_1.8.12          cowplot_1.0.0        
-# [13] stringr_1.4.0         mice_3.6.0            data.table_1.12.6    
-# [16] reshape2_1.4.3        broom_0.5.2           stargazer_5.2.2      
-# [19] PSAgraphics_2.1.1     rpart_4.1-15          ggplot2_3.2.1        
-# [22] twang_1.5             latticeExtra_0.6-28   RColorBrewer_1.1-2   
-# [25] lattice_0.20-38       xtable_1.8-4          survey_3.36          
-# [28] survival_2.44-1.1     Matrix_1.2-17         gbm_2.1.5            
-# [31] tidyr_1.0.0           here_0.1             
+#   [1] mitml_0.3-7           gridExtra_2.3         GPArotation_2014.11-1 gridGraphics_0.5-0    ggExtra_0.9          
+# [6] extrafont_0.17        tibble_3.0.1          dplyr_0.8.5           multcomp_1.4-13       TH.data_1.0-10       
+# [11] MASS_7.3-51.5         mvtnorm_1.0-11        psych_1.9.12.31       cowplot_1.0.0         stringr_1.4.0        
+# [16] mice_3.8.0            data.table_1.12.8     reshape2_1.4.4        broom_0.5.6           stargazer_5.2.2      
+# [21] PSAgraphics_2.1.1     rpart_4.1-15          ggplot2_3.3.0         twang_1.6             latticeExtra_0.6-28  
+# [26] RColorBrewer_1.1-2    lattice_0.20-38       xtable_1.8-4          survey_4.0            survival_3.1-8       
+# [31] Matrix_1.2-18         gbm_2.1.5             tidyr_1.0.2           here_0.1             
 # 
 # loaded via a namespace (and not attached):
-# [1] splines_3.6.1    shiny_1.4.0      assertthat_0.2.1 Rttf2pt1_1.3.7   pillar_1.4.2    
-# [6] backports_1.1.5  glue_1.3.1       extrafontdb_1.0  digest_0.6.23    promises_1.1.0  
-# [11] minqa_1.2.4      colorspace_1.4-1 sandwich_2.5-1   htmltools_0.4.0  httpuv_1.5.2    
-# [16] plyr_1.8.4       pkgconfig_2.0.3  purrr_0.3.3      scales_1.1.0     later_1.0.0     
-# [21] lme4_1.1-21      generics_0.0.2   withr_2.1.2      pan_1.6          nnet_7.3-12     
-# [26] lazyeval_0.2.2   mnormt_1.5-5     magrittr_1.5     crayon_1.3.4     mime_0.7        
-# [31] mitml_0.3-7      nlme_3.1-141     foreign_0.8-72   tools_3.6.1      mitools_2.4     
-# [36] lifecycle_0.1.0  munsell_0.5.0    packrat_0.5.0    compiler_3.6.1   rlang_0.4.2     
-# [41] nloptr_1.2.1     rstudioapi_0.10  miniUI_0.1.1.1   boot_1.3-22      gtable_0.3.0    
-# [46] codetools_0.2-16 DBI_1.0.0        R6_2.4.1         gridExtra_2.3    zoo_1.8-6       
-# [51] fastmap_1.0.1    zeallot_0.1.0    jomo_2.6-9       rprojroot_1.3-2  stringi_1.4.3   
-# [56] parallel_3.6.1   Rcpp_1.0.3       vctrs_0.2.0      tidyselect_0.2.5
+#   [1] splines_3.6.3    shiny_1.4.0      assertthat_0.2.1 Rttf2pt1_1.3.7   pillar_1.4.3     backports_1.1.5 
+# [7] glue_1.3.1       extrafontdb_1.0  digest_0.6.23    promises_1.1.0   minqa_1.2.4      colorspace_1.4-1
+# [13] sandwich_2.5-1   htmltools_0.4.0  httpuv_1.5.2     plyr_1.8.5       pkgconfig_2.0.3  purrr_0.3.3     
+# [19] scales_1.1.0     later_1.0.0      lme4_1.1-21      generics_0.0.2   ellipsis_0.3.0   withr_2.1.2     
+# [25] pan_1.6          mnormt_1.5-5     magrittr_1.5     crayon_1.3.4     mime_0.8         nlme_3.1-144    
+# [31] tools_3.6.3      mitools_2.4      lifecycle_0.2.0  munsell_0.5.0    packrat_0.5.0    compiler_3.6.3  
+# [37] rlang_0.4.5      nloptr_1.2.1     rstudioapi_0.10  miniUI_0.1.1.1   boot_1.3-24      gtable_0.3.0    
+# [43] codetools_0.2-16 DBI_1.0.0        R6_2.4.1         zoo_1.8-6        fastmap_1.0.1    jomo_2.6-9      
+# [49] rprojroot_1.3-2  stringi_1.4.3    parallel_3.6.3   Rcpp_1.0.3       vctrs_0.2.4      tidyselect_0.2.5
 
 # also tested on a Windows 10 machine with following sessionInfo()
 
 # > sessionInfo()
-# R version 3.6.1 (2019-07-05)
+# R version 3.6.3 (2020-02-29)
 # Platform: x86_64-w64-mingw32/x64 (64-bit)
-# Running under: Windows 10 x64 (build 17763)
+# Running under: Windows 10 x64 (build 18363)
 # 
 # Matrix products: default
 # 
 # locale:
-# [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#   [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
 # [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
 # [5] LC_TIME=English_United States.1252    
 # 
 # attached base packages:
-# [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
+#   [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 # 
 # other attached packages:
-# [1] GPArotation_2014.11-1 gridGraphics_0.4-1    ggExtra_0.9           extrafont_0.17       
-# [5] tibble_2.1.3          dplyr_0.8.3           multcomp_1.4-10       TH.data_1.0-10       
-# [9] MASS_7.3-51.4         mvtnorm_1.0-11        psych_1.8.12          cowplot_1.0.0        
-# [13] stringr_1.4.0         mice_3.6.0            data.table_1.12.6     reshape2_1.4.3       
-# [17] broom_0.5.2           stargazer_5.2.2       PSAgraphics_2.1.1     rpart_4.1-15         
-# [21] ggplot2_3.2.1         twang_1.5             latticeExtra_0.6-28   RColorBrewer_1.1-2   
-# [25] lattice_0.20-38       xtable_1.8-4          survey_3.36           survival_2.44-1.1    
-# [29] Matrix_1.2-17         gbm_2.1.5             tidyr_1.0.0           here_0.1             
+#   [1] mitml_0.3-7           gridExtra_2.3         GPArotation_2014.11-1 gridGraphics_0.5-0    ggExtra_0.9          
+# [6] extrafont_0.17        tibble_3.0.1          dplyr_0.8.5           multcomp_1.4-13       TH.data_1.0-10       
+# [11] MASS_7.3-51.5         mvtnorm_1.0-12        psych_1.9.12.31       cowplot_1.0.0         stringr_1.4.0        
+# [16] mice_3.8.0            data.table_1.12.8     reshape2_1.4.4        broom_0.5.6           stargazer_5.2.2      
+# [21] PSAgraphics_2.1.1     rpart_4.1-15          ggplot2_3.3.0         twang_1.6             latticeExtra_0.6-29  
+# [26] lattice_0.20-38       xtable_1.8-4          survey_4.0            survival_3.1-8        Matrix_1.2-18        
+# [31] gbm_2.1.5             tidyr_1.0.2           here_0.1             
 # 
 # loaded via a namespace (and not attached):
-# [1] splines_3.6.1    shiny_1.4.0      assertthat_0.2.1 Rttf2pt1_1.3.7   pillar_1.4.2    
-# [6] backports_1.1.5  glue_1.3.1       extrafontdb_1.0  digest_0.6.22    promises_1.1.0  
-# [11] minqa_1.2.4      colorspace_1.4-1 sandwich_2.5-1   httpuv_1.5.2     htmltools_0.4.0 
-# [16] plyr_1.8.4       pkgconfig_2.0.3  purrr_0.3.3      scales_1.1.0     later_1.0.0     
-# [21] lme4_1.1-21      generics_0.0.2   withr_2.1.2      pan_1.6          nnet_7.3-12     
-# [26] lazyeval_0.2.2   mnormt_1.5-5     mime_0.7         magrittr_1.5     crayon_1.3.4    
-# [31] mitml_0.3-7      nlme_3.1-140     foreign_0.8-71   tools_3.6.1      mitools_2.4     
-# [36] lifecycle_0.1.0  munsell_0.5.0    compiler_3.6.1   rlang_0.4.1      nloptr_1.2.1    
-# [41] rstudioapi_0.10  miniUI_0.1.1.1   boot_1.3-22      gtable_0.3.0     codetools_0.2-16
-# [46] DBI_1.0.0        R6_2.4.1         gridExtra_2.3    zoo_1.8-6        fastmap_1.0.1   
-# [51] zeallot_0.1.0    jomo_2.6-10      rprojroot_1.3-2  stringi_1.4.3    parallel_3.6.1  
-# [56] Rcpp_1.0.3       vctrs_0.2.0      tidyselect_0.2.5
+#   [1] splines_3.6.3      shiny_1.4.0        assertthat_0.2.1   Rttf2pt1_1.3.8     pillar_1.4.3      
+# [6] backports_1.1.5    glue_1.3.1         extrafontdb_1.0    digest_0.6.23      RColorBrewer_1.1-2
+# [11] promises_1.1.0     minqa_1.2.4        colorspace_1.4-1   sandwich_2.5-1     htmltools_0.4.0   
+# [16] httpuv_1.5.2       plyr_1.8.5         pkgconfig_2.0.3    purrr_0.3.3        scales_1.1.0      
+# [21] jpeg_0.1-8.1       later_1.0.0        lme4_1.1-21        generics_0.0.2     ellipsis_0.3.0    
+# [26] withr_2.1.2        pan_1.6            mnormt_1.5-5       magrittr_1.5       crayon_1.3.4      
+# [31] mime_0.8           nlme_3.1-143       tools_3.6.3        mitools_2.4        lifecycle_0.2.0   
+# [36] munsell_0.5.0      packrat_0.5.0      compiler_3.6.3     rlang_0.4.5        nloptr_1.2.1      
+# [41] rstudioapi_0.11    miniUI_0.1.1.1     boot_1.3-24        gtable_0.3.0       codetools_0.2-16  
+# [46] DBI_1.1.0          R6_2.4.1           zoo_1.8-7          fastmap_1.0.1      jomo_2.6-10       
+# [51] rprojroot_1.3-2    stringi_1.4.4      parallel_3.6.3     Rcpp_1.0.3         vctrs_0.2.4       
+# [56] png_0.1-7          tidyselect_0.2.5 
 
 # Load packages -----------------------------------------------------------
 #
@@ -156,6 +148,8 @@
 # install.packages("ggExtra")
 # install.packages("gridGraphics")
 # install.packages("GPArotation")
+# install.packages("gridExtra")
+# install.packages("mitml")
 
 # benchmarking
 startTime <- Sys.time()
@@ -183,6 +177,7 @@ library(ggExtra)
 library(gridGraphics)
 library(GPArotation)
 library(gridExtra)
+library(mitml)
 
 # Make your system fonts available to R; only needs to be run once
 #  this can take a few minutes, so I've commented it out
@@ -1532,7 +1527,7 @@ analysis.imputed <- mice(dplyr::select(analysis, att_sex_ss, TV1, TV3,
                                        kidsInHouse, momAge, income, Rosen87, CESD92, gestationalAge, cohort, race, 
                                        female, alcohol, fatherAbsent, smoking, SMSA, lowBirthWt, poorHealth),
                          method=c(rep("pmm", 15), rep("polyreg", 2), rep("pmm", 4), "polyreg", rep("pmm", 2)),
-                         m=1, maxit=50) %>% complete()
+                         m=1, maxit=10) %>% complete()
 
 # calculate the attention residuals after controlling for all the covariates
 #  note that, as before, TV is left out but all covariates are included
@@ -2018,7 +2013,7 @@ psa <- function(data, subdirectory, iterations, estimand, TVage, covariates,
   }
   
   # set the random number seed
-  set.seed(1)
+  set.seed(1, kind="Mersenne-Twister", normal.kind="Inversion", sample.kind="Rejection")
   
   # fit the propensity score model with boosted classification trees
   
@@ -2557,8 +2552,9 @@ pooled.contrast <- function(x) {
   return(c(pool.est, se.pool))
 }
 
+# Note: TV1.pt and TV3.pt are the linearization points for models where order > 1
 regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt, TV3.pt,
-                       title=TRUE, m=10, maxit=50, seed=1) {
+                       title=TRUE, m=10, maxit=10, seed=1) {
   
   # some of these function calls produce meaningless warnings
   # this suppresses them. You can comment this out for safety
@@ -3714,7 +3710,8 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
     dummymodel_std1 <- lm(data=complete(df.mi), as.formula(c("att_sex_ss~", TV1vars, covs)))
     dummymodel_std3 <- lm(data=complete(df.mi), as.formula(c("att_sex_ss~", TV3vars, covs)))
     
-    cov.labels.expanded <- c(if(order==1) {c("TV hours per day age ~1.5", "TV hours per day age ~3")}, 
+   
+     cov.labels.expanded <- c(if(order==1) {c("TV hours per day age ~1.5", "TV hours per day age ~3")}, 
                              
                              if(order==2) {c("TV hours per day age ~1.5", "TV age ~1.5 (squared)",
                                              "TV hours per day age ~3", "TV age ~3 (squared)")},
@@ -3733,10 +3730,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
     if (title==T) { 
       stargazer(dummymodel_raw1, dummymodel_raw3, dummymodel_std1, dummymodel_std3, 
                 type="text",
-                coef=list(m1_TV1_raw_pooled[,1], m1_TV3_raw_pooled[,1], 
-                          m1_TV1_std_pooled[,1], m1_TV3_std_pooled[,1]),
-                se=list(m1_TV1_raw_pooled[,2], m1_TV3_raw_pooled[,2], 
-                        m1_TV1_std_pooled[,2], m1_TV3_std_pooled[,2]),
+                coef=list(m1_TV1_raw_pooled[,2], m1_TV3_raw_pooled[,2], 
+                          m1_TV1_std_pooled[,2], m1_TV3_std_pooled[,2]),
+                se=list(m1_TV1_raw_pooled[,3], m1_TV3_raw_pooled[,3], 
+                        m1_TV1_std_pooled[,3], m1_TV3_std_pooled[,3]),
                 ci=T,
                 star.cutoffs=c(.05, .01, .001),
                 covariate.labels=cov.labels.expanded,
@@ -3769,10 +3766,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
     } else {
       stargazer(dummymodel_raw1, dummymodel_raw3, dummymodel_std1, dummymodel_std3, 
                 type="text",
-                coef=list(m1_TV1_raw_pooled[,1], m1_TV3_raw_pooled[,1], 
-                          m1_TV1_std_pooled[,1], m1_TV3_std_pooled[,1]),
-                se=list(m1_TV1_raw_pooled[,2], m1_TV3_raw_pooled[,2], 
-                        m1_TV1_std_pooled[,2], m1_TV3_std_pooled[,2]),
+                coef=list(m1_TV1_raw_pooled[,2], m1_TV3_raw_pooled[,2], 
+                          m1_TV1_std_pooled[,2], m1_TV3_std_pooled[,2]),
+                se=list(m1_TV1_raw_pooled[,3], m1_TV3_raw_pooled[,3], 
+                        m1_TV1_std_pooled[,3], m1_TV3_std_pooled[,3]),
                 ci=T,
                 star.cutoffs=c(.05, .01, .001),
                 covariate.labels=cov.labels.expanded,
@@ -3804,10 +3801,10 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
     
     if (order==1) {
       reg_results <- rbind(
-        c(m1_TV1_raw_pooled[2,1:2], TV1_raw_result$test[4]),
-        c(m1_TV1_raw_pooled[2,1:2], TV3_raw_result$test[4]),
-        c(m1_TV1_std_pooled[2,1:2], TV1_std_result$test[4]),
-        c(m1_TV1_std_pooled[2,1:2], TV3_std_result$test[4])
+        c(m1_TV1_raw_pooled[2,2:3], TV1_raw_result$test[4]),
+        c(m1_TV1_raw_pooled[2,2:3], TV3_raw_result$test[4]),
+        c(m1_TV1_std_pooled[2,2:3], TV1_std_result$test[4]),
+        c(m1_TV1_std_pooled[2,2:3], TV3_std_result$test[4])
       )
       
     } else if (order==2) {  #f(TV) = b1(TV) + b2(TV^2)
@@ -3945,21 +3942,22 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
 # Test the regression analysis function -----------------------------------
 
 # test it
-# regression(data=analysis, subdirectory="Results", missing="MI",
-#            covariates="Original", order=3, title=TRUE, TV1.pt=2, TV3.pt=4,
-#            m=5, maxit=5, seed=1)
+#  note: if you specify order > 1, a polynomial model is fitted.
+#  you must specify what level of TV1 and TV3 to calculation linearized slopes
+#  with the TV.pt1 and TV.pt3 arguments ("TV [linearization] point")
+#  The published analysis does not use this feature.
 # 
 # regression(data=analysis, subdirectory="Results", missing="listwise",
 #            covariates="Expanded", order=1, title=TRUE,
-#            m=3, maxit=3, seed=1)
+#            m=2, maxit=2, seed=1)
 # 
 # regression(data=analysis, subdirectory="Results", missing="MI",
-#            covariates="Original", order=2, title=TRUE,
-#            m=3, maxit=3, seed=1)
+#            covariates="Original", order=1, title=TRUE,
+#            m=2, maxit=2, seed=1)
 # 
 # regression(data=analysis, subdirectory="Results", missing="MI",
 #            covariates="Expanded", order=2, title=TRUE,
-#            m=3, maxit=3, seed=1)
+#            m=3, maxit=3, seed=1, TV1.pt=1, TV3.pt=2)
 
 
 # Define the logistic regression function ---------------------------------
@@ -3970,8 +3968,16 @@ regression <- function(data, subdirectory, missing, covariates, order=1, TV1.pt,
 #                                                  #
 ####################################################
 
-logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, title=TRUE,
-                     m=10, maxit=50, seed=1) {
+logistic <- function(data, subdirectory, missing, covariates, att_cutpoint_lower, 
+                     att_cutpoint_upper, title=TRUE, m=10, maxit=10, seed=1) {
+  
+  # because of the apparent bug in mice 3.8.0 causing the random number seed to be dropped
+  #  when imputing more than 6 passively imputed variables, I had to implement a kludgy fix
+  #  where i never impute more than 6 of these at a time. This means that I cannot present this
+  #  function with the full set of attention cutpoints (100 to 130) as intended.
+
+  att_cutpoints <- c(att_cutpoint_lower, att_cutpoint_upper)
+  att_cutpoints <- att_cutpoints[!is.na(att_cutpoints)]
   
   results <- list()
   
@@ -4055,6 +4061,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
     
     if (covariates=="Original") {
       
+      set.seed(seed)
+      
       df.mi <- mice(dplyr::select(df.expanded,  unlist(strsplit(gsub(" ", "", 
                                                                      gsub("\n", "", gsub("+", ", ", covs, fixed=T)), 
                                                                      fixed=T), split=",", fixed=T)),
@@ -4069,6 +4077,8 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
     } # closes if covariates=Original
     
     if (covariates=="Expanded") {
+      
+      set.seed(seed)
       
       df.mi <- mice(dplyr::select(df.expanded,  unlist(strsplit(gsub(" ", "", 
                                                                      gsub("\n", "", gsub("+", ", ", covs, fixed=T)), 
@@ -4280,10 +4290,10 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
                                                      family=binomial(link="logit")))))
       
       logistic_results <- rbind(
-        unlist(logit_1_raw_mi[2,c(1,2,5)]),
-        unlist(logit_3_raw_mi[2,c(1,2,5)]),
-        unlist(logit_1_std_mi[2,c(1,2,5)]),
-        unlist(logit_3_std_mi[2,c(1,2,5)])
+        unlist(logit_1_raw_mi[2,c(2,3,6)]),
+        unlist(logit_3_raw_mi[2,c(2,3,6)]),
+        unlist(logit_1_std_mi[2,c(2,3,6)]),
+        unlist(logit_3_std_mi[2,c(2,3,6)])
       )
       
       results_names <- matrix(c(
@@ -4659,16 +4669,16 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoints, tit
 # test it
 
 # logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Original",
-#          att_cutpoints=c(115, 116), title=TRUE, m=2, maxit=3, seed=1)
+#          att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=3, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded",
-#          att_cutpoints=c(115, 116), title=TRUE, m=2, maxit=3, seed=1)
+#          att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=3, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Original",
-#          att_cutpoints=c(115), title=TRUE, m=2, maxit=3, seed=1)
+#         att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=2, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Expanded",
-#          att_cutpoints=c(115, 116), title=TRUE, m=2, maxit=3, seed=1)
+#         att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=2, seed=1)
 
 
 # ** Perform the multiverse analysis ** -------------------
@@ -4701,9 +4711,28 @@ conditions_reg <- expand.grid(covariates=c("Original", "Expanded"),
                               order=1,
                               stringsAsFactors=F)
 
-conditions_logistic <- expand.grid(covariates=c("Original", "Expanded"), 
-                              missing=c("MI", "listwise"),
+# Fix for an apparent bug in mice leading to irreproducible results across platforms
+#  if the number of attention cutpoints passed to the function exceeds 3.
+# I have to divide the imputations up into several runs of 3 attention cutpoints at a time.
+# Sadly this leads to more imputation time and slower completion.
+
+conditions_logistic1 <- expand.grid(covariates=c("Original", "Expanded"), 
+                              missing="MI", 
+                              att_cutpoint_lower=seq(100, 130, by=3),
                               stringsAsFactors=F)
+
+conditions_logistic1$att_cutpoint_upper <- conditions_logistic1$att_cutpoint_lower + 2
+# we don't want to go above a 130 cutpoint
+conditions_logistic1$att_cutpoint_upper[conditions_logistic1$att_cutpoint_upper >= 130] <- NA
+
+conditions_logistic2 <- expand.grid(covariates=c("Original", "Expanded"), 
+                                    missing="listwise",
+                                    att_cutpoint_lower=100,
+                                    stringsAsFactors=F)
+
+conditions_logistic2$att_cutpoint_upper <- conditions_logistic2$att_cutpoint_lower + 30
+
+conditions_logistic <- rbind(conditions_logistic1, conditions_logistic2)
 
 
 result_IPTW <- list()
@@ -4738,7 +4767,7 @@ for (i in 1:nrow(conditions_reg)) {
   print(i)
   result_reg[[i]] <- regression(data=analysis, 
                                 subdirectory="Results", 
-                                maxit=50,
+                                maxit=10,
                                 m=10,
                                 seed=1,
                                 missing=conditions_reg$missing[i],
@@ -4752,13 +4781,15 @@ for (i in 1:nrow(conditions_logistic)) {
   print(i)
   result_logistic[[i]] <- logistic(data=analysis, 
                                    subdirectory="Results",  
-                                   maxit=50,
+                                   maxit=10,
                                    m=10,
                                    seed=1,
                                    missing=conditions_logistic$missing[i],
                                    covariates=conditions_logistic$covariates[i], 
-                                   att_cutpoints=seq(110, 130, 1))
+                                   att_cutpoint_lower=conditions_logistic$att_cutpoint_lower[i],
+                                   att_cutpoint_upper=conditions_logistic$att_cutpoint_upper[i])
 }
+
 
 result1 <- do.call(rbind, lapply(result_strat, as.data.frame, stringsAsFactors=F))
 result2 <- do.call(rbind, lapply(result_IPTW, as.data.frame, stringsAsFactors=F))

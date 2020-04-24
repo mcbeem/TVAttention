@@ -15,11 +15,11 @@
 "Regression",NA,"ATE",NA,NA,"~3","Raw",NA,"Expanded","listwise","1","Sample weights",NA,-0.0132576613083584,0.0060240371049547,0.027961114929339
 "Regression",NA,"ATE",NA,NA,"~1.5","Within-sex SS",NA,"Expanded","listwise","1","Sample weights",NA,-0.00769936877170435,0.186495046793191,0.967076703149653
 "Regression",NA,"ATE",NA,NA,"~3","Within-sex SS",NA,"Expanded","listwise","1","Sample weights",NA,0.405314177489093,0.183044339086646,0.0270190500849555
-"Regression",NA,"ATE",NA,NA,"~1.5","Raw",NA,"Original","multiple imputation","1",NA,NA,0.00430294506984024,0.0027866063344466,0.122878036572213
-"Regression",NA,"ATE",NA,NA,"~3","Raw",NA,"Original","multiple imputation","1",NA,NA,0.00430294506984024,0.0027866063344466,0.746089030596162
-"Regression",NA,"ATE",NA,NA,"~1.5","Within-sex SS",NA,"Original","multiple imputation","1",NA,NA,-0.163876086953591,0.101341758168076,0.106407276673162
-"Regression",NA,"ATE",NA,NA,"~3","Within-sex SS",NA,"Original","multiple imputation","1",NA,NA,-0.163876086953591,0.101341758168076,0.852473456903064
-"Regression",NA,"ATE",NA,NA,"~1.5","Raw",NA,"Expanded","multiple imputation","1",NA,NA,0.00396798164566959,0.00279260571036264,0.155646283125009
-"Regression",NA,"ATE",NA,NA,"~3","Raw",NA,"Expanded","multiple imputation","1",NA,NA,0.00396798164566959,0.00279260571036264,0.761086955575908
-"Regression",NA,"ATE",NA,NA,"~1.5","Within-sex SS",NA,"Expanded","multiple imputation","1",NA,NA,-0.155969779721464,0.100078204512263,0.119321392724697
-"Regression",NA,"ATE",NA,NA,"~3","Within-sex SS",NA,"Expanded","multiple imputation","1",NA,NA,-0.155969779721464,0.100078204512263,0.80526109819743
+"Regression",NA,"ATE",NA,NA,"~1.5","Raw",NA,"Original","multiple imputation","1",NA,NA,0.00322616180660072,0.00284007126857428,0.256233745064091
+"Regression",NA,"ATE",NA,NA,"~3","Raw",NA,"Original","multiple imputation","1",NA,NA,0.00322616180660072,0.00284007126857428,0.411840437459181
+"Regression",NA,"ATE",NA,NA,"~1.5","Within-sex SS",NA,"Original","multiple imputation","1",NA,NA,-0.13275451497941,0.102023126183684,0.193411311846541
+"Regression",NA,"ATE",NA,NA,"~3","Within-sex SS",NA,"Original","multiple imputation","1",NA,NA,-0.13275451497941,0.102023126183684,0.511233844520309
+"Regression",NA,"ATE",NA,NA,"~1.5","Raw",NA,"Expanded","multiple imputation","1",NA,NA,0.00298516299327049,0.00290560649786466,0.304843738422191
+"Regression",NA,"ATE",NA,NA,"~3","Raw",NA,"Expanded","multiple imputation","1",NA,NA,0.00298516299327049,0.00290560649786466,0.45588401431328
+"Regression",NA,"ATE",NA,NA,"~1.5","Within-sex SS",NA,"Expanded","multiple imputation","1",NA,NA,-0.129320651219572,0.105652321511837,0.22193511924665
+"Regression",NA,"ATE",NA,NA,"~3","Within-sex SS",NA,"Expanded","multiple imputation","1",NA,NA,-0.129320651219572,0.105652321511837,0.498908154556574
