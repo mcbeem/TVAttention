@@ -5,11 +5,11 @@
 #   Project: Challenging the Link Between Early Childhood Television Exposure  #
 #     and Later Attention Problems: A Multiverse Analysis                      #
 #   Investigators: Matt McBee, Wallace Dixon, & Rebecca Brand                  #
-#   Programmers: Matthew McBee     mmcbee@gmail.com    @TunnelofFire           #                                                     #
+#   Programmers: Matthew McBee     mmcbee@gmail.com    @TunnelofFire           #                                                    
 ################################################################################
 
 # This work is copyrighted by the authors and             
-# licensed under a Creative Commons                       
+# licensed under a Creative Caommons                       
 # Attribution-NonCommercial 4.0 International License.    
 # see https://creativecommons.org/licenses/by-nc/4.0/     
 # for details.                                            
@@ -3972,12 +3972,11 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoint_lower
                      att_cutpoint_upper, title=TRUE, m=10, maxit=10, seed=1) {
   
   # because of the apparent bug in mice 3.8.0 causing the random number seed to be dropped
-  #  when imputing more than 6 passively imputed variables, I had to implement a kludgy fix
-  #  where i never impute more than 6 of these at a time. This means that I cannot present this
-  #  function with the full set of attention cutpoints (100 to 130) as intended.
+  #  when imputing more than 4 passively imputed variables, I had to implement a kludgy fix
+  #  where i never impute more than 4 of these at a time. This means that I cannot present this
+  #  function with the full set of attention cutpoints (110 to 130) as intended.
 
-  att_cutpoints <- c(att_cutpoint_lower, att_cutpoint_upper)
-  att_cutpoints <- att_cutpoints[!is.na(att_cutpoints)]
+  att_cutpoints <- seq(att_cutpoint_lower, att_cutpoint_upper, by=1)
   
   results <- list()
   
@@ -4672,7 +4671,7 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoint_lower
 #          att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=3, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded",
-#          att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=3, seed=1)
+#          att_cutpoint_lower=115, att_cutpoint_upper=117, title=TRUE, m=2, maxit=3, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Original",
 #         att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=2, seed=1)
@@ -4712,25 +4711,25 @@ conditions_reg <- expand.grid(covariates=c("Original", "Expanded"),
                               stringsAsFactors=F)
 
 # Fix for an apparent bug in mice leading to irreproducible results across platforms
-#  if the number of attention cutpoints passed to the function exceeds 3.
-# I have to divide the imputations up into several runs of 3 attention cutpoints at a time.
+#  if the number of attention cutpoints passed to the function exceeds 2.
+# I have to divide the imputations up into several runs of 2 attention cutpoints at a time.
 # Sadly this leads to more imputation time and slower completion.
 
 conditions_logistic1 <- expand.grid(covariates=c("Original", "Expanded"), 
                               missing="MI", 
-                              att_cutpoint_lower=seq(100, 130, by=3),
+                              att_cutpoint_lower=seq(110, 130, by=2),
                               stringsAsFactors=F)
 
-conditions_logistic1$att_cutpoint_upper <- conditions_logistic1$att_cutpoint_lower + 2
-# we don't want to go above a 130 cutpoint
-conditions_logistic1$att_cutpoint_upper[conditions_logistic1$att_cutpoint_upper >= 130] <- NA
+conditions_logistic1$att_cutpoint_upper <- conditions_logistic1$att_cutpoint_lower + 1
+
+conditions_logistic1$att_cutpoint_upper[conditions_logistic1$att_cutpoint_upper > 130] <- 130
 
 conditions_logistic2 <- expand.grid(covariates=c("Original", "Expanded"), 
                                     missing="listwise",
-                                    att_cutpoint_lower=100,
+                                    att_cutpoint_lower=110,
                                     stringsAsFactors=F)
 
-conditions_logistic2$att_cutpoint_upper <- conditions_logistic2$att_cutpoint_lower + 30
+conditions_logistic2$att_cutpoint_upper <- conditions_logistic2$att_cutpoint_lower + 20
 
 conditions_logistic <- rbind(conditions_logistic1, conditions_logistic2)
 
@@ -4863,8 +4862,6 @@ summarize_results <- function(data, sd.std=1, sd.raw=1, ...) {
   # capture the criteria to be passed to filter()
   selection <- enquos(...)
   
-  data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
-  
   data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
   
   # convert Sample.weights to character if it is already a factor
@@ -4938,12 +4935,18 @@ plot_estCIs_logistic <- function(data, stddev, x, lower, upper, facet,  ...) {
  # capture the criteria to be passed to filter()
  selection <- enquos(...)
  
+ data <- filter(data, Analysis=="Logistic")
+ 
  # give appropriate labels to the categorical variables for the plot
  data$Estimate <- ifelse(is.na(data$CI.lower), NA, data$Estimate)
  
  data$TV.age <- factor(data$TV.age, labels=c("TV age ~1.5", "TV age ~3"))
  
  data$sig <- factor(ifelse(data$p<.05, 1, 0), labels=c("Sig", "Non-sig"))
+ 
+ # convert Sample.weights to character if it is already a factor
+ #  so the none condition can be labelled
+ data$Sample.weights <- as.character(data$Sample.weights)
  
  data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
  
@@ -4953,15 +4956,8 @@ plot_estCIs_logistic <- function(data, stddev, x, lower, upper, facet,  ...) {
                                labels=c("No sample wts", "Sample weights"))
  
  data$Missing <- factor(data$Missing, 
-                        labels=c("Listwise deletion", "Multiple imputation", "Trees"))
- 
- data$Strata <- factor(data$Strata, 
-                       labels=c("Strata = 4", "Strata = 5", "Strata = 6", "Strata = 7", 
-                                "Strata = 8"))
- 
- data$Doubly.robust <- factor(data$Doubly.robust, 
-                              labels=c("No double robust", "Double robust"))
- 
+                        labels=c("Listwise deletion", "Multiple imputation"))
+
  # convert variable to factors that do not require labels
  data$Strata <- factor(data$Strata)
  
@@ -5077,8 +5073,12 @@ plot_estCIs<- function(data, stddev, x, lower, upper, facet,  ...) {
  
  data$sig <- factor(ifelse(data$p<.05, 1, 0), labels=c("Sig", "Non-sig"))
  
- data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
+ # convert Sample.weights to character if it is already a factor
+ #  so the none condition can be labelled
+ data$Sample.weights <- as.character(data$Sample.weights)
  
+ data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
+
  data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
  
  data$Sample.weights <- factor(data$Sample.weights, 
@@ -5287,6 +5287,15 @@ summarize_results(data=all.results, sd.std=1, sd.raw=1, Missing=="multiple imput
 # Results by covariate set
 summarize_results(data=all.results, sd.std=1, sd.raw=1, Covariates=="Original")
 summarize_results(data=all.results, sd.std=1, sd.raw=1, Covariates=="Expanded")
+
+# median ES for logistic models
+summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic")
+
+# largest ES for IPTW models
+summarize_results(data=all.results, sd.std=sd.std, sd.raw=sd.raw, Method=="IPTW")
+
+# largest ES for Regression models
+summarize_results(data=all.results, sd.std=sd.std, sd.raw=sd.raw, Analysis=="Regression")
 
 
 ###############################################################
