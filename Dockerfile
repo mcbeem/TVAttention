@@ -2,9 +2,9 @@ FROM rocker/rstudio:latest
 MAINTAINER Matt McBee (mmcbee@gmail.com)
 
 # grant read/write permissions for the project directories
-ADD --chown=rstudio /Code/analysis.R /home/rstudio/Code/analysis.r
-ADD  --chown=rstudio /Code/NLSY_CYA_rawdata_import.R /home/rstudio/Code/NLSY_CYA_rawdata_import.r
-ADD  --chown=rstudio /Code/NLSY_rawdata_import.R /home/rstudio/Code/NLSY_rawdata_import.r
+ADD --chown=rstudio /Code/analysis.r /home/rstudio/Code/analysis.r
+ADD  --chown=rstudio /Code/NLSY_CYA_rawdata_import.r /home/rstudio/Code/NLSY_CYA_rawdata_import.r
+ADD  --chown=rstudio /Code/NLSY_rawdata_import.r /home/rstudio/Code/NLSY_rawdata_import.r
 
 ADD  --chown=rstudio /Data/NLSY_CYA_raw.dat /home/rstudio/Data/NLSY_CYA_raw.dat
 ADD  --chown=rstudio /Data/NLSY_raw.dat /home/rstudio/Data/NLSY_raw.dat

@@ -9,7 +9,7 @@
 ################################################################################
 
 # This work is copyrighted by the authors and             
-# licensed under a Creative Caommons                       
+# licensed under a Creative Commons                       
 # Attribution-NonCommercial 4.0 International License.    
 # see https://creativecommons.org/licenses/by-nc/4.0/     
 # for details.                                            
@@ -3972,12 +3972,12 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoint_lower
                      att_cutpoint_upper, title=TRUE, m=10, maxit=10, seed=1) {
   
   # because of the apparent bug in mice 3.8.0 causing the random number seed to be dropped
-  #  when imputing more than 4 passively imputed variables, I had to implement a kludgy fix
-  #  where i never impute more than 4 of these at a time. This means that I cannot present this
-  #  function with the full set of attention cutpoints (110 to 130) as intended.
+  #  when imputing more than 2 passively imputed variables, I had to implement a kludgy fix
+  #  where i never impute more than 2 of these at a time. This means that I cannot present this
+  #  function with the full set of attention cutpoints (110 to 130) as intended. 
 
   att_cutpoints <- seq(att_cutpoint_lower, att_cutpoint_upper, by=1)
-  
+
   results <- list()
   
   # some of these function calls produce meaningless warnings
@@ -4671,14 +4671,14 @@ logistic <- function(data, subdirectory, missing, covariates, att_cutpoint_lower
 #          att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=3, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="listwise", covariates="Expanded",
-#          att_cutpoint_lower=115, att_cutpoint_upper=117, title=TRUE, m=2, maxit=3, seed=1)
+#          att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=3, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Original",
-#         att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=2, seed=1)
+#         att_cutpoint_lower=115, att_cutpoint_upper=115, title=TRUE, m=2, maxit=2, seed=1)
 # 
 # logistic(data=analysis, subdirectory="Results", missing="MI", covariates="Expanded",
-#         att_cutpoint_lower=115, att_cutpoint_upper=116, title=TRUE, m=2, maxit=2, seed=1)
-
+#         att_cutpoint_lower=116, att_cutpoint_upper=116, title=TRUE, m=2, maxit=2, seed=1)
+#
 
 # ** Perform the multiverse analysis ** -------------------
 
@@ -4710,18 +4710,20 @@ conditions_reg <- expand.grid(covariates=c("Original", "Expanded"),
                               order=1,
                               stringsAsFactors=F)
 
-# Fix for an apparent bug in mice leading to irreproducible results across platforms
-#  if the number of attention cutpoints passed to the function exceeds 2.
-# I have to divide the imputations up into several runs of 2 attention cutpoints at a time.
-# Sadly this leads to more imputation time and slower completion.
+# Fix for an apparent bug in mice 3.8.0 leading to irreproducible results across platforms
+#  if the number of attention cutpoints passed to the function exceeds 1.
+# I have to divide the imputations up into many runs of 1 attention cutpoints at a time.
+# This is contrary to how the logistic function was intended to function, but is required
+# for the Docker image (Linux) and the local machine analyses to be identical.
+# Sadly this leads to more imputation time and slower completion. :(
 
 conditions_logistic1 <- expand.grid(covariates=c("Original", "Expanded"), 
                               missing="MI", 
-                              att_cutpoint_lower=seq(110, 130, by=2),
+                              att_cutpoint_lower=seq(110, 130, by=1),
                               stringsAsFactors=F)
 
-conditions_logistic1$att_cutpoint_upper <- conditions_logistic1$att_cutpoint_lower + 1
-
+conditions_logistic1$att_cutpoint_upper <- conditions_logistic1$att_cutpoint_lower
+# we don't want to go above a 130 cutpoint
 conditions_logistic1$att_cutpoint_upper[conditions_logistic1$att_cutpoint_upper > 130] <- 130
 
 conditions_logistic2 <- expand.grid(covariates=c("Original", "Expanded"), 
@@ -4733,6 +4735,19 @@ conditions_logistic2$att_cutpoint_upper <- conditions_logistic2$att_cutpoint_low
 
 conditions_logistic <- rbind(conditions_logistic1, conditions_logistic2)
 
+result_logistic <- list()
+for (i in 1:nrow(conditions_logistic)) {
+  print(i)
+  result_logistic[[i]] <- logistic(data=analysis, 
+                                   subdirectory="Results",  
+                                   maxit=10,
+                                   m=10,
+                                   seed=1,
+                                   missing=conditions_logistic$missing[i],
+                                   covariates=conditions_logistic$covariates[i], 
+                                   att_cutpoint_lower=conditions_logistic$att_cutpoint_lower[i],
+                                   att_cutpoint_upper=conditions_logistic$att_cutpoint_upper[i])
+}
 
 result_IPTW <- list()
 for (i in 1:nrow(conditions_IPTW)) {
@@ -4775,23 +4790,8 @@ for (i in 1:nrow(conditions_reg)) {
 }
 
 
-result_logistic <- list()
-for (i in 1:nrow(conditions_logistic)) {
-  print(i)
-  result_logistic[[i]] <- logistic(data=analysis, 
-                                   subdirectory="Results",  
-                                   maxit=10,
-                                   m=10,
-                                   seed=1,
-                                   missing=conditions_logistic$missing[i],
-                                   covariates=conditions_logistic$covariates[i], 
-                                   att_cutpoint_lower=conditions_logistic$att_cutpoint_lower[i],
-                                   att_cutpoint_upper=conditions_logistic$att_cutpoint_upper[i])
-}
-
-
 result1 <- do.call(rbind, lapply(result_strat, as.data.frame, stringsAsFactors=F))
-result2 <- do.call(rbind, lapply(result_IPTW, as.data.frame, stringsAsFactors=F))
+result2 <- do.call(rbind, lapply(result_IPTW, base:::as.data.frame, stringsAsFactors=F))
 result3 <- do.call(rbind, lapply(result_reg, as.data.frame, stringsAsFactors=F))
 result4 <- do.call(rbind, lapply(result_logistic, as.data.frame.list, stringsAsFactors=F))
 
@@ -4861,6 +4861,8 @@ summarize_results <- function(data, sd.std=1, sd.raw=1, ...) {
   
   # capture the criteria to be passed to filter()
   selection <- enquos(...)
+  
+  data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
   
   data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
   
@@ -4935,8 +4937,6 @@ plot_estCIs_logistic <- function(data, stddev, x, lower, upper, facet,  ...) {
  # capture the criteria to be passed to filter()
  selection <- enquos(...)
  
- data <- filter(data, Analysis=="Logistic")
- 
  # give appropriate labels to the categorical variables for the plot
  data$Estimate <- ifelse(is.na(data$CI.lower), NA, data$Estimate)
  
@@ -4944,20 +4944,22 @@ plot_estCIs_logistic <- function(data, stddev, x, lower, upper, facet,  ...) {
  
  data$sig <- factor(ifelse(data$p<.05, 1, 0), labels=c("Sig", "Non-sig"))
  
- # convert Sample.weights to character if it is already a factor
- #  so the none condition can be labelled
- data$Sample.weights <- as.character(data$Sample.weights)
- 
- data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
- 
  data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
  
- data$Sample.weights <- factor(data$Sample.weights, 
-                               labels=c("No sample wts", "Sample weights"))
+ # label this missing factor level of Sample.weights as "No sample wts"
+ data$Sample.weights <- factor(data$Sample.weights, exclude=NULL, 
+                               labels=c("Sample weights", "No sample wts"))
  
  data$Missing <- factor(data$Missing, 
-                        labels=c("Listwise deletion", "Multiple imputation"))
-
+                        labels=c("Trees", "Listwise deletion", "Multiple imputation"))
+ 
+ data$Strata <- factor(data$Strata, 
+                       labels=c("Strata = 4", "Strata = 5", "Strata = 6", "Strata = 7", 
+                                "Strata = 8"))
+ 
+ data$Doubly.robust <- factor(data$Doubly.robust, 
+                              labels=c("No double robust", "Double robust"))
+ 
  # convert variable to factors that do not require labels
  data$Strata <- factor(data$Strata)
  
@@ -5073,16 +5075,11 @@ plot_estCIs<- function(data, stddev, x, lower, upper, facet,  ...) {
  
  data$sig <- factor(ifelse(data$p<.05, 1, 0), labels=c("Sig", "Non-sig"))
  
- # convert Sample.weights to character if it is already a factor
- #  so the none condition can be labelled
- data$Sample.weights <- as.character(data$Sample.weights)
+ # label this missing factor level of Sample.weights as "No sample wts"
+ data$Sample.weights <- factor(data$Sample.weights, exclude=NULL, 
+                               labels=c("Sample weights", "No sample wts"))
  
- data$Sample.weights[is.na(data$Sample.weights)] <- "No sample weights"
-
  data$Covariates <- factor(data$Covariates, labels=c("Expanded", "Original"))
- 
- data$Sample.weights <- factor(data$Sample.weights, 
-                               labels=c("No sample wts", "Sample weights"))
  
  data$Missing <- factor(data$Missing, 
                         labels=c("Listwise deletion", "Multiple imputation", "Trees"))
@@ -5287,15 +5284,6 @@ summarize_results(data=all.results, sd.std=1, sd.raw=1, Missing=="multiple imput
 # Results by covariate set
 summarize_results(data=all.results, sd.std=1, sd.raw=1, Covariates=="Original")
 summarize_results(data=all.results, sd.std=1, sd.raw=1, Covariates=="Expanded")
-
-# median ES for logistic models
-summarize_results(data=all.results, sd.std=1, sd.raw=1, Analysis=="Logistic")
-
-# largest ES for IPTW models
-summarize_results(data=all.results, sd.std=sd.std, sd.raw=sd.raw, Method=="IPTW")
-
-# largest ES for Regression models
-summarize_results(data=all.results, sd.std=sd.std, sd.raw=sd.raw, Analysis=="Regression")
 
 
 ###############################################################

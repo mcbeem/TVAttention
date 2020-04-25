@@ -1,96 +1,76 @@
 "Analysis","Method","Effect","Strata","Cutpoint","TV.age","Outcome","Doubly.robust","Covariates","Missing","Order","Sample.weights","Attention.cutpoint","Estimate","StdErr","p"
-"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.6",-0.0115034157535351,0.0174525642740332,0.510001469778646
-"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.6",-0.00199450717558983,0.0170390499724112,0.90683994514175
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"110",-0.00740657698510917,0.0176296775492682,0.674507394795901
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"110",-0.00528642630731438,0.0171839224649197,0.758406169345149
-"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.4",-0.00723337237084544,0.0200034704303107,0.717711883096388
-"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.4",0.0191467914978702,0.01909730799101,0.316253341352793
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"111",-0.00953192881903321,0.0196241939805546,0.627317951197535
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"111",0.0151832907181499,0.0187215367578526,0.417616393750019
-"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.6",-0.0123098546383705,0.0173012885576651,0.47687866834277
-"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.6",-0.00245721070520808,0.0174745777166967,0.888223615109536
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"110",-0.00797862459881329,0.0174430072962782,0.647435330182813
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"110",-0.00609392701996416,0.0176309850307191,0.729717727734744
-"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.4",-0.00934269049859681,0.0201518444527492,0.642991176481934
-"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.4",0.0177919392704225,0.0193597192144298,0.358338951908563
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"111",-0.00943018926094542,0.0193359031011719,0.625834789934391
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"111",0.014202039510543,0.0187348390327581,0.448644129665785
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"112",-0.0112033847950918,0.0194336394469309,0.564366855079692
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"112",0.0152039533593184,0.0186402571131735,0.414845226450762
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"112",-0.00817234347277016,0.0197997354402001,0.679881548495687
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"112",0.0120446985227042,0.0186312729832276,0.518064839203236
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"114",-0.0104432099183202,0.0201566465234317,0.604571988928348
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"114",0.0142817612296652,0.0190340267983016,0.453253793360196
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"115",-0.000456410299035909,0.0204378536210527,0.98218866147971
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"115",0.0193388621910289,0.0195194482420196,0.322040114211515
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"114",-0.00931283185210781,0.0194685161110809,0.632460924938747
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"114",0.011785176997034,0.0186688279012241,0.527948906958545
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"115",0.00121433306776758,0.0200415158992733,0.951693135687312
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"115",0.0165900662313383,0.0192715042941634,0.389451085456019
-"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.2",0.0246864303243245,0.0224585874750992,0.271878604210164
-"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.2",0.0253734964651599,0.0223775480625345,0.257032110031144
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"116",0.000120121720082629,0.0205189296382697,0.995330805941679
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"116",0.0203148867651326,0.0194494379321692,0.296507204048045
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"117",0.00220432939725656,0.0225503650606885,0.922174017891054
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"117",0.0327983938405457,0.021326803004044,0.124598518761425
-"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.2",0.0238538971139844,0.0225338555067773,0.289986788329296
-"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.2",0.0262085094851738,0.0228823869355866,0.252470131002322
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"116",-0.000161030759302796,0.0200685824955332,0.993599006458564
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"116",0.019671494706921,0.0194212569029909,0.311363328648723
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"117",0.000982390927821581,0.0218757968128656,0.964189263159783
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"117",0.0317075184744112,0.0208403308755259,0.128457905095514
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"118",0.00330453133260586,0.0217138121342712,0.879064258793141
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"118",0.0334700516146736,0.0206189051636615,0.104741020645153
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"119",0.0101865394799404,0.0230673306493446,0.658856301874309
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"119",0.0457648925526988,0.0221787682823717,0.0393971432622071
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"118",0.00214655808509453,0.0221335827342006,0.922767719805804
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"118",0.0266945240168686,0.0213286068050387,0.21111724979714
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"119",0.0091591664566725,0.0232264722539525,0.693420922972433
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"119",0.0366267084951762,0.0230706352389852,0.113173061050689
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"120",0.00216392139560446,0.0253858636430397,0.932079903522387
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"120",0.0479282349866827,0.0232655763716755,0.0396382091753966
-"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2",-0.0245451433814848,0.0312835363005197,0.432787942199318
-"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2",0.0127469198038417,0.0293282324435268,0.663942091989897
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"121",0.0122987620349288,0.0255507346029864,0.630330569082028
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"121",0.05147562861897,0.0238510503842859,0.0311077533489381
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"120",0.00167869207038357,0.0257867288842297,0.948110340252258
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"120",0.044087005893076,0.0237072770506371,0.0634264985607811
-"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2",-0.0189307210117948,0.0310527373902485,0.542198158753928
-"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2",0.0111390784472882,0.0301835256068912,0.712298595946788
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"121",0.010961073302523,0.0261604590153654,0.675330417916552
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"121",0.0473987275449953,0.0246993281216357,0.0555704015221656
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"122",0.0105784127837782,0.0269313713881334,0.694679301038903
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"122",0.0548641424593941,0.0242245356800697,0.0238267506483532
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"123",0.0240840581698233,0.0282494138522384,0.394394446671384
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"123",0.0622142232731653,0.0255038186109328,0.0149776951180383
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"122",0.00712924026940815,0.0278101625053,0.797876580601056
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"122",0.0444433193903845,0.0249305168957764,0.0752667046399478
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"123",0.0206091284912521,0.0294021171073642,0.484026258238901
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"123",0.0526300055041044,0.0264459776142896,0.047289609490881
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"124",0.0252080263151239,0.0284492823020072,0.376128015622713
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"124",0.0614034034656056,0.0248897722907856,0.0137562691433817
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"125",0.0339306666390848,0.0302705840875462,0.263017703816224
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"125",0.06409283474007,0.027428260467178,0.0195964479390596
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"124",0.0223229241601113,0.0273812867957218,0.415123103241618
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"124",0.0554775788148171,0.025954086289807,0.033075688750086
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"125",0.0320550859911756,0.0290773668572036,0.270498001864028
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"125",0.0579621649183116,0.0291360857508812,0.0473982192194031
-"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"1.8",-0.017121333426689,0.0419958465704159,0.683547767491469
-"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"1.8",0.0733217911003522,0.035651271640238,0.0398734145863648
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"126",0.0344202783909879,0.0308265119488312,0.265284720940746
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"126",0.0661483265377031,0.0275312697021618,0.016435395894552
-"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"1.8",-0.00969892480731991,0.0438753596135293,0.825121246305307
-"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"1.8",0.0687274428062906,0.03752881260831,0.0675185287397493
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"126",0.0329311564695221,0.0305256290962218,0.281311120977886
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"126",0.0594431176589209,0.0273959218704037,0.0301541749151595
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"128",0.0468879838903355,0.0345655507122993,0.175591015320436
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"128",0.0645768330560986,0.0329206819459479,0.0499995083092126
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"128",0.0477545072886014,0.0341171093380654,0.162063936038991
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"128",0.0677697606991292,0.0338615817279097,0.0458430978804738
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"130",0.0468021043107878,0.0331721144481441,0.158544418264646
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"130",0.0648451200375495,0.0338976944664903,0.0562375184568848
-"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"130",0.0454637238851183,0.0335457057843755,0.175602995161109
-"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"130",0.0683509288375496,0.0341599255727817,0.0460492509397659
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.6",-0.0129550034077814,0.0171857726072385,0.4510857286186
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.6",-0.00231585428444254,0.0170000442077411,0.891664811069745
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"110",-0.00847956610286975,0.01737864716833,0.625679682893051
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"110",-0.00650290255950726,0.017417907136445,0.708965606522349
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.6",-0.0113218211344378,0.0178760460025675,0.526777919082766
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.6",-0.00432524154125653,0.0167405213851834,0.79615274078584
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"110",-0.00862742866169773,0.017855193563803,0.629104548851004
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"110",-0.00739040839082164,0.0169444988156484,0.662774066953027
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.4",-0.00795252511618596,0.0200936945237838,0.692345673390049
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.4",0.0169846428986664,0.0192853346839846,0.378699348530747
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"111",-0.00717222844509646,0.0190130968160953,0.706058007661333
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"111",0.0125393786304741,0.0191558280869436,0.513071399598542
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.4",-0.0076264284208119,0.0201989953674283,0.705822016044057
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.4",0.0153833282032978,0.0193323426241672,0.426375465984331
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"111",-0.008157278910975,0.0192264954416156,0.671429468004407
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"111",0.012336853894652,0.0187402919439278,0.510523126396346
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"112",-0.00725300102541968,0.0195575871735151,0.710826016696086
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"112",0.0151838030272436,0.0184124008156403,0.409679506777057
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"112",-0.00865020007644526,0.0200303558953902,0.665979100459227
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"112",0.0113621592370579,0.0187471687815041,0.544558301685282
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"115",0.00339451199311172,0.0201806413424714,0.86645657081887
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"115",0.0188234340442294,0.0193058458877022,0.329764260500439
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"115",0.000142351548698522,0.0204061964615139,0.994435825562636
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"115",0.0179478527463225,0.0191928373930995,0.349862814589156
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2.2",0.0246575365343784,0.0224510225515994,0.272245650292049
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2.2",0.0256923860254745,0.0231422957955457,0.267374771018381
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"116",0.00486170406423232,0.0199379065757992,0.807391189006067
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"116",0.0190080491070316,0.0190521494244963,0.318566190927272
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.2",0.0240318085151686,0.0226929171882402,0.289790330430632
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2.2",0.0218337802947372,0.0228092835316426,0.338707948447407
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"116",0.00344151358735404,0.0204638438954311,0.866488447524432
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"116",0.0168668475802567,0.0192974635968241,0.382250063063138
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"117",0.00653276611903037,0.0218987321511535,0.765533014060318
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"117",0.0313342562604177,0.0209549339741147,0.135191254898139
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"117",0.00228039973050742,0.0222274534985178,0.918313885811878
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"117",0.028610690858053,0.0207149329286143,0.167454153558132
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"119",0.0117300401157653,0.0236114242922552,0.619521246055204
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"119",0.0421737573326386,0.0229034218678433,0.0662595880102403
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"119",0.0111498074862553,0.0232241401962134,0.631290582839574
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"119",0.0398966450941265,0.0217178277162965,0.0663731410815807
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"120",0.00204331372339121,0.0261186473783,0.93767156568078
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"120",0.0488836346320189,0.0229298133604441,0.0331941569558492
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"120",0.00225968686609288,0.026269502322129,0.931479929129869
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"120",0.0462409310555095,0.0230720967954187,0.0452529144310094
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"2",-0.0235356836148763,0.0316469222482691,0.45723249465562
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"2",0.0151685680934901,0.0285336779722258,0.595081225772371
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"121",0.0148096259132233,0.0263532345444988,0.574385645925837
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"121",0.0534902214687626,0.0240061335406282,0.0261046957228714
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"2",-0.021311267879272,0.0314561537683909,0.498213584391338
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"2",0.011159172300349,0.0287535072260022,0.697999947649242
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"121",0.0145368777398012,0.0257710701614423,0.572828604897452
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"121",0.0508934233893808,0.0245021495832595,0.0382887104518708
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"123",0.029737054820159,0.0288820160157161,0.304275976787419
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"123",0.0554023456857897,0.0261166726151179,0.0344492046616689
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"123",0.0265543065329719,0.0272321688758319,0.329756867045595
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"123",0.056883126317686,0.0249992472920343,0.0230502563695625
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"125",0.0368293356751606,0.0302438308538759,0.224159809243801
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"125",0.0595110120672615,0.0285403370569937,0.0375362338055565
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"125",0.0383790802464018,0.0289314155708,0.184959635694734
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"125",0.0618511274417325,0.0282334213766827,0.0287991707422179
+"Logistic","","",NA,"","~1.5","Raw",NA,"Original","multiple imputation",NA,NA,"1.8",-0.0153232541848623,0.0428014333486089,0.720424563358937
+"Logistic","","",NA,"","~3","Raw",NA,"Original","multiple imputation",NA,NA,"1.8",0.0737764898690995,0.0377625990245113,0.0514635476445902
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"126",0.0362687617809994,0.0290262661758768,0.211851093383316
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"126",0.0614302521410385,0.0288877155602586,0.0340579694761991
+"Logistic","","",NA,"","~1.5","Raw",NA,"Expanded","multiple imputation",NA,NA,"1.8",-0.0130401318003822,0.0420271719945097,0.756380497245864
+"Logistic","","",NA,"","~3","Raw",NA,"Expanded","multiple imputation",NA,NA,"1.8",0.0754828489386751,0.0371961065759078,0.0429119318805484
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"126",0.0366790773080908,0.0289885760355471,0.206042831460779
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"126",0.0620189379919891,0.0280777451751905,0.0275100268912416
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"128",0.0468021043107878,0.0331721144481441,0.158544418264646
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Original","multiple imputation",NA,NA,"128",0.0648451200375495,0.0338976944664903,0.0562375184568848
+"Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"128",0.0454637238851183,0.0335457057843755,0.175602995161109
+"Logistic","","",NA,"","~3","Within-sex SS",NA,"Expanded","multiple imputation",NA,NA,"128",0.0683509288375496,0.0341599255727817,0.0460492509397659
 "Logistic","","",NA,"","~1.5","Raw",NA,"Original","listwise",NA,"Sample weights","2.6",-0.00888750332292763,0.0234868711730481,0.705186189590416
 "Logistic","","",NA,"","~3","Raw",NA,"Original","listwise",NA,"Sample weights","2.6",0.0300386515854531,0.0239948788209798,0.210816087853671
 "Logistic","","",NA,"","~1.5","Within-sex SS",NA,"Original","listwise",NA,"Sample weights","110",-0.00752594557964885,0.0240000502469705,0.753885093493812
