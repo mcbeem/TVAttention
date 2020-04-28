@@ -1,4 +1,4 @@
-FROM rocker/rstudio:latest
+FROM rocker/rstudio:3.6.3
 MAINTAINER Matt McBee (mmcbee@gmail.com)
 
 # grant read/write permissions for the project directories
