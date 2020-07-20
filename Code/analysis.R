@@ -5328,11 +5328,38 @@ logistic_table$Proportion <- format(round(logistic_table$"Sig=1" /
                                             (logistic_table$"Sig=0" + logistic_table$"Sig=1"),3), nsmall=3)
 logistic_table$Cutpoint <- as.character(logistic_table$Cutpoint)
 
+#make figure representing this data
+
+p <- ggplot(data=logistic_table, 
+            aes(x=Cutpoint, y=Proportion, color=Missing, group=Missing, 
+                shape=Missing, fill=Missing))+
+  geom_line(alpha=.8)+
+  geom_point(alpha=.8, size=3)+
+  theme_bw()+
+  labs(y="Proportion of models yielding significant TV effect", 
+       x="Cutpoint defining \'problematic\' attention",
+       color='Missing data mechanism', shape='Missing data mechanism',
+       fill='Missing data mechanism')+
+  theme(legend.position="bottom",
+        axis.text.x = element_text(family = "Times", size=10, angle=90, vjust=.5),
+        axis.title.x = element_text(family = "Times", size=10),
+        axis.title.y = element_text(family = "Times", size=10),
+        axis.text.y = element_text(family = "Times", size=10),
+        legend.text = element_text(family = "Times", size=10),
+        legend.title = element_text(family = "Times", size=10),
+        strip.background = element_rect(fill="gray90")) +
+  scale_color_manual(values=c("#E41A1C", "#377EB8"))
+
+ggsave(type="cairo-png", filename=here("Manuscript", "Figures", "logistic_sig_by_cutpoint.png"),
+       plot=p,
+       width=5, height=4, scale=1.2, dpi=200)
+
+
 # make a wide table by merging the listwise and MI results side by side
 logistic_table2 <- merge(
   filter(logistic_table, Missing=="listwise"),
   filter(logistic_table, Missing=="multiple imputation"),
-by="Cutpoint")
+  by="Cutpoint")
 
 # remove the repeated names in the missing data type columns
 #  (those will go in the variable names for these blank columns
@@ -5344,7 +5371,7 @@ logistic_table2 <- data.frame(logistic_table2)
 # assign column names
 names(logistic_table2) <- c("Attention cutpoint", "Listwise", "Non-sig", "Sig", "Proportion sig",
                             "Multiple imputation", "Non-sig", "Sig", "Proportion sig")
-                            
+
 stargazer(logistic_table2, summary=F, type="text", rownames=F, header=F,
           title="Logistic models: significance by attention cutoff and missing data mechanism.",
           notes=c("Table includes only models using the standardized attention outcome."),
